@@ -1,0 +1,2 @@
+# CryptoManager
+Crypto portfolio manager
