@@ -1,4 +1,4 @@
-package quixotic.projects.cryptomanager.outsource;
+package quixotic.projects.cryptomanager.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import quixotic.projects.cryptomanager.dto.SignInDTO;
 import quixotic.projects.cryptomanager.dto.SignUpDTO;
 import quixotic.projects.cryptomanager.dto.UserDTO;
+import quixotic.projects.cryptomanager.service.UserService;
 
 @Controller
 @RequestMapping("/api/v1/port/auth")

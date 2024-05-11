@@ -1,4 +1,4 @@
-package quixotic.projects.cryptomanager.outsource;
+package quixotic.projects.cryptomanager.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

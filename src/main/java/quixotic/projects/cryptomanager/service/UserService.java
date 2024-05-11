@@ -1,4 +1,4 @@
-package quixotic.projects.cryptomanager.outsource;
+package quixotic.projects.cryptomanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;

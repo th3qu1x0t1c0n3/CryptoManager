@@ -5,7 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import quixotic.projects.cryptomanager.dto.SignUpDTO;
-import quixotic.projects.cryptomanager.outsource.UserService;
+import quixotic.projects.cryptomanager.service.UserService;
 
 @SpringBootApplication
 public class CryptoManagerApplication implements CommandLineRunner {
