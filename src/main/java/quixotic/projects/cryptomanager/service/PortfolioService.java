@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import quixotic.projects.cryptomanager.dto.KellyCriterionDTO;
 import quixotic.projects.cryptomanager.dto.TransactionDTO;
 import quixotic.projects.cryptomanager.exception.badRequestException.BadRequestException;
-import quixotic.projects.cryptomanager.model.ExcelHandler;
 import quixotic.projects.cryptomanager.model.KellyCriterion;
 import quixotic.projects.cryptomanager.model.Transaction;
 import quixotic.projects.cryptomanager.model.User;

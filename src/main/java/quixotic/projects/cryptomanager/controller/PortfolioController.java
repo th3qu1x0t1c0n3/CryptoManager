@@ -30,16 +30,16 @@ public class PortfolioController {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
                 .body(portfolioService.createTransaction(transactionDTO, token));
     }
-    @PutMapping("/transaction")
-    public ResponseEntity<TransactionDTO> updateTransaction(@RequestBody TransactionDTO transactionDTO, @RequestHeader("Authorization") String token) {
-        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
-                .body(portfolioService.updateTransaction(transactionDTO, token));
-    }
-    @DeleteMapping("/transaction")
-    public ResponseEntity<Void> deleteTransaction(@PathParam("id") Long id, @RequestHeader("Authorization") String token) {
-        portfolioService.deleteTransaction(id, token);
-        return ResponseEntity.noContent().build();
-    }
+//    @PutMapping("/transaction")
+//    public ResponseEntity<TransactionDTO> updateTransaction(@RequestBody TransactionDTO transactionDTO, @RequestHeader("Authorization") String token) {
+//        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
+//                .body(portfolioService.updateTransaction(transactionDTO, token));
+//    }
+//    @DeleteMapping("/transaction")
+//    public ResponseEntity<Void> deleteTransaction(@PathParam("id") Long id, @RequestHeader("Authorization") String token) {
+//        portfolioService.deleteTransaction(id, token);
+//        return ResponseEntity.noContent().build();
+//    }
 
 //    Balance
     @GetMapping("/balance")

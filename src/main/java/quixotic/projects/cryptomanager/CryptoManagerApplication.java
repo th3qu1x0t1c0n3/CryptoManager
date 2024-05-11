@@ -31,6 +31,13 @@ public class CryptoManagerApplication implements CommandLineRunner {
 
     private void createUsers() {
         userService.createCook(SignUpDTO.builder()
+                .email("TesterTest@gmail.com")
+                .password("Password123")
+                .firstName("Tester")
+                .lastName("Account")
+                .build());
+
+        userService.createCook(SignUpDTO.builder()
                 .email("whale@gmail.com")
                 .password("Password123")
                 .firstName("Crypto")

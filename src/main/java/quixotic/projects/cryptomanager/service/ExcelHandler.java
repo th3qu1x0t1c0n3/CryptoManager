@@ -1,8 +1,10 @@
-package quixotic.projects.cryptomanager.model;
+package quixotic.projects.cryptomanager.service;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import quixotic.projects.cryptomanager.model.CoinTransaction;
+import quixotic.projects.cryptomanager.model.Transaction;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,21 +58,6 @@ public class ExcelHandler {
         }
 
         return transactions;
-    }
-
-    private void showRow(Row row) {
-        System.out.println("ID: " + row.getCell(0).getNumericCellValue());
-        System.out.println("To Coin Name: " + row.getCell(1).getStringCellValue());
-        System.out.println("To Coin Quantity: " + row.getCell(2).getNumericCellValue());
-        System.out.println("To Coin Value: " + row.getCell(3).getNumericCellValue());
-        System.out.println("To Coin Unit Value: " + row.getCell(4).getNumericCellValue());
-        System.out.println("From Coin Name: " + row.getCell(5).getStringCellValue());
-        System.out.println("From Coin Quantity: " + row.getCell(6).getNumericCellValue());
-        System.out.println("From Coin Value: " + row.getCell(7).getNumericCellValue());
-        System.out.println("From Coin Unit Value: " + row.getCell(8).getNumericCellValue());
-        System.out.println("Transaction Date: " + row.getCell(9).getStringCellValue());
-        System.out.println("Wallet: " + row.getCell(10).getStringCellValue());
-        System.out.println("Exchange: " + row.getCell(11).getStringCellValue());
     }
 
     public void writeTransactionsToExcel(List<Transaction> transactions, String name) {
