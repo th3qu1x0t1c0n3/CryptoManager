@@ -35,7 +35,7 @@ public class Transaction {
     private String wallet;
     private String exchange;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private User user;
 
     @Builder

@@ -35,6 +35,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
+    @Embedded
+    private KellyCriterion kellyCriterion;
+
 //    @OneToMany(mappedBy = "user")
 //    private List<Transaction> transactions;
 
