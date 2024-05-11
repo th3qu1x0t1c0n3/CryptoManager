@@ -45,7 +45,7 @@ public class PortfolioService {
             throw new BadRequestException("Transaction does not belong to user");
         }
 
-        transaction.updateTransaction(transactionDTO);
+        transaction.updateTransaction(transactionDTO.toTransaction(user));
 
         return new TransactionDTO(transactionRepository.save(transactionDTO.toTransaction(user)));
     }
@@ -64,27 +64,29 @@ public class PortfolioService {
 
     //   Balances
     public Map<String, Double> getCoinBalances(String token) {
-        List<TransactionDTO> transactions = getTransactions(token);
+        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        List<Transaction> transactions = transactionRepository.findByUserEmail(username);
 
         Map<String, Double> coinBalances = new HashMap<>();
 
-        for (TransactionDTO transaction : transactions) {
-            coinBalances.put(transaction.getToCoin(), coinBalances.getOrDefault(transaction.getToCoin(), 0.0) + transaction.getToCoinQuantity());
-            coinBalances.put(transaction.getFromCoin(), coinBalances.getOrDefault(transaction.getFromCoin(), 0.0) - transaction.getFromCoinQuantity());
+        for (Transaction transaction : transactions) {
+            coinBalances.put(transaction.getToCoinName(), coinBalances.getOrDefault(transaction.getToCoinName(), 0.0) + transaction.getToCoinQuantity());
+            coinBalances.put(transaction.getFromCoinName(), coinBalances.getOrDefault(transaction.getFromCoinName(), 0.0) - transaction.getFromCoinQuantity());
         }
 
         return coinBalances;
     }
 
     public Double getCoinBalance(String coin, String token) {
-        List<TransactionDTO> transactions = getTransactions(token);
+        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        List<Transaction> transactions = transactionRepository.findByUserEmail(username);
 
         double dollarAllocation = 0.0;
 
-        for (TransactionDTO transaction : transactions) {
-            if (transaction.getToCoin().equals(coin)) {
+        for (Transaction transaction : transactions) {
+            if (transaction.getToCoinName().equals(coin)) {
                 dollarAllocation += transaction.getToCoinValue();
-            } else if (transaction.getFromCoin().equals(coin)) {
+            } else if (transaction.getFromCoinName().equals(coin)) {
                 dollarAllocation -= transaction.getFromCoinValue();
             }
         }
@@ -99,16 +101,16 @@ public class PortfolioService {
     public KellyCriterionDTO getKellyCriterion(String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
         User user = userRepository.findByEmail(username).orElseThrow();
-        List<TransactionDTO> transactions = getTransactions(token);
+        List<Transaction> transactions = transactionRepository.findByUserEmail(username);
 
         Map<String, Double[]> coinBuyData = new HashMap<>();
-        for (TransactionDTO transaction : transactions) {
-            if (coinBuyData.containsKey(transaction.getToCoin())) {
-                Double[] data = coinBuyData.get(transaction.getToCoin());
+        for (Transaction transaction : transactions) {
+            if (coinBuyData.containsKey(transaction.getToCoinName())) {
+                Double[] data = coinBuyData.get(transaction.getToCoinName());
                 data[0] += transaction.getToCoinQuantity();
                 data[1] += transaction.getToCoinValue();
             } else {
-                coinBuyData.put(transaction.getToCoin(), new Double[]{transaction.getToCoinQuantity(), transaction.getToCoinValue()});
+                coinBuyData.put(transaction.getToCoinName(), new Double[]{transaction.getToCoinQuantity(), transaction.getToCoinValue()});
             }
         }
 
@@ -117,9 +119,9 @@ public class PortfolioService {
         int totalWins = 0;
         int totalLossCount = 0;
 
-        for (TransactionDTO transaction : transactions) {
-            if (coinBuyData.containsKey(transaction.getFromCoin())) {
-                Double[] data = coinBuyData.get(transaction.getFromCoin());
+        for (Transaction transaction : transactions) {
+            if (coinBuyData.containsKey(transaction.getFromCoinName())) {
+                Double[] data = coinBuyData.get(transaction.getFromCoinName());
                 double averageBuyValue = data[1] / data[0];
 
                 double profitLoss = transaction.getFromCoinValue() - averageBuyValue * transaction.getFromCoinQuantity();

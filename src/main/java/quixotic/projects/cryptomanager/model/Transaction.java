@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import quixotic.projects.cryptomanager.dto.TransactionDTO;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
@@ -20,15 +19,10 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String toCoin; // Numérateur (Monet Acheté) “TO”
-    private double toCoinQuantity; // Quantité de Monet Acheté
-    private double toCoinValue; // JVM du Numérateur
-    private double toCoinUnitValue; // Calculer la valeur unitaire
-
-    private String fromCoin; // Dénominateur (Monet échanger pour monet acheté) “FROM”
-    private double fromCoinQuantity; // Quantité de Monet échanger
-    private double fromCoinValue; // JVM du Dénominateur
-    private double fromCoinUnitValue; // Calculer la valeur unitaire
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private CoinTransaction toCoin;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private CoinTransaction fromCoin;
 
     private LocalDate transactionDate;
 
@@ -41,15 +35,19 @@ public class Transaction {
     @Builder
     public Transaction(Long id, String toCoin, double toCoinQuantity, double toCoinValue, String fromCoin, double fromCoinQuantity, double fromCoinValue, LocalDate transactionDate, String wallet, String exchange, User user) {
         this.id = id;
-        this.toCoin = toCoin;
-        this.toCoinQuantity = toCoinQuantity;
-        this.toCoinValue = toCoinValue;
-        this.toCoinUnitValue = calculateUnitValue(toCoinValue, toCoinQuantity);
 
-        this.fromCoin = fromCoin;
-        this.fromCoinQuantity = fromCoinQuantity;
-        this.fromCoinValue = fromCoinValue;
-        this.fromCoinUnitValue = calculateUnitValue(fromCoinValue, fromCoinQuantity);
+        this.toCoin = CoinTransaction.builder()
+                .name(toCoin)
+                .quantity(toCoinQuantity)
+                .value(toCoinValue)
+                .unitValue(calculateUnitValue(toCoinValue, toCoinQuantity))
+                .build();
+        this.fromCoin = CoinTransaction.builder()
+                .name(fromCoin)
+                .quantity(fromCoinQuantity)
+                .value(fromCoinValue)
+                .unitValue(calculateUnitValue(fromCoinValue, fromCoinQuantity))
+                .build();
 
         this.transactionDate = transactionDate;
 
@@ -66,19 +64,56 @@ public class Transaction {
         return value / quantity;
     }
 
-    public void updateTransaction(TransactionDTO transactionDTO) {
-        this.toCoin = transactionDTO.getToCoin();
-        this.toCoinQuantity = transactionDTO.getToCoinQuantity();
-        this.toCoinValue = transactionDTO.getToCoinValue();
-        this.toCoinUnitValue = calculateUnitValue(transactionDTO.getToCoinValue(), transactionDTO.getToCoinQuantity());
+    public void updateTransaction(Transaction transaction) {
+        this.toCoin = CoinTransaction.builder()
+                .name(transaction.getToCoinName())
+                .quantity(transaction.getToCoinQuantity())
+                .value(transaction.getToCoinValue())
+                .unitValue(calculateUnitValue(transaction.getToCoinValue(), transaction.getToCoinQuantity()))
+                .build();
+        this.fromCoin = CoinTransaction.builder()
+                .name(transaction.getFromCoinName())
+                .quantity(transaction.getFromCoinQuantity())
+                .value(transaction.getFromCoinValue())
+                .unitValue(calculateUnitValue(transaction.getFromCoinValue(), transaction.getFromCoinQuantity()))
+                .build();
 
-        this.fromCoin = transactionDTO.getFromCoin();
-        this.fromCoinQuantity = transactionDTO.getFromCoinQuantity();
-        this.fromCoinValue = transactionDTO.getFromCoinValue();
-        this.fromCoinUnitValue = calculateUnitValue(transactionDTO.getFromCoinValue(), transactionDTO.getFromCoinQuantity());
-
-        this.transactionDate = transactionDTO.getTransactionDate();
-        this.wallet = transactionDTO.getWallet();
-        this.exchange = transactionDTO.getExchange();
+        this.transactionDate = transaction.getTransactionDate();
+        this.wallet = transaction.getWallet();
+        this.exchange = transaction.getExchange();
     }
+
+    public double getToCoinValue() {
+        return toCoin.getValue();
+    }
+
+    public double getToCoinQuantity() {
+        return toCoin.getQuantity();
+    }
+
+    public String getToCoinName() {
+        return toCoin.getName();
+    }
+
+    public double getToCoinUnitValue() {
+        return toCoin.getUnitValue();
+    }
+
+    public double getFromCoinValue() {
+        return fromCoin.getValue();
+    }
+
+    public double getFromCoinQuantity() {
+        return fromCoin.getQuantity();
+    }
+
+    public String getFromCoinName() {
+        return fromCoin.getName();
+    }
+
+    public double getFromCoinUnitValue() {
+        return fromCoin.getUnitValue();
+    }
+
+
 }
