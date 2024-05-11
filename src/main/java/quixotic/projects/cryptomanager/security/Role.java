@@ -18,12 +18,12 @@ public enum Role {
                     ADMIN_CREATE
             )
     ),
-    COOK(
+    USER(
             Set.of(
-                    COOK_READ,
-                    COOK_UPDATE,
-                    COOK_DELETE,
-                    COOK_CREATE
+                    USER_READ,
+                    USER_UPDATE,
+                    USER_DELETE,
+                    USER_CREATE
             )
     ),
     VISITOR(

@@ -39,13 +39,11 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(GET, "/api/v1/utils/**").permitAll()
+                        .requestMatchers(POST, "/api/v1/port/auth/signin").permitAll()
+                        .requestMatchers(POST, "/api/v1/port/auth/signup").permitAll()
+                        .requestMatchers(GET, "/api/v1/port/auth/me").hasAnyAuthority("USER")
 
-                        .requestMatchers(POST, "/api/v1/cook/auth/signin").permitAll()
-                        .requestMatchers(POST, "/api/v1/cook/auth/signup").permitAll()
-                        .requestMatchers(GET, "/api/v1/cook/auth/me").hasAnyAuthority("COOK")
-
-                        .requestMatchers("/api/v1/cook/**").hasAnyAuthority("COOK")
+                        .requestMatchers("/api/v1/port/**").hasAnyAuthority("USER")
 
                         .anyRequest().denyAll()
                 )
