@@ -6,12 +6,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'port': 'var(--port-color)',
-        'port-light': 'var(--port-light-color)',
+        'port-dark': 'var(--port-dark-color)',
+        'port-blue': 'var(--port-blue-color)',
         'port-yellow': 'var(--port-yellow-color)',
-        'port-orange': 'var(--port-orange-color)',
-        'port-red': 'var(--port-red-color)',
-        'port-hover': 'var(--port-hover-color)',
+        'port-gray': 'var(--port-gray-color)',
+        'port-white': 'var(--port-white-color)',
       },
     },
   },

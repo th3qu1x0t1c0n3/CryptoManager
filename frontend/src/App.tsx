@@ -2,14 +2,16 @@ import React from 'react';
 import './App.css';
 import axios from "axios";
 import Main from "./components/Main";
+import {BrowserRouter} from "react-router-dom";
 
 function App() {
     return (
         <div className="">
-            <div className="min-h-screen p-0 m-0">
-                <Main/>
-            </div>
-
+            <BrowserRouter>
+                <div className="min-h-screen bg-port-dark p-0 m-0">
+                    <Main/>
+                </div>
+            </BrowserRouter>
         </div>
     );
 }

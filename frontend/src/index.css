@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --port-color: #264653;
-  --port-light-color: #2A9D8F;
-  --port-yellow-color: #E9C46A;
-  --port-orange-color: #F4A261;
-  --port-red-color: #E76F51;
+  --port-dark-color: #000000EF;
+  --port-blue-color: #14213D;
+  --port-yellow-color: #FCA311;
+  --port-gray-color: #E5E5E5;
+  --port-white-color: #FFFFFF;
 }
 
 body {
