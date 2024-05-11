@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import quixotic.projects.cryptomanager.dto.KellyCriterionDTO;
 import quixotic.projects.cryptomanager.dto.TransactionDTO;
 import quixotic.projects.cryptomanager.exception.badRequestException.BadRequestException;
+import quixotic.projects.cryptomanager.model.ExcelHandler;
 import quixotic.projects.cryptomanager.model.KellyCriterion;
 import quixotic.projects.cryptomanager.model.Transaction;
 import quixotic.projects.cryptomanager.model.User;
@@ -23,10 +24,15 @@ public class PortfolioService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
+    private final ExcelHandler excelHandler = new ExcelHandler();
 
     //    Transactions CRUD
     public List<TransactionDTO> getTransactions(String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
+        User user = userRepository.findByEmail(username).orElseThrow();
+
+        loadExcelTransactions(user);
+
         return transactionRepository.findByUserEmail(username).stream().map(TransactionDTO::new).toList();
     }
 
@@ -34,7 +40,15 @@ public class PortfolioService {
     public TransactionDTO createTransaction(TransactionDTO transactionDTO, String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
         User user = userRepository.findByEmail(username).orElseThrow();
-        return new TransactionDTO(transactionRepository.save(transactionDTO.toTransaction(user)));
+
+        loadExcelTransactions(user);
+
+        Transaction transaction = transactionRepository.save(transactionDTO.toTransaction(user));
+        List<Transaction> transactions = transactionRepository.findByUserEmail(username);
+
+        excelHandler.writeTransactionsToExcel(transactions, user.getFirstName() + "_" + user.getLastName());
+
+        return new TransactionDTO(transaction);
     }
 
     public TransactionDTO updateTransaction(TransactionDTO transactionDTO, String token) {
@@ -148,4 +162,11 @@ public class PortfolioService {
         return new KellyCriterionDTO(kellyCriterionObj);
     }
 
+    private void loadExcelTransactions(User user) {
+        excelHandler.readTransactionsFromExcel(user.getFirstName() + "_" + user.getLastName()).stream()
+                .map(transaction -> {
+                    transaction.setUser(user);
+                    return transactionRepository.save(transaction);
+                }).toList();
+    }
 }
