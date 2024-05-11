@@ -25,6 +25,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
@@ -33,6 +34,9 @@ public class User implements UserDetails {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
+
+//    @OneToMany(mappedBy = "user")
+//    private List<Transaction> transactions;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

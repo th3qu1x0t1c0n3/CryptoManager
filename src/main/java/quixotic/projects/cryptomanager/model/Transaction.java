@@ -1,14 +1,12 @@
 package quixotic.projects.cryptomanager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import quixotic.projects.cryptomanager.dto.TransactionDTO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -32,13 +30,16 @@ public class Transaction {
     private double fromCoinValue; // JVM du Dénominateur
     private double fromCoinUnitValue; // Calculer la valeur unitaire
 
-    private LocalDateTime transactionDate;
+    private LocalDate transactionDate;
 
     private String wallet;
     private String exchange;
 
+    @ManyToOne
+    private User user;
+
     @Builder
-    public Transaction(Long id, String toCoin, double toCoinQuantity, double toCoinValue, String fromCoin, double fromCoinQuantity, double fromCoinValue, LocalDateTime transactionDate, String wallet, String exchange) {
+    public Transaction(Long id, String toCoin, double toCoinQuantity, double toCoinValue, String fromCoin, double fromCoinQuantity, double fromCoinValue, LocalDate transactionDate, String wallet, String exchange, User user) {
         this.id = id;
         this.toCoin = toCoin;
         this.toCoinQuantity = toCoinQuantity;
@@ -57,9 +58,27 @@ public class Transaction {
         }
         this.wallet = wallet;
         this.exchange = exchange;
+
+        this.user = user;
     }
 
     public double calculateUnitValue(double value, double quantity) {
         return value / quantity;
+    }
+
+    public void updateTransaction(TransactionDTO transactionDTO) {
+        this.toCoin = transactionDTO.getToCoin();
+        this.toCoinQuantity = transactionDTO.getToCoinQuantity();
+        this.toCoinValue = transactionDTO.getToCoinValue();
+        this.toCoinUnitValue = calculateUnitValue(transactionDTO.getToCoinValue(), transactionDTO.getToCoinQuantity());
+
+        this.fromCoin = transactionDTO.getFromCoin();
+        this.fromCoinQuantity = transactionDTO.getFromCoinQuantity();
+        this.fromCoinValue = transactionDTO.getFromCoinValue();
+        this.fromCoinUnitValue = calculateUnitValue(transactionDTO.getFromCoinValue(), transactionDTO.getFromCoinQuantity());
+
+        this.transactionDate = transactionDTO.getTransactionDate();
+        this.wallet = transactionDTO.getWallet();
+        this.exchange = transactionDTO.getExchange();
     }
 }
