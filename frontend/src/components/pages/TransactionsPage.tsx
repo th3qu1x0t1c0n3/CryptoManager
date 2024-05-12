@@ -21,10 +21,15 @@ function TransactionsPage() {
     return (
         <div>
             <h1 className={"text-5xl "}>Transactions Page</h1>
-            <div className={"grid grid-cols-2"}>
-                <TransactionList/>
-                <TransactionForm />
-            </div>
+            <TransactionList/>
+
+            {/*<div className={"grid grid-cols-3"}>*/}
+            {/*    <div className={"col-span-2"}>*/}
+            {/*    </div>*/}
+            {/*    <div>*/}
+            {/*        <TransactionForm />*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </div>
     );
 }
