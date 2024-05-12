@@ -86,9 +86,6 @@ public class PortfolioService {
             coinBalances.put(transaction.getToCoinName(), coinBalances.getOrDefault(transaction.getToCoinName(), 0.0) + transaction.getToCoinQuantity());
             coinBalances.put(transaction.getFromCoinName(), coinBalances.getOrDefault(transaction.getFromCoinName(), 0.0) - transaction.getFromCoinQuantity());
         }
-
-        coinBalances.entrySet().removeIf(entry -> entry.getValue() == 0.0);
-
         return coinBalances;
     }
 
