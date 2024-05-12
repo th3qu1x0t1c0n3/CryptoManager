@@ -10,6 +10,10 @@
   --port-white-color: #FFFFFF;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

@@ -46,6 +46,7 @@ public class TransactionDTO {
     }
 
     public Transaction toTransaction(User user) {
+        validateTransaction();
         return Transaction.builder()
                 .toCoin(this.toCoin.getName())
                 .toCoinQuantity(this.toCoin.getQuantity())
@@ -58,5 +59,21 @@ public class TransactionDTO {
                 .exchange(this.exchange)
                 .user(user)
                 .build();
+    }
+
+    private void validateTransaction() {
+        if (this.toCoin == null || this.fromCoin == null) {
+            throw new IllegalArgumentException("Transaction must have both toCoin and fromCoin");
+        } else if (this.toCoin.getName().equals(this.fromCoin.getName())) {
+            throw new IllegalArgumentException("toCoin and fromCoin must be different");
+        } else if (this.toCoin.getQuantity() <= 0 || this.fromCoin.getQuantity() <= 0) {
+            throw new IllegalArgumentException("Coin quantity must be greater than 0");
+        } else if (this.toCoin.getValue() <= 0 || this.fromCoin.getValue() <= 0) {
+            throw new IllegalArgumentException("Coin value must be greater than 0");
+        } else if (this.transactionDate == null) {
+            throw new IllegalArgumentException("Transaction must have a date");
+        } else if (this.wallet == null || this.exchange == null) {
+            throw new IllegalArgumentException("Transaction must have a wallet and exchange");
+        }
     }
 }

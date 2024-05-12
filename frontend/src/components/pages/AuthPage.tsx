@@ -93,7 +93,6 @@ function AuthPage({setUser}: IAuthPageProps) {
 
     return (
         <div>
-            <button>Login</button>
             <div>
                 {
                     isSignIn ? (

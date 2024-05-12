@@ -4,12 +4,15 @@ import {Route, Routes} from "react-router-dom";
 import PageNotFound from "../utils/PageNotFound";
 import AuthPage from "./AuthPage";
 import HomePage from "./HomePage";
+import Header from "../utils/Header";
 
 function Main() {
     const [user, setUser] = useState<IUser | null>(null);
 
     return (
         <div className={"text-port-white"}>
+            <Header user={user} setUser={setUser}/>
+
             <h1 className="text-4xl text-center ">Crypto Portfolio Manager</h1>
             <main className="min-h-screen font-semibold">
                 <div className="flex">
