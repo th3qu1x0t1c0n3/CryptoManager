@@ -3,6 +3,7 @@ import {ITransaction} from "../../assets/models/Transaction";
 import {PortfolioService} from "../../services/PortfolioService";
 import {toast} from "react-toastify";
 import TransactionList from "../TransactionList";
+import TransactionForm from "../TransactionForm";
 
 function TransactionsPage() {
     const portfolioService = new PortfolioService();
@@ -20,7 +21,10 @@ function TransactionsPage() {
     return (
         <div>
             <h1 className={"text-5xl "}>Transactions Page</h1>
-            <TransactionList/>
+            <div className={"grid grid-cols-2"}>
+                <TransactionList/>
+                <TransactionForm />
+            </div>
         </div>
     );
 }

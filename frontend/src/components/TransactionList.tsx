@@ -10,7 +10,9 @@ function TransactionList() {
 
     useEffect(() => {
         portfolioService.getTransactions()
-            .then((data) => setTransactions(data))
+            .then((data) => {
+                setTransactions(data)
+            })
             .catch((error) => {
                 toast.error(error.response?.data.message);
                 console.log(error);
@@ -18,9 +20,9 @@ function TransactionList() {
     }, []);
 
     return (
-        <div>
+        <div className={""}>
             <h2 className={"text-3xl"}>Transaction List</h2>
-            <ul>
+            <ul className={""}>
                 {transactions.map((transaction) => (
                     <li key={transaction.id}>
                         <TransactionCard transaction={transaction}/>
