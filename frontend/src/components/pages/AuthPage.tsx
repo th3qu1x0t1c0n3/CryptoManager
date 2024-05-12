@@ -2,11 +2,11 @@ import React, {FormEvent, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
 import {toast} from "react-toastify";
-import {PortfolioService} from "../services/PortfolioService";
+import {PortfolioService} from "../../services/PortfolioService";
 import {useNavigate} from "react-router-dom";
-import {IsignIn, IsignUp, IUser} from "../assets/models/Authentication";
-import {PortfolioServerInstance} from "../App";
-import FormInput from "../assets/models/Form";
+import {IsignIn, IsignUp, IUser} from "../../assets/models/Authentication";
+import {PortfolioServerInstance} from "../../App";
+import FormInput from "../../assets/models/Form";
 
 interface IAuthPageProps {
     setUser: (user: any) => void;
@@ -27,7 +27,7 @@ function AuthPage({setUser}: IAuthPageProps) {
         sessionStorage.setItem('token', response.token);
         PortfolioServerInstance.defaults.headers.common['Authorization'] = response.token;
         toast.success("Signed In Successfully!");
-        navigate('/u/landing'); // TODO: Redirect to the landing page
+        navigate('/u/transactions');
     }
 
     async function handleSubmitSignIn(e: React.FormEvent<HTMLFormElement>) {

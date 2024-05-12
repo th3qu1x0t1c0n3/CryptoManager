@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import axios from "axios";
-import Main from "./components/Main";
+import Main from "./components/pages/Main";
 import {BrowserRouter} from "react-router-dom";
 
 function App() {

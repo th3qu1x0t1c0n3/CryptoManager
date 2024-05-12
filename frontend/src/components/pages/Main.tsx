@@ -1,7 +1,7 @@
-import {IUser} from "../assets/models/Authentication";
+import {IUser} from "../../assets/models/Authentication";
 import React, {useState} from "react";
 import {Route, Routes} from "react-router-dom";
-import PageNotFound from "./utils/PageNotFound";
+import PageNotFound from "../utils/PageNotFound";
 import AuthPage from "./AuthPage";
 import HomePage from "./HomePage";
 

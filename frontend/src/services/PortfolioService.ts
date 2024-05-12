@@ -29,31 +29,31 @@ export class PortfolioService {
 
 //     Transactions
     async getTransactions(){
-        return PortfolioServerInstance.get(`/transactions`).then((response) => {
+        return PortfolioServerInstance.get(`/port/transactions`).then((response) => {
             return response.data;
         });
     }
 
     async createTransaction(transactionDTO: any){
-        return PortfolioServerInstance.post(`/transaction`, transactionDTO).then((response) => {
+        return PortfolioServerInstance.post(`/port/transaction`, transactionDTO).then((response) => {
             return response.data;
         });
     }
 
     async getCoinBalances(){
-        return PortfolioServerInstance.get(`/balance`).then((response) => {
+        return PortfolioServerInstance.get(`/port/balance`).then((response) => {
             return response.data;
         });
     }
 
     async getCoinBalance(coin: string){
-        return PortfolioServerInstance.get(`/balance/${coin}`).then((response) => {
+        return PortfolioServerInstance.get(`/port/balance/${coin}`).then((response) => {
             return response.data;
         });
     }
 
     async getKellyCriterion(){
-        return PortfolioServerInstance.get(`/kellyCriterion`).then((response) => {
+        return PortfolioServerInstance.get(`/port/kellyCriterion`).then((response) => {
             return response.data;
         });
     }
