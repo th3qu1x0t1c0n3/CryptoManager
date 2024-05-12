@@ -29,7 +29,7 @@ public class ExcelHandler {
             for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
                 Row row = sheet.getRow(i);
 
-                showRow(row);
+//                showRow(row);
 
                 if (row == null || row.getCell(0) == null) {
                     System.out.println("Row is null");
