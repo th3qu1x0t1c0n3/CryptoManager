@@ -2,7 +2,6 @@ import {PortfolioService} from "../services/PortfolioService";
 import {useEffect, useState} from "react";
 import {ITransaction} from "../assets/models/Transaction";
 import {toast} from "react-toastify";
-import TransactionCard from "./TransactionCard";
 import CoinTransactionCard from "./CoinTransactionCard";
 
 function TransactionList() {
@@ -12,6 +11,7 @@ function TransactionList() {
     useEffect(() => {
         portfolioService.getTransactions()
             .then((data) => {
+                data.sort((a: ITransaction, b: ITransaction) => new Date(b.transactionDate).getTime() - new Date(a.transactionDate).getTime());
                 setTransactions(data)
             })
             .catch((error) => {

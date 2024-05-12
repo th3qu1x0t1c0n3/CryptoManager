@@ -29,6 +29,13 @@ public class ExcelHandler {
             for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
                 Row row = sheet.getRow(i);
 
+                showRow(row);
+
+                if (row == null || row.getCell(0) == null) {
+                    System.out.println("Row is null");
+                    break;
+                }
+
                 Transaction transaction = new Transaction();
                 transaction.setId((long) row.getCell(0).getNumericCellValue());
                 transaction.setToCoin(CoinTransaction.builder()
@@ -106,6 +113,12 @@ public class ExcelHandler {
             boolean exists = false;
             for (int i = 1; i < rowCount; i++) {
                 Row row = sheet.getRow(i);
+                
+                if (row == null || row.getCell(0) == null) {
+                    System.out.println("Row is null");
+                    break;
+                }
+
                 if (row.getCell(0).getNumericCellValue() == transaction.getId()) {
                     exists = true;
                     break;
@@ -136,6 +149,26 @@ public class ExcelHandler {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void showRow(Row row) {
+        if (row == null || row.getCell(0) == null) {
+            System.out.println("Row is null or cell is null");
+            return;
+        }
+        System.out.println("Row: " + row.getRowNum());
+        System.out.println(row.getCell(0).getNumericCellValue());
+        System.out.println(row.getCell(1).getStringCellValue());
+        System.out.println(row.getCell(2).getNumericCellValue());
+        System.out.println(row.getCell(3).getNumericCellValue());
+        System.out.println(row.getCell(4).getNumericCellValue());
+        System.out.println(row.getCell(5).getStringCellValue());
+        System.out.println(row.getCell(6).getNumericCellValue());
+        System.out.println(row.getCell(7).getNumericCellValue());
+        System.out.println(row.getCell(8).getNumericCellValue());
+        System.out.println(row.getCell(9).getStringCellValue());
+        System.out.println(row.getCell(10).getStringCellValue());
+        System.out.println(row.getCell(11).getStringCellValue());
     }
 }
 
