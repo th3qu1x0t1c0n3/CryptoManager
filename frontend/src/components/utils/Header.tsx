@@ -1,5 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {IUser} from "../../assets/models/Authentication";
+import {PortfolioServerInstance} from "../../App";
 
 interface IHeaderProps {
     user: IUser | null;
@@ -11,6 +12,8 @@ function Header({user, setUser}: IHeaderProps) {
     const handleDisconnect = () => {
         setUser(null);
         navigate("/")
+        PortfolioServerInstance.defaults.headers.common['Authorization'] = null;
+        sessionStorage.removeItem('token');
     };
 
     return (

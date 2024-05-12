@@ -4,18 +4,18 @@ interface CoinTransactionCardProps {
     coin: ICoinTransaction;
 }
 function CoinTransactionCard({coin}: CoinTransactionCardProps) {
-    function formatDecimal(value: number): string {
+    function formapecimal(value: number): string {
         let result = Number(value.toFixed(10)).toString();
         return result;
     }
 
     return (
-        <tr className={""}>
-            <td className="text-sm mx-1 px-2">{coin.name}</td>
-            <td className="text-sm mx-1 px-2">{formatDecimal(coin.quantity)}</td>
-            <td className="text-sm mx-1 px-2">{formatDecimal(coin.value)}$</td>
-            <td className="text-sm mx-1 px-2">{formatDecimal(coin.unitValue)}$</td>
-        </tr>
+        <div className={"flex flex-auto"}>
+            <p className="text-sm mx-1 px-2">{coin.name}</p>
+            <p className="text-sm mx-1 px-2">{formapecimal(coin.quantity)}</p>
+            <p className="text-sm mx-1 px-2">{formapecimal(coin.value)}$</p>
+            <p className="text-sm mx-1 px-2">{formapecimal(coin.unitValue)}$</p>
+        </div>
     );
 
 

@@ -17,54 +17,24 @@ interface IHomePageProps {
 function HomePage({setUser, user}: IHomePageProps) {
     const portfolioService = new PortfolioService();
     const navigate = useNavigate();
-    const interval = setInterval(checkToken, 5000);
-    const [token, setToken] = useState<string | null>(null);
 
-    function checkToken() {
-        if (window.location.pathname === "/") {
-            interval && clearInterval(interval);
-        }
-        if (token === null) {
-            const tmp = sessionStorage.getItem('token');
-            if (tmp) {
-                setToken(tmp);
-                PortfolioServerInstance.defaults.headers.common['Authorization'] = tmp;
-            }
-        }
+    useEffect(() => {
+        const token = sessionStorage.getItem('token');
+        if (token) {
+            PortfolioServerInstance.defaults.headers.common['Authorization'] = token;
 
-        portfolioService.getUser()
-            .then((response) => {
-                if (user === null) {
+            portfolioService.getUser()
+                .then((response) => {
                     setUser(response);
-                }
-            })
-            .catch((error) => {
-                toast.error(error.response?.data.message);
-                setUser(null);
-                navigate('/');
-                interval && clearInterval(interval);
-            });
-    }
-
-    // useEffect(() => {
-    //     const tmp = sessionStorage.getItem('token');
-    //
-    //     if (tmp) {
-    //         if (token === null){
-    //             setToken(tmp);
-    //             PortfolioServerInstance.defaults.headers.common['Authorization'] = token;
-    //             portfolioService.getUser()
-    //                 .then((response) => {
-    //                     setUser(response);
-    //                 })
-    //                 .catch((error) => {
-    //                     toast.error(error.response?.data.message);
-    //                 });
-    //         }
-    //     } else {
-    //         navigate('/');
-    //     }
-    // }, [token]);
+                })
+                .catch((error) => {
+                    toast.error(error.response?.data.message);
+                    navigate("/");
+                });
+        } else {
+            navigate("/");
+        }
+    }, []);
 
     return (
         user === null ?
