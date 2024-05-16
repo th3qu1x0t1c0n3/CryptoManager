@@ -55,6 +55,7 @@ public class ExcelHandler {
                 transaction.setTransactionDate(LocalDate.parse(row.getCell(9).getStringCellValue()));
                 transaction.setWallet(row.getCell(10).getStringCellValue());
                 transaction.setExchange(row.getCell(11).getStringCellValue());
+                transaction.setBuy(row.getCell(5).getStringCellValue().equals("Buy"));
 
                 transactions.add(transaction);
             }
@@ -103,6 +104,8 @@ public class ExcelHandler {
             headerRow.createCell(9).setCellValue("Transaction Date");
             headerRow.createCell(10).setCellValue("Wallet");
             headerRow.createCell(11).setCellValue("Exchange");
+            headerRow.createCell(12).setCellValue("Type of Transaction");
+
 
             rowCount = 1;
         }
@@ -140,6 +143,7 @@ public class ExcelHandler {
                 row.createCell(9).setCellValue(transaction.getTransactionDate().toString());
                 row.createCell(10).setCellValue(transaction.getWallet());
                 row.createCell(11).setCellValue(transaction.getExchange());
+                row.createCell(12).setCellValue(transaction.isBuy() ? "Buy" : "Sell");
             }
         }
 

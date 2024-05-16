@@ -28,12 +28,13 @@ public class Transaction {
 
     private String wallet;
     private String exchange;
+    private boolean isBuy;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private User user;
 
     @Builder
-    public Transaction(Long id, String toCoin, double toCoinQuantity, double toCoinValue, String fromCoin, double fromCoinQuantity, double fromCoinValue, LocalDate transactionDate, String wallet, String exchange, User user) {
+    public Transaction(Long id, String toCoin, double toCoinQuantity, double toCoinValue, String fromCoin, double fromCoinQuantity, double fromCoinValue, LocalDate transactionDate, String wallet, String exchange, User user, boolean isBuy) {
         this.id = id;
 
         this.toCoin = CoinTransaction.builder()
@@ -56,6 +57,7 @@ public class Transaction {
         }
         this.wallet = wallet;
         this.exchange = exchange;
+        this.isBuy = isBuy;
 
         this.user = user;
     }

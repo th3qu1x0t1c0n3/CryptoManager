@@ -23,6 +23,7 @@ public class TransactionDTO {
 
     private String wallet;
     private String exchange;
+    private boolean isBuy;
 
     public TransactionDTO(Transaction transaction){
         this.id = transaction.getId();
@@ -43,6 +44,7 @@ public class TransactionDTO {
         this.transactionDate = transaction.getTransactionDate();
         this.wallet = transaction.getWallet();
         this.exchange = transaction.getExchange();
+        this.isBuy = transaction.isBuy();
     }
 
     public Transaction toTransaction(User user) {
@@ -58,6 +60,7 @@ public class TransactionDTO {
                 .wallet(this.wallet)
                 .exchange(this.exchange)
                 .user(user)
+                .isBuy(this.isBuy)
                 .build();
     }
 
