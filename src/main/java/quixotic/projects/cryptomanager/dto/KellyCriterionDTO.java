@@ -11,9 +11,9 @@ import quixotic.projects.cryptomanager.model.KellyCriterion;
 @Data
 @Builder
 public class KellyCriterionDTO {
-    private double profits;
-    private double losses;
-    private double profitLoss;
+    private double nbProfit;
+    private double nbLoss;
+    private double totalReturn;
     private int totalWin;
     private int totalLoss;
     private double winRate;
@@ -22,9 +22,9 @@ public class KellyCriterionDTO {
     private double kellyCriterion;
 
     public KellyCriterionDTO(KellyCriterion kellyCriterion) {
-        this.profits = kellyCriterion.getProfits();
-        this.losses = kellyCriterion.getLosses();
-        this.profitLoss = kellyCriterion.getProfitLoss();
+        this.nbProfit = kellyCriterion.getNbProfit();
+        this.nbLoss = kellyCriterion.getNbLoss();
+        this.totalReturn = kellyCriterion.getTotalReturn();
         this.totalWin = kellyCriterion.getTotalWin();
         this.totalLoss = kellyCriterion.getTotalLoss();
         this.winRate = kellyCriterion.getWinRate();

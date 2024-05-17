@@ -35,10 +35,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
-    private double capital;
-
-    @Embedded
-    private KellyCriterion kellyCriterion;
+    @OneToMany(mappedBy = "user")
+    private List<KellyCriterion> kellyCriterion;
 
 //    @OneToMany(mappedBy = "user")
 //    private List<Transaction> transactions;
