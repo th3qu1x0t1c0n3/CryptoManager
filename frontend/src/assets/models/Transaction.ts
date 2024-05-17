@@ -6,6 +6,7 @@ export interface ITransaction {
     transactionDate: string;
     wallet: string;
     exchange: string;
+    buy: boolean;
 }
 
 export interface ICoinTransaction {

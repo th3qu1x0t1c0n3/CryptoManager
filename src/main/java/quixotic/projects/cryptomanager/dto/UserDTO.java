@@ -17,6 +17,7 @@ public class UserDTO {
     private Role role;
     private String firstName;
     private String lastName;
+    private double capital;
     private String token;
 
     public UserDTO(User user, String token){
@@ -25,6 +26,7 @@ public class UserDTO {
         this.role = user.getRole();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
+        this.capital = user.getCapital();
         this.token = token;
     }
 

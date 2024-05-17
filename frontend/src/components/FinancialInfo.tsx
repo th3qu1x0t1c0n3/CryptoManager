@@ -141,20 +141,23 @@ function FinancialInfo({transactions, setProfits}: IFinancialInfoProps) {
                 </tr>
                 </thead>
                 <tbody>
-                {Object.entries(holdings).map(([coin, value]) => (
-                    <tr key={coin}>
-                        <td className={"border px-4 py-2"}>{coin}</td>
-                        <td className={"border px-4 py-2"}>{formatDecimal(value)}{coin === "CAD" ? "$" : ""}</td>
-                        <td className={"border px-4 py-2"}>{getAvgPrice(coin)}$</td>
-                        {
-                            coin === "CAD" || coin === "USD" ? (
-                                <td className={"border px-4 py-2"}>{formatDecimal(value)}$</td>
-                            ) : (
-                                <td className={"border px-4 py-2"}>{Number(value * coinValues[coin]).toFixed(2)}$</td>
-                            )
-                        }
-                    </tr>
-                ))}
+                {Object.entries(holdings)
+                    .filter(([coin, value]) => value >= 0.00001 || value <= 0)
+                    .map(([coin, value]) => (
+
+                        <tr key={coin}>
+                            <td className={"border px-4 py-2"}>{coin}</td>
+                            <td className={"border px-4 py-2"}>{formatDecimal(value)}{coin === "CAD" ? "$" : ""}</td>
+                            <td className={"border px-4 py-2"}>{getAvgPrice(coin)}$</td>
+                            {
+                                coin === "CAD" || coin === "USD" ? (
+                                    <td className={"border px-4 py-2"}>{formatDecimal(value)}$</td>
+                                ) : (
+                                    <td className={"border px-4 py-2"}>{Number(value * coinValues[coin]).toFixed(2)}$</td>
+                                )
+                            }
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>

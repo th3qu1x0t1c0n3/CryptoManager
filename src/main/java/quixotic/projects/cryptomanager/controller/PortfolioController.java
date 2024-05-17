@@ -27,6 +27,7 @@ public class PortfolioController {
     }
     @PostMapping("/transaction")
     public ResponseEntity<TransactionDTO> createTransaction(@RequestBody TransactionDTO transactionDTO, @RequestHeader("Authorization") String token) {
+
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
                 .body(portfolioService.createTransaction(transactionDTO, token));
     }

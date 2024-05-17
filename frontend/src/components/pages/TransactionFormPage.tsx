@@ -12,6 +12,7 @@ function TransactionFormPage() {
         transactionDate: "",
         wallet: "Newton wallet",
         exchange: "Newton",
+        buy: true
     });
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, coin: "toCoin" | "fromCoin" | "transaction") => {
@@ -73,6 +74,13 @@ function TransactionFormPage() {
                     </div>
                 </div>
             </div>
+            <div className={"clickable"}
+                 onClick={(e) => setTransaction({...transaction, buy: !transaction.buy})}>
+                <input type="checkbox" name="isBuy" checked={transaction.buy}
+
+                       className="border border-gray-300 rounded-lg p-2 mb-0"/>
+                <label className={"text-port-white m-1"}>Is it a buy?</label>
+            </div>
 
             <button type="reset" onClick={() => setTransaction({
                 id: 0,
@@ -80,7 +88,8 @@ function TransactionFormPage() {
                 fromCoin: {name: "", quantity: 0, value: 0, unitValue: 0},
                 transactionDate: "",
                 wallet: "",
-                exchange: ""
+                exchange: "",
+                buy: true
             })} className="bg-red-500 text-white rounded-lg p-2 px-4 mx-2">Reset
             </button>
             <button type="submit" className="bg-blue-500 text-white rounded-lg p-2 px-4 mx-2">Submit</button>
