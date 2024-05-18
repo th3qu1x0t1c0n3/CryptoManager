@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import quixotic.projects.cryptomanager.dto.CoinTransactionDTO;
 import quixotic.projects.cryptomanager.dto.SignUpDTO;
 import quixotic.projects.cryptomanager.dto.TransactionDTO;
+import quixotic.projects.cryptomanager.dto.UserDTO;
 import quixotic.projects.cryptomanager.service.PortfolioService;
 import quixotic.projects.cryptomanager.service.UserService;
 
@@ -44,4 +45,5 @@ public class CryptoManagerApplication implements CommandLineRunner {
                 .lastName("Whale")
                 .build());
     }
+
 }
