@@ -13,6 +13,7 @@ import quixotic.projects.cryptomanager.repository.TransactionRepository;
 import quixotic.projects.cryptomanager.repository.UserRepository;
 import quixotic.projects.cryptomanager.security.JwtTokenProvider;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,15 +119,17 @@ public class PortfolioService {
         }
         List<Transaction> transactions = transactionRepository.findByUserEmail(user.getEmail());
 
-        Map<String, Double[]> coinBuyData = new HashMap<>();
-        for (Transaction transaction : transactions) {
-            if (coinBuyData.containsKey(transaction.getToCoinName())) {
-                Double[] data = coinBuyData.get(transaction.getToCoinName());
-                data[0] += transaction.getToCoinQuantity();
-                data[1] += transaction.getToCoinValue();
-            } else {
-                coinBuyData.put(transaction.getToCoinName(), new Double[]{transaction.getToCoinQuantity(), transaction.getToCoinValue()});
-            }
+        List<Transaction> buyTransactions = transactions.stream()
+                .filter(Transaction::isBuy)
+                .sorted(Comparator.comparing(Transaction::getTransactionDate))
+                .toList();
+        List<Transaction> sellTransactions = transactions.stream()
+                .filter((transaction -> !transaction.isBuy()))
+                .sorted(Comparator.comparing(Transaction::getTransactionDate))
+                .toList();
+
+        if (buyTransactions.isEmpty() || sellTransactions.isEmpty()) {
+            return new KellyCriterionDTO(KellyCriterion.builder().build());
         }
 
         double totalProfits = 0.0;
@@ -134,18 +137,16 @@ public class PortfolioService {
         int totalWins = 0;
         int totalLossCount = 0;
 
-        for (Transaction transaction : transactions) {
-            if (coinBuyData.containsKey(transaction.getFromCoinName())) {
-                Double[] data = coinBuyData.get(transaction.getFromCoinName());
-                double averageBuyValue = data[1] / data[0];
-
-                double profitLoss = transaction.getFromCoinValue() - averageBuyValue * transaction.getFromCoinQuantity();
-                if (profitLoss > 0) {
-                    totalProfits += profitLoss;
-                    totalWins++;
-                } else if (profitLoss < 0) {
-                    totalLosses += Math.abs(profitLoss);
-                    totalLossCount++;
+        for (Transaction buyTransaction : buyTransactions) {
+            for (Transaction sellTransaction : sellTransactions) {
+                if (buyTransaction.getToCoinName().equals(sellTransaction.getFromCoinName())) {
+                    if (sellTransaction.getToCoinValue() > buyTransaction.getFromCoinValue()) {
+                        totalProfits += sellTransaction.getToCoinValue() - buyTransaction.getFromCoinValue();
+                        totalWins++;
+                    } else {
+                        totalLosses += buyTransaction.getFromCoinValue() - sellTransaction.getToCoinValue();
+                        totalLossCount++;
+                    }
                 }
             }
         }
