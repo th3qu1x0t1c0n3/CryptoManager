@@ -26,7 +26,7 @@ function Header({user, setUser}: IHeaderProps) {
                         <button onClick={() => navigate("/u/transact")}
                                 className="bg-port-gray text-port-blue px-4 py-2 rounded">Create Transaction
                         </button>
-                        <button onClick={() => navigate("/u/profile")}>
+                        <button className="mx-4 bg-port-gray text-port-blue px-4 py-2 rounded" onClick={() => navigate("/u/profile")}>
                             Modify investing profile
                         </button>
                         <button onClick={handleDisconnect}

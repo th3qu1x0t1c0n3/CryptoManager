@@ -1,5 +1,5 @@
 import {PortfolioServerInstance} from "../App";
-import {IsignIn, IsignUp, IUser, IUserProfile} from "../assets/models/Authentication";
+import {IsignIn, IsignUp, IUser} from "../assets/models/Authentication";
 
 export class PortfolioService {
 
@@ -28,31 +28,31 @@ export class PortfolioService {
     }
 
 //     Transactions
-    async getTransactions(){
+    async getTransactions() {
         return PortfolioServerInstance.get(`/port/transactions`).then((response) => {
             return response.data;
         });
     }
 
-    async createTransaction(transactionDTO: any){
+    async createTransaction(transactionDTO: any) {
         return PortfolioServerInstance.post(`/port/transaction`, transactionDTO).then((response) => {
             return response.data;
         });
     }
 
-    async getCoinBalances(){
+    async getCoinBalances() {
         return PortfolioServerInstance.get(`/port/balance`).then((response) => {
             return response.data;
         });
     }
 
-    async getCoinBalance(coin: string){
+    async getCoinBalance(coin: string) {
         return PortfolioServerInstance.get(`/port/balance/${coin}`).then((response) => {
             return response.data;
         });
     }
 
-    async getKellyCriterion(){
+    async getKellyCriterion() {
         return PortfolioServerInstance.get(`/port/kellyCriterion`).then((response) => {
             return response.data;
         });

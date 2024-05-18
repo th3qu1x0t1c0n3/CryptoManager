@@ -129,7 +129,7 @@ public class PortfolioService {
                 .toList();
 
         if (buyTransactions.isEmpty() || sellTransactions.isEmpty()) {
-            return new KellyCriterionDTO(KellyCriterion.builder().build());
+            throw new BadRequestException("No Buy or Sell transactions");
         }
 
         double totalProfits = 0.0;
