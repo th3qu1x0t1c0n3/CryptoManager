@@ -57,7 +57,7 @@ public class PortfolioController {
     @GetMapping("/kellyCriterion")
     public ResponseEntity<KellyCriterionDTO> getKellyCriterion(@RequestHeader("Authorization") String token) {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
-                .body(portfolioService.getKellyCriterion(token));
+                .body(portfolioService.getKellyCriterion(token, null));
     }
 
 }

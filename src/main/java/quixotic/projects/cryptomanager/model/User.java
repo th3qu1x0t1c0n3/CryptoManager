@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import quixotic.projects.cryptomanager.security.Role;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -35,8 +36,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
-    @OneToMany(mappedBy = "user")
-    private List<KellyCriterion> kellyCriterion;
+    @OneToOne
+    private KellyCriterion kellyCriterion;
 
 //    @OneToMany(mappedBy = "user")
 //    private List<Transaction> transactions;

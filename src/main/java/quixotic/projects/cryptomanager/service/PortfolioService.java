@@ -47,6 +47,10 @@ public class PortfolioService {
 
         excelHandler.writeTransactionsToExcel(transactions, user.getFirstName() + "_" + user.getLastName());
 
+        if (!transaction.isBuy()){
+            getKellyCriterion("", user);
+        }
+
         return new TransactionDTO(transaction);
     }
 
@@ -106,14 +110,13 @@ public class PortfolioService {
         return dollarAllocation;
     }
 
-    public double calculateKellyCriterion(double winRatio, double lossRatio, double winLossRatio) {
-        return winRatio - (lossRatio / winLossRatio);
-    }
-
-    public KellyCriterionDTO getKellyCriterion(String token) {
-        String username = jwtTokenProvider.getUsernameFromJWT(token);
-        User user = userRepository.findByEmail(username).orElseThrow();
-        List<Transaction> transactions = transactionRepository.findByUserEmail(username);
+//    Kelly Criterion
+    public KellyCriterionDTO getKellyCriterion(String token, User user) {
+        if (user == null) {
+            String username = jwtTokenProvider.getUsernameFromJWT(token);
+            user = userRepository.findByEmail(username).orElseThrow();
+        }
+        List<Transaction> transactions = transactionRepository.findByUserEmail(user.getEmail());
 
         Map<String, Double[]> coinBuyData = new HashMap<>();
         for (Transaction transaction : transactions) {
@@ -149,11 +152,17 @@ public class PortfolioService {
 
         double winRate = (double) totalWins / transactions.size();
         double lossRate = (double) totalLossCount / transactions.size();
-        double profitLossRatio = totalProfits / totalLosses;
-        double riskRewardRatio = winRate / lossRate;
-        double kellyCriterion = calculateKellyCriterion(winRate, lossRate, riskRewardRatio);
 
-        KellyCriterion kellyCriterionObj = new KellyCriterion(totalProfits, totalLosses, profitLossRatio, totalWins, totalLossCount, winRate, lossRate, riskRewardRatio, kellyCriterion);
+        KellyCriterion kellyCriterionObj = KellyCriterion.builder()
+                .nbProfit(totalProfits)
+                .nbLoss(totalLosses)
+                .totalReturn(totalProfits - totalLosses)
+                .totalWin(totalWins)
+                .totalLoss(totalLossCount)
+                .winRate(winRate)
+                .lossRate(lossRate)
+                .build();
+
         user.setKellyCriterion(kellyCriterionObj);
         userRepository.save(user);
 
