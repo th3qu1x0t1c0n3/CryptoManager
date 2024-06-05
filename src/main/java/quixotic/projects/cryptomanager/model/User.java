@@ -36,7 +36,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private KellyCriterion kellyCriterion;
 
 //    @OneToMany(mappedBy = "user")
