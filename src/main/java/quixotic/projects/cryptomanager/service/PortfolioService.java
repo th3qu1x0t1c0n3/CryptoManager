@@ -3,6 +3,7 @@ package quixotic.projects.cryptomanager.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import quixotic.projects.cryptomanager.dto.CoinDTO;
 import quixotic.projects.cryptomanager.dto.KellyCriterionDTO;
 import quixotic.projects.cryptomanager.dto.TransactionDTO;
 import quixotic.projects.cryptomanager.exception.badRequestException.BadRequestException;
@@ -48,7 +49,7 @@ public class PortfolioService {
 
         excelHandler.writeTransactionsToExcel(transactions, user.getFirstName() + "_" + user.getLastName());
 
-        if (!transaction.isBuy()){
+        if (!transaction.isBuy()) {
             getKellyCriterion("", user);
         }
 
@@ -81,6 +82,19 @@ public class PortfolioService {
     }
 
     //   Balances
+    public List<CoinDTO> getCoinBalancesByUser(String token) {
+
+        return getCoinBalances(token).entrySet().stream()
+                .map(entry -> CoinDTO.builder()
+                        .name(entry.getKey())
+                        .holdings(entry.getValue())
+                        .avgPrice(getAveragePrice(entry.getKey(), token))
+                        .totalValue(entry.getValue() * getAveragePrice(entry.getKey(), token))
+                        .currentPrice(1.0)
+                        .build())
+                .toList();
+    }
+
     public Map<String, Double> getCoinBalances(String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
         List<Transaction> transactions = transactionRepository.findByUserEmail(username);
@@ -111,7 +125,27 @@ public class PortfolioService {
         return dollarAllocation;
     }
 
-//    Kelly Criterion
+    public Double getAveragePrice(String coin, String token) {
+        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        List<Transaction> transactions = transactionRepository.findByUserEmail(username);
+
+        double totalValue = 0.0;
+        double totalQuantity = 0.0;
+
+        for (Transaction transaction : transactions) {
+            if (transaction.getToCoinName().equals(coin)) {
+                totalValue += transaction.getToCoinValue();
+                totalQuantity += transaction.getToCoinQuantity();
+            } else if (transaction.getFromCoinName().equals(coin)) {
+                totalValue -= transaction.getFromCoinValue();
+                totalQuantity -= transaction.getFromCoinQuantity();
+            }
+        }
+
+        return totalValue / totalQuantity;
+    }
+
+    //    Kelly Criterion
     public KellyCriterionDTO getKellyCriterion(String token, User user) {
         if (user == null) {
             String username = jwtTokenProvider.getUsernameFromJWT(token);

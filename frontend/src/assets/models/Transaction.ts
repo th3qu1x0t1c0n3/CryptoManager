@@ -16,6 +16,14 @@ export interface ICoinTransaction {
     unitValue: number;
 }
 
+export interface ICoinBalance {
+    name: string;
+    holdings: number;
+    avgPrice: number;
+    totalValue: number;
+    currentPrice: number;
+}
+
 export interface IKellyCriterion {
     profits: number;
     losses: number;

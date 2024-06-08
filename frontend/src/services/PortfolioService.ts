@@ -40,6 +40,12 @@ export class PortfolioService {
         });
     }
 
+    async getTotalCoinBalances() {
+        return PortfolioServerInstance.get(`/port/coinBalances`).then((response) => {
+            return response.data;
+        });
+    }
+
     async getCoinBalances() {
         return PortfolioServerInstance.get(`/port/balance`).then((response) => {
             return response.data;
@@ -48,6 +54,11 @@ export class PortfolioService {
 
     async getCoinBalance(coin: string) {
         return PortfolioServerInstance.get(`/port/balance/${coin}`).then((response) => {
+            return response.data;
+        });
+    }
+    async getAveragePrice(coin: string) {
+        return PortfolioServerInstance.get(`/port/averagePrice/${coin}`).then((response) => {
             return response.data;
         });
     }

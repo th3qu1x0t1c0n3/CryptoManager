@@ -1,11 +1,11 @@
 package quixotic.projects.cryptomanager.controller;
 
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import quixotic.projects.cryptomanager.dto.CoinDTO;
 import quixotic.projects.cryptomanager.dto.KellyCriterionDTO;
 import quixotic.projects.cryptomanager.dto.TransactionDTO;
 import quixotic.projects.cryptomanager.service.PortfolioService;
@@ -25,6 +25,7 @@ public class PortfolioController {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
                 .body(portfolioService.getTransactions(token));
     }
+
     @PostMapping("/transaction")
     public ResponseEntity<TransactionDTO> createTransaction(@RequestBody TransactionDTO transactionDTO, @RequestHeader("Authorization") String token) {
 
@@ -42,16 +43,29 @@ public class PortfolioController {
 //        return ResponseEntity.noContent().build();
 //    }
 
-//    Balance
+    //    Balance
+    @GetMapping("/coinBalances")
+    public ResponseEntity<List<CoinDTO>> getCoinBalancesByUser(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
+                .body(portfolioService.getCoinBalancesByUser(token));
+    }
+
     @GetMapping("/balance")
-    public ResponseEntity<Map<String, Double>> getTransactionsByUser(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<Map<String, Double>> getBalanceByUser(@RequestHeader("Authorization") String token) {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
                 .body(portfolioService.getCoinBalances(token));
     }
+
     @GetMapping("/balance/{coin}")
     public ResponseEntity<Double> getCoinBalance(@PathVariable String coin, @RequestHeader("Authorization") String token) {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
                 .body(portfolioService.getCoinBalance(coin, token));
+    }
+
+    @GetMapping("/averagePrice/{coin}")
+    public ResponseEntity<Double> getAveragePrice(@PathVariable String coin, @RequestHeader("Authorization") String token) {
+        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
+                .body(portfolioService.getAveragePrice(coin, token));
     }
 
     @GetMapping("/kellyCriterion")
