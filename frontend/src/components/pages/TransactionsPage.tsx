@@ -26,10 +26,6 @@ function TransactionsPage() {
 
     return (
         <div>
-            {/*<div>*/}
-            {/*    <FinancialInfo transactions={transactions} setProfits={setProfits}/>*/}
-            {/*</div>*/}
-
             <div className={"my-2"}></div>
             <TransactionList transactions={transactions} profits={profits}/>
         </div>

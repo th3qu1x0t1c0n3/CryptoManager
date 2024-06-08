@@ -3,10 +3,6 @@ import {toast} from "react-toastify";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {ICoinBalance} from "../assets/models/Transaction";
-import {counter} from "@fortawesome/fontawesome-svg-core";
-
-interface IHoldingsProps {
-}
 
 function Holdings() {
     const portfolioService = new PortfolioService();
@@ -55,17 +51,34 @@ function Holdings() {
 
     function getCoinValue(coin: ICoinBalance) {
         if (coin.name === "CAD" || coin.name === "USD") {
-            setBalance(prevValues => prevValues.map(item => item.name === coin.name ? {...item, currentPrice: coin.holdings} : item));
+            setBalance(prevValues => prevValues.map(item => item.name === coin.name ? {
+                ...item,
+                currentPrice: coin.holdings
+            } : item));
             return;
         }
         axios.get(cryptoValueUrl + coin.name)
             .then(response => {
                 const newCoinValue = response.data.data.rates[currency] * 1;
-                setBalance(prevValues => prevValues.map(item => item.name === coin.name ? {...item, currentPrice: newCoinValue} : item));
+                setBalance(prevValues => prevValues.map(item => item.name === coin.name ? {
+                    ...item,
+                    currentPrice: newCoinValue
+                } : item));
             })
             .catch(() => {
-                setBalance(prevValues => prevValues.map(item => item.name === coin.name ? {...item, currentPrice: -1} : item));
+                setBalance(prevValues => prevValues.map(item => item.name === coin.name ? {
+                    ...item,
+                    currentPrice: coin.totalValue
+                } : item));
             });
+
+
+        if (isNaN(coin.currentPrice)) {
+            setBalance(prevValues => prevValues.map(item => item.name === coin.name ? {
+                ...item,
+                currentPrice: coin.totalValue
+            } : item));
+        }
     }
 
     function getTotalCoinValues() {
@@ -73,21 +86,21 @@ function Holdings() {
 
         balance.map((coin) => {
             if (coin.name === "CAD" || coin.name === "USD") {
-                total += coin.holdings;
+                // total += coin.holdings;
             } else {
-                total += coin.holdings * coin.currentPrice;
+                if (isNaN(coin.currentPrice)) {
+                    total += coin.holdings;
+                    console.log("NAN", coin.name, coin.currentPrice, coin.totalValue)
+                } else {
+                    total += coin.holdings * coin.currentPrice;
+                    console.log("NOT", coin.name, coin.currentPrice, coin.holdings * coin.currentPrice)
+                }
             }
         })
 
         return formatNumber(total);
     }
 
-    function formatDecimal(value: number | string): string {
-        if (typeof value === "string") {
-            value = parseFloat(value);
-        }
-        return formatNumber(Number(value.toFixed(10))).toString();
-    }
     function formatNumber(num: number): string {
         const formatter = new Intl.NumberFormat('en-US', {
             minimumFractionDigits: 2,
@@ -114,14 +127,13 @@ function Holdings() {
                 <tbody>
                 {balance.filter((coin) => coin.holdings >= 0.00001 || coin.holdings <= 0)
                     .map((coin) => (
-
                         <tr key={coin.name}>
                             <td className={"border px-4 py-2"}>{coin.name}</td>
-                            <td className={"border px-4 py-2"}>{formatDecimal(coin.holdings)}{coin.name === "CAD" ? "$" : ""}</td>
+                            <td className={"border px-4 py-2"}>{formatNumber(coin.holdings)}{coin.name === "CAD" ? "$" : ""}</td>
                             <td className={"border px-4 py-2"}>{formatNumber(coin.avgPrice)}</td>
                             {
-                                coin.name === "CAD" || coin.name === "USD" ? (
-                                    <td className={"border px-4 py-2"}>{formatDecimal(coin.holdings)}$</td>
+                                coin.name === "CAD" || coin.name === "USD" || isNaN(coin.currentPrice) ? (
+                                    <td className={"border px-4 py-2"}>{formatNumber(coin.holdings)}$</td>
                                 ) : (
                                     <td className={"border px-4 py-2"}>{formatNumber(coin.holdings * coin.currentPrice)}$</td>
                                 )
@@ -130,7 +142,6 @@ function Holdings() {
                     ))}
                 </tbody>
             </table>
-
         </div>
     );
 }
