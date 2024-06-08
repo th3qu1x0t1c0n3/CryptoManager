@@ -10,7 +10,8 @@ function CoinTransactionCard({coin}: CoinTransactionCardProps) {
     }
 
     return (
-        <div className={"flex flex-auto"}>
+        <div className={"grid grid-cols-4 w-full"}>
+        {/*<div className={"flex flex-auto"}>*/}
             <p className="text-sm mx-1 px-2">{coin.name}</p>
             <p className="text-sm mx-1 px-2">{formatDecimal(coin.quantity)}</p>
             <p className="text-sm mx-1 px-2">{formatDecimal(coin.value)}$</p>

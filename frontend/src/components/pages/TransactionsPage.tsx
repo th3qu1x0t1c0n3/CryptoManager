@@ -1,5 +1,4 @@
 import TransactionList from "../TransactionList";
-import FinancialInfo from "../FinancialInfo";
 import {PortfolioService} from "../../services/PortfolioService";
 import {useEffect, useState} from "react";
 import {ITransaction} from "../../assets/models/Transaction";
@@ -27,7 +26,7 @@ function TransactionsPage() {
     return (
         <div>
             <div className={"my-2"}></div>
-            <TransactionList transactions={transactions} profits={profits}/>
+            <TransactionList transactions={transactions}/>
         </div>
     );
 }

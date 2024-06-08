@@ -8,7 +8,6 @@ import {PortfolioService} from "../../services/PortfolioService";
 import {toast} from "react-toastify";
 import TransactionFormPage from "./TransactionFormPage";
 import {PortfolioServerInstance} from "../../App";
-import FinancialInfo from "../FinancialInfo";
 import Holdings from "../Holdings";
 
 interface IHomePageProps {
@@ -69,7 +68,6 @@ function HomePage({setUser, user}: IHomePageProps) {
                     <Route path="/profile" element={<PageNotFound/>}/>
                 </Routes>
 
-                {/*{tab === 'portfolio' && <div>Portfolio</div> }*/}
                 {tab === 'portfolio' && <Holdings /> }
                 {tab === 'transactions' && <TransactionsPage/>}
                 {tab === 'allocations' && <div>Allocations</div>}

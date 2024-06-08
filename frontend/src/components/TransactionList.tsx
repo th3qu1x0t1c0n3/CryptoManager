@@ -3,9 +3,8 @@ import {ITransaction} from "../assets/models/Transaction";
 
 interface ITransactionListProps {
     transactions: ITransaction[];
-    profits: { [key: string]: { profit: number, profitPercentage: number } };
 }
-function TransactionList({transactions, profits}: ITransactionListProps) {
+function TransactionList({transactions}: ITransactionListProps) {
 
     return (
         <div className={""}>
@@ -34,32 +33,17 @@ function TransactionList({transactions, profits}: ITransactionListProps) {
                     <th className={"border border-port-yellow px-2  w-1/12"}>Date</th>
                     <th className={"border border-port-yellow px-2"}>Wallet</th>
                     <th className={"border border-port-yellow px-2"}>Exchange</th>
-                    <th className={"border border-port-yellow px-1 w-1/12"}>Profits $</th>
-                    <th className={"border border-port-yellow px-1 w-1/12"}>Profits %</th>
                 </tr>
                 </thead>
                 <tbody className={""}>
                 {transactions.map((transaction) => (
                     <tr className={""} key={transaction.id}>
                         <td className={"border border-port-yellow text-center"}>{transaction.id}</td>
-                        <td className={"border border-port-yellow"}><CoinTransactionCard coin={transaction.toCoin}/></td>
-                        <td className={"border border-port-yellow"}><CoinTransactionCard coin={transaction.fromCoin}/></td>
+                        <td className={"border border-port-yellow w-1/3"}><CoinTransactionCard coin={transaction.toCoin}/></td>
+                        <td className={"border border-port-yellow w-1/3"}><CoinTransactionCard coin={transaction.fromCoin}/></td>
                         <td className={"border border-port-yellow px-2"}>{transaction.transactionDate}</td>
                         <td className={"border border-port-yellow px-2"}>{transaction.wallet}</td>
                         <td className={"border border-port-yellow px-2"}>{transaction.exchange}</td>
-                        {
-                            profits && profits[transaction.id] ? (
-                                <>
-                                    <td className={"border border-port-yellow px-2"}>{Number(profits[transaction.id].profit.toFixed(2)).toString()}$</td>
-                                    <td className={"border border-port-yellow px-2"}>{Number(profits[transaction.id].profitPercentage.toFixed(2)).toString()}%</td>
-                                </>
-                            ) : (
-                                <>
-                                    <td className={"border border-port-yellow px-2"}>0$</td>
-                                    <td className={"border border-port-yellow px-2"}>0%</td>
-                                </>
-                            )
-                        }
                     </tr>
                 ))}
                 </tbody>
