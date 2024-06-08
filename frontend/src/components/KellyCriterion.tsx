@@ -21,6 +21,7 @@ function KellyCriterion() {
         portfolioService.getKellyCriterion()
             .then((response) => {
                 setKellyCriterion(response);
+                console.log(response);
             }).catch((error) => {
                 toast.error(error.response?.data.message);
             }

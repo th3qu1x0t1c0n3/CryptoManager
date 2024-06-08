@@ -35,6 +35,7 @@ public class ExcelHandler {
                     System.out.println("Row is null");
                     break;
                 }
+                showRow(row);
 
                 Transaction transaction = new Transaction();
                 transaction.setId((long) row.getCell(0).getNumericCellValue());
@@ -52,7 +53,7 @@ public class ExcelHandler {
                         .unitValue(row.getCell(8).getNumericCellValue())
                         .build()
                 );
-                transaction.setTransactionDate(LocalDate.parse(row.getCell(9).getStringCellValue()));
+                transaction.setTransactionDate(LocalDate.parse(row.getCell(9).getStringCellValue().split("'")[1]));
                 transaction.setWallet(row.getCell(10).getStringCellValue());
                 transaction.setExchange(row.getCell(11).getStringCellValue());
                 transaction.setBuy(row.getCell(12).getStringCellValue().equals("Buy"));
@@ -161,18 +162,19 @@ public class ExcelHandler {
             return;
         }
         System.out.println("Row: " + row.getRowNum());
-        System.out.println(row.getCell(0).getNumericCellValue());
-        System.out.println(row.getCell(1).getStringCellValue());
-        System.out.println(row.getCell(2).getNumericCellValue());
-        System.out.println(row.getCell(3).getNumericCellValue());
-        System.out.println(row.getCell(4).getNumericCellValue());
-        System.out.println(row.getCell(5).getStringCellValue());
-        System.out.println(row.getCell(6).getNumericCellValue());
-        System.out.println(row.getCell(7).getNumericCellValue());
-        System.out.println(row.getCell(8).getNumericCellValue());
-        System.out.println(row.getCell(9).getStringCellValue());
-        System.out.println(row.getCell(10).getStringCellValue());
-        System.out.println(row.getCell(11).getStringCellValue());
+        System.out.println("ID: " + row.getCell(0).getNumericCellValue());
+        System.out.println("To Name: " + row.getCell(1).getStringCellValue());
+        System.out.println("To Qty: " + row.getCell(2).getNumericCellValue());
+        System.out.println("To Value: " + row.getCell(3).getNumericCellValue());
+        System.out.println("To UV: " + row.getCell(4).getNumericCellValue());
+        System.out.println("From Name: " + row.getCell(5).getStringCellValue());
+        System.out.println("From Qty: " + row.getCell(6).getNumericCellValue());
+        System.out.println("From Value: " + row.getCell(7).getNumericCellValue());
+        System.out.println("From UV: " + row.getCell(8).getNumericCellValue());
+        System.out.println("Date: " + row.getCell(9).getStringCellValue());
+        System.out.println("Wallet:" + row.getCell(10).getStringCellValue());
+        System.out.println("Ex: " + row.getCell(11).getStringCellValue());
+        System.out.println("Type: " + row.getCell(12).getStringCellValue());
     }
 }
 
