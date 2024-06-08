@@ -9,6 +9,7 @@ import {toast} from "react-toastify";
 import TransactionFormPage from "./TransactionFormPage";
 import {PortfolioServerInstance} from "../../App";
 import Holdings from "../Holdings";
+import KellyCriterion from "../KellyCriterion";
 
 interface IHomePageProps {
     setUser: (user: any) => void;
@@ -70,7 +71,7 @@ function HomePage({setUser, user}: IHomePageProps) {
                 {tab === 'portfolio' && <Holdings /> }
                 {tab === 'transactions' && <TransactionsPage/>}
                 {tab === 'allocations' && <div>Allocations</div>}
-                {tab === 'kelly' && <div>Kelly</div>}
+                {tab === 'kelly' && <KellyCriterion />}
 
             </div>
     );

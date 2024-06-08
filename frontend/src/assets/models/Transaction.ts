@@ -25,9 +25,9 @@ export interface ICoinBalance {
 }
 
 export interface IKellyCriterion {
-    profits: number;
-    losses: number;
-    profitLoss: number;
+    nbProfit: number;
+    nbLoss: number;
+    totalReturn: number;
     totalWin: number;
     totalLoss: number;
     winRate: number;
