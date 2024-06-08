@@ -63,7 +63,6 @@ function HomePage({setUser, user}: IHomePageProps) {
                     ))}
                 </div>
                 <Routes>
-                    {/*<Route path="/transactions" element={<TransactionsPage/>}/>*/}
                     <Route path="/transact" element={<TransactionFormPage/>}/>
                     <Route path="/profile" element={<PageNotFound/>}/>
                 </Routes>

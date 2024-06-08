@@ -112,10 +112,9 @@ function Holdings() {
     }
 
     return (
-        <div>
-            <h1>User Info</h1>
-            <h2 className={"text-3xl"}>Total Crypto Value: {getTotalCoinValues()}$</h2>
-            <table className={"table-auto border-collapse border"}>
+        <div className={"text-center"}>
+            <h2 className={"text-3xl my-3"}>Total Crypto Value: {getTotalCoinValues()}$</h2>
+            <table className={"table-auto border-collapse border mx-auto"}>
                 <thead>
                 <tr>
                     <th className={"px-4 py-2 border"}>Coin</th>
@@ -124,7 +123,7 @@ function Holdings() {
                     <th className={"px-4 py-2 border"}>Current Value</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody className={"text-end"}>
                 {balance.filter((coin) => coin.holdings >= 0.00001 || coin.holdings <= 0)
                     .map((coin) => (
                         <tr key={coin.name}>
