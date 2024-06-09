@@ -59,7 +59,7 @@ public class PortfolioController {
     @GetMapping("/balance/{coin}")
     public ResponseEntity<Double> getCoinBalance(@PathVariable String coin, @RequestHeader("Authorization") String token) {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
-                .body(portfolioService.getCoinBalance(coin, token));
+                .body(portfolioService.getCoinAllocation(coin, token));
     }
 
     @GetMapping("/averagePrice/{coin}")

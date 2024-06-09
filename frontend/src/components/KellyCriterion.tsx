@@ -66,15 +66,15 @@ function KellyCriterion() {
                     <div>
                         <div>
                             <h1>Total wins</h1>
-                            <p>{formatNumber(kellyCriterion.totalWin)}$</p>
+                            <p>{formatNumber(kellyCriterion.totalWin)}</p>
                         </div>
                         <div>
-                            <h1>Number of wins</h1>
-                            <p>{formatNumber(kellyCriterion.nbProfit)}</p>
+                            <h1>Total profits</h1>
+                            <p>{formatNumber(kellyCriterion.nbProfit)}$</p>
                         </div>
                         <div>
                             <h2 className={"text-2xl"}>Win Rate</h2>
-                            <p>{formatNumber(kellyCriterion.winRate)}%</p>
+                            <p>{formatNumber(kellyCriterion.winRate * 100)}%</p>
                         </div>
                     </div>
 
@@ -86,16 +86,16 @@ function KellyCriterion() {
                     <div>
                         <div>
                             <h1>Total losses</h1>
-                            <p>{formatNumber(kellyCriterion.totalLoss)}$</p>
+                            <p>{formatNumber(kellyCriterion.totalLoss)}</p>
                         </div>
                         <div>
-                            <h1>Number of losses</h1>
-                            <p>{formatNumber(kellyCriterion.nbLoss)}</p>
+                            <h1>Total losses</h1>
+                            <p>{formatNumber(kellyCriterion.nbLoss)}$</p>
                         </div>
 
                         <div>
                             <h2 className={"text-2xl"}>Loss Rate</h2>
-                            <p>{formatNumber(kellyCriterion.lossRate)}%</p>
+                            <p>{formatNumber(kellyCriterion.lossRate * 100)}%</p>
                         </div>
                     </div>
                 </div>

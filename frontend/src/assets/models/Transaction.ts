@@ -19,6 +19,7 @@ export interface ICoinTransaction {
 export interface ICoinBalance {
     name: string;
     holdings: number;
+    moneyInvested: number;
     avgPrice: number;
     totalValue: number;
     currentPrice: number;

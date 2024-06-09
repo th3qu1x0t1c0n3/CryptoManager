@@ -14,10 +14,7 @@ import quixotic.projects.cryptomanager.repository.TransactionRepository;
 import quixotic.projects.cryptomanager.repository.UserRepository;
 import quixotic.projects.cryptomanager.security.JwtTokenProvider;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -88,6 +85,7 @@ public class PortfolioService {
                 .map(entry -> CoinDTO.builder()
                         .name(entry.getKey())
                         .holdings(entry.getValue())
+                        .moneyInvested(getCoinAllocation(entry.getKey(), token))
                         .avgPrice(getAveragePrice(entry.getKey(), token))
                         .totalValue(entry.getValue() * getAveragePrice(entry.getKey(), token))
                         .currentPrice(1.0)
@@ -108,7 +106,7 @@ public class PortfolioService {
         return coinBalances;
     }
 
-    public Double getCoinBalance(String coin, String token) {
+    public Double getCoinAllocation(String coin, String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
         List<Transaction> transactions = transactionRepository.findByUserEmail(username);
 
@@ -136,9 +134,6 @@ public class PortfolioService {
             if (transaction.getToCoinName().equals(coin)) {
                 totalValue += transaction.getToCoinValue();
                 totalQuantity += transaction.getToCoinQuantity();
-            } else if (transaction.getFromCoinName().equals(coin)) {
-                totalValue -= transaction.getFromCoinValue();
-                totalQuantity -= transaction.getFromCoinQuantity();
             }
         }
 
@@ -151,12 +146,12 @@ public class PortfolioService {
             String username = jwtTokenProvider.getUsernameFromJWT(token);
             user = userRepository.findByEmail(username).orElseThrow();
         }
-        List<Transaction> transactions = transactionRepository.findByUserEmail(user.getEmail());
+        List<Transaction> transactions = transactionRepository.findByUserEmail(user.getEmail()).stream().sorted(Comparator.comparing(Transaction::getTransactionDate)).toList();
 
-        List<Transaction> buyTransactions = transactions.stream()
+        List<Transaction> buyTransactions = new java.util.ArrayList<>(transactions.stream()
                 .filter(Transaction::isBuy)
                 .sorted(Comparator.comparing(Transaction::getTransactionDate))
-                .toList();
+                .toList());
         List<Transaction> sellTransactions = transactions.stream()
                 .filter((transaction -> !transaction.isBuy()))
                 .sorted(Comparator.comparing(Transaction::getTransactionDate))
@@ -168,31 +163,50 @@ public class PortfolioService {
 
         double totalProfits = 0.0;
         double totalLosses = 0.0;
-        int totalWins = 0;
+        int totalWinsCount = 0;
         int totalLossCount = 0;
 
-        for (Transaction buyTransaction : buyTransactions) {
-            for (Transaction sellTransaction : sellTransactions) {
-                if (buyTransaction.getToCoinName().equals(sellTransaction.getFromCoinName())) {
-                    if (sellTransaction.getToCoinValue() > buyTransaction.getFromCoinValue()) {
-                        totalProfits += sellTransaction.getToCoinValue() - buyTransaction.getFromCoinValue();
-                        totalWins++;
-                    } else {
-                        totalLosses += buyTransaction.getFromCoinValue() - sellTransaction.getToCoinValue();
-                        totalLossCount++;
-                    }
+        for (Transaction sellTransaction : sellTransactions) {
+            List<Transaction> buyTransactionsForSell = buyTransactions.stream()
+                    .filter(buyTransaction -> buyTransaction.getToCoinName().equals(sellTransaction.getFromCoinName()) &&
+                            buyTransaction.getTransactionDate().isBefore(sellTransaction.getTransactionDate()))
+                    .sorted(Comparator.comparing(Transaction::getTransactionDate))
+                    .toList();
+
+            double coinBalance = sellTransaction.getFromCoinQuantity();
+
+            for (Transaction buyTransaction : buyTransactionsForSell) {
+                if (coinBalance <= 0) {
+                    break;
+                }
+
+                double returns = sellTransaction.getToCoinValue() - (sellTransaction.getFromCoinQuantity() * buyTransaction.getToCoinUnitValue());
+                double weightedReturns = returns * buyTransaction.getToCoinQuantity();
+
+                if (sellTransaction.getFromCoinUnitValue() > buyTransaction.getToCoinUnitValue()) {
+                    totalProfits += weightedReturns;
+                    totalWinsCount++;
+                } else {
+                    totalLosses -= weightedReturns;
+                    totalLossCount++;
+                }
+
+                coinBalance -= buyTransaction.getToCoinValue();
+
+                if (buyTransaction.getFromCoinQuantity() - sellTransaction.getToCoinQuantity() <= 0) {
+                    buyTransactions.remove(buyTransaction);
                 }
             }
         }
 
-        double winRate = (double) totalWins / transactions.size();
-        double lossRate = (double) totalLossCount / transactions.size();
+        double winRate = (double) totalWinsCount / sellTransactions.size();
+        double lossRate = (double) totalLossCount / sellTransactions.size();
 
         KellyCriterion kellyCriterionObj = KellyCriterion.builder()
                 .nbProfit(totalProfits)
                 .nbLoss(totalLosses)
                 .totalReturn(totalProfits - totalLosses)
-                .totalWin(totalWins)
+                .totalWin(totalWinsCount)
                 .totalLoss(totalLossCount)
                 .winRate(winRate)
                 .lossRate(lossRate)

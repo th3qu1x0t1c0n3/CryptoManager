@@ -89,11 +89,9 @@ function Holdings() {
                 // total += coin.holdings;
             } else {
                 if (isNaN(coin.currentPrice)) {
-                    total += coin.holdings;
-                    console.log("NAN", coin.name, coin.currentPrice, coin.totalValue)
+                    total += coin.holdings * coin.avgPrice;
                 } else {
                     total += coin.holdings * coin.currentPrice;
-                    console.log("NOT", coin.name, coin.currentPrice, coin.holdings * coin.currentPrice)
                 }
             }
         })
@@ -119,6 +117,7 @@ function Holdings() {
                 <tr>
                     <th className={"px-4 py-2 border"}>Coin</th>
                     <th className={"px-4 py-2 border"}>Holding</th>
+                    <th className={"px-4 py-2 border"}>Money in</th>
                     <th className={"px-4 py-2 border"}>Bought Value</th>
                     <th className={"px-4 py-2 border"}>Current Value</th>
                 </tr>
@@ -129,10 +128,11 @@ function Holdings() {
                         <tr key={coin.name}>
                             <td className={"border px-4 py-2"}>{coin.name}</td>
                             <td className={"border px-4 py-2"}>{formatNumber(coin.holdings)}{coin.name === "CAD" ? "$" : ""}</td>
+                            <td className={"border px-4 py-2"}>{formatNumber(coin.moneyInvested)}$</td>
                             <td className={"border px-4 py-2"}>{formatNumber(coin.avgPrice)}</td>
                             {
                                 coin.name === "CAD" || coin.name === "USD" || isNaN(coin.currentPrice) ? (
-                                    <td className={"border px-4 py-2"}>{formatNumber(coin.holdings)}$</td>
+                                    <td className={"border px-4 py-2"}>{formatNumber(coin.holdings * coin.avgPrice)}$</td>
                                 ) : (
                                     <td className={"border px-4 py-2"}>{formatNumber(coin.holdings * coin.currentPrice)}$</td>
                                 )

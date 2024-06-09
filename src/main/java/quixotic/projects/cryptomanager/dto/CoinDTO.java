@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class CoinDTO {
     private String name;
     private double holdings;
+    private double moneyInvested;
     private double avgPrice;
     private double totalValue;
     private double currentPrice = 1;

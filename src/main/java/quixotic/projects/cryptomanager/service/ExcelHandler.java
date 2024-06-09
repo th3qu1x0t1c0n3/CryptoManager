@@ -29,13 +29,11 @@ public class ExcelHandler {
             for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
                 Row row = sheet.getRow(i);
 
-//                showRow(row);
-
                 if (row == null || row.getCell(0) == null) {
-                    System.out.println("Row is null");
+                    System.out.println("Row is null " + i);
                     break;
                 }
-                showRow(row);
+//                showRow(row);
 
                 Transaction transaction = new Transaction();
                 transaction.setId((long) row.getCell(0).getNumericCellValue());
@@ -119,7 +117,7 @@ public class ExcelHandler {
                 Row row = sheet.getRow(i);
 
                 if (row == null || row.getCell(0) == null) {
-                    System.out.println("Row is null");
+                    System.out.println("Row is null " + i);
                     break;
                 }
 
@@ -158,7 +156,7 @@ public class ExcelHandler {
 
     public void showRow(Row row) {
         if (row == null || row.getCell(0) == null) {
-            System.out.println("Row is null or cell is null");
+            System.out.println("Row is null " + row.getRowNum());
             return;
         }
         System.out.println("Row: " + row.getRowNum());
