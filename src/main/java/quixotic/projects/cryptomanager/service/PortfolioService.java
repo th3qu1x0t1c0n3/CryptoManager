@@ -174,6 +174,7 @@ public class PortfolioService {
                     .toList();
 
             double coinBalance = sellTransaction.getFromCoinQuantity();
+            boolean counted = false;
 
             for (Transaction buyTransaction : buyTransactionsForSell) {
                 if (coinBalance <= 0) {
@@ -185,13 +186,19 @@ public class PortfolioService {
 
                 if (sellTransaction.getFromCoinUnitValue() > buyTransaction.getToCoinUnitValue()) {
                     totalProfits += weightedReturns;
-                    totalWinsCount++;
+                    if (!counted) {
+                        totalWinsCount++;
+                        counted = true;
+                    }
                 } else {
                     totalLosses -= weightedReturns;
-                    totalLossCount++;
+                    if (!counted) {
+                        totalLossCount++;
+                        counted = true;
+                    }
                 }
 
-                coinBalance -= buyTransaction.getToCoinValue();
+                coinBalance -= buyTransaction.getToCoinQuantity();
 
                 if (buyTransaction.getFromCoinQuantity() - sellTransaction.getToCoinQuantity() <= 0) {
                     buyTransactions.remove(buyTransaction);
