@@ -182,7 +182,11 @@ public class PortfolioService {
                 }
 
                 double returns = sellTransaction.getToCoinValue() - (sellTransaction.getFromCoinQuantity() * buyTransaction.getToCoinUnitValue());
-                double weightedReturns = returns * buyTransaction.getToCoinQuantity();
+                double weightedReturns = returns;
+
+                if (buyTransaction.getToCoinQuantity() / sellTransaction.getFromCoinQuantity() < 1) {
+                    weightedReturns = returns * (buyTransaction.getToCoinQuantity() / sellTransaction.getFromCoinQuantity());
+                }
 
                 if (sellTransaction.getFromCoinUnitValue() > buyTransaction.getToCoinUnitValue()) {
                     totalProfits += weightedReturns;
