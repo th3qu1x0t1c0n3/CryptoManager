@@ -23,26 +23,26 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
-    public UserDTO authenticateCook(SignInDTO signInDTO) {
+    public UserDTO authenticateUser(SignInDTO signInDTO) {
         return new UserDTO(
                 userRepository.findByEmail(signInDTO.getEmail()).orElseThrow(),
                 generateToken(signInDTO.getEmail(), signInDTO.getPassword())
         );
     }
 
-    public UserDTO createCook(SignUpDTO signUpDTO) {
-        User cook = signUpDTO.toUser();
-        cook.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
+    public UserDTO createUser(SignUpDTO signUpDTO) {
+        User user = signUpDTO.toUser();
+        user.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
 
         try {
-            cook = userRepository.save(cook);
+            user = userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
             System.out.println("Error: " + e);
             throw new UsernameTakenException();
         }
 
-        String token = generateToken(cook.getUsername(), signUpDTO.getPassword());
-        return new UserDTO(cook, token);
+        String token = generateToken(user.getUsername(), signUpDTO.getPassword());
+        return new UserDTO(user, token);
     }
 
     private String generateToken(String username, String password) {
