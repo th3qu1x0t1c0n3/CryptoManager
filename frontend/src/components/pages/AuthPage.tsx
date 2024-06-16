@@ -43,7 +43,6 @@ function AuthPage({setUser}: IAuthPageProps) {
             })
             .catch((error) => {
                 toast.error(error.response?.data.message);
-                console.log(error);
             });
     }
 
@@ -87,7 +86,6 @@ function AuthPage({setUser}: IAuthPageProps) {
             onSucess(response);
         }).catch((error) => {
             toast.error(error.response?.data.message);
-            console.log(error)
         });
     };
 

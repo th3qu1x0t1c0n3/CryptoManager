@@ -30,11 +30,9 @@ function TransactionFormPage() {
         portfolioService.createTransaction(transaction)
             .then(response => {
                 toast.success("Transaction created successfully!");
-                console.log(response);
             })
             .catch(error => {
                 toast.error(error.response?.data.message)
-                console.log(error);
             });
     };
 

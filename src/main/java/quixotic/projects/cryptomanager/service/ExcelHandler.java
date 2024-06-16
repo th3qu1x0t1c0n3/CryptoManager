@@ -139,7 +139,7 @@ public class ExcelHandler {
                 row.createCell(6).setCellValue(transaction.getFromCoinQuantity());
                 row.createCell(7).setCellValue(transaction.getFromCoinValue());
                 row.createCell(8).setCellValue(transaction.getFromCoinUnitValue());
-                row.createCell(9).setCellValue(transaction.getTransactionDate().toString());
+                row.createCell(9).setCellValue("'" + transaction.getTransactionDate().toString());
                 row.createCell(10).setCellValue(transaction.getWallet());
                 row.createCell(11).setCellValue(transaction.getExchange());
                 row.createCell(12).setCellValue(transaction.isBuy() ? "Buy" : "Sell");

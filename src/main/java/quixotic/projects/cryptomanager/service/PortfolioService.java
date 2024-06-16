@@ -47,7 +47,7 @@ public class PortfolioService {
         excelHandler.writeTransactionsToExcel(transactions, user.getFirstName() + "_" + user.getLastName());
 
         if (!transaction.isBuy()) {
-            getKellyCriterion("", user);
+            getKellyCriterion(token, user);
         }
 
         return new TransactionDTO(transaction);
