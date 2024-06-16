@@ -18,8 +18,10 @@ function Header({user, setUser}: IHeaderProps) {
 
     return (
         <div className="flex justify-between items-center p-4 bg-port-blue font-semibold">
-            <h1 onClick={() => user === null ? navigate("/") : navigate("/u/transactions")}
-                className="text-2xl font-bold clickable">Go home</h1>
+            <div onClick={() => user === null ? navigate("/") : navigate("/u/transactions")}>
+                <img src="./../../../../btcLogo.png" alt="BTC Coin image" className={"w-12 inline-block"}/>
+                <h1 className="text-2xl font-bold clickable inline-block ms-2">Go home</h1>
+            </div>
             {
                 user !== null ?
                     <div>
