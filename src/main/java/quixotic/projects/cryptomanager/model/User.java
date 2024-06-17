@@ -36,11 +36,20 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
+    private double portfolioSize;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Allocation> allocations = new ArrayList<>();
+
     @OneToOne(cascade = CascadeType.ALL)
     private KellyCriterion kellyCriterion;
 
 //    @OneToMany(mappedBy = "user")
 //    private List<Transaction> transactions;
+
+    public void addAllocation(Allocation allocation) {
+        allocation.setUser(this);
+        allocations.add(allocation);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

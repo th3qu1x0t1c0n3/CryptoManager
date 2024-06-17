@@ -3,13 +3,16 @@ package quixotic.projects.cryptomanager.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import quixotic.projects.cryptomanager.dto.AllocationDTO;
 import quixotic.projects.cryptomanager.dto.CoinDTO;
 import quixotic.projects.cryptomanager.dto.KellyCriterionDTO;
 import quixotic.projects.cryptomanager.dto.TransactionDTO;
 import quixotic.projects.cryptomanager.exception.badRequestException.BadRequestException;
+import quixotic.projects.cryptomanager.model.Allocation;
 import quixotic.projects.cryptomanager.model.KellyCriterion;
 import quixotic.projects.cryptomanager.model.Transaction;
 import quixotic.projects.cryptomanager.model.User;
+import quixotic.projects.cryptomanager.repository.AllocationRepository;
 import quixotic.projects.cryptomanager.repository.TransactionRepository;
 import quixotic.projects.cryptomanager.repository.UserRepository;
 import quixotic.projects.cryptomanager.security.JwtTokenProvider;
@@ -23,6 +26,7 @@ public class PortfolioService {
     private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
     private final ExcelHandler excelHandler = new ExcelHandler();
+    private final AllocationRepository allocationRepository;
 
     //    Transactions CRUD
     public List<TransactionDTO> getTransactions(String token) {
@@ -39,8 +43,6 @@ public class PortfolioService {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
         User user = userRepository.findByEmail(username).orElseThrow();
 
-        loadExcelTransactions(user);
-
         Transaction transaction = transactionRepository.save(transactionDTO.toTransaction(user));
         List<Transaction> transactions = transactionRepository.findByUserEmail(username);
 
@@ -49,6 +51,7 @@ public class PortfolioService {
         if (!transaction.isBuy()) {
             getKellyCriterion(token, user);
         }
+        updateAllocation(transaction);
 
         return new TransactionDTO(transaction);
     }
@@ -138,6 +141,57 @@ public class PortfolioService {
         }
 
         return totalValue / totalQuantity;
+    }
+
+//    Allocations
+    public void updatePorfolioSize(String token, double portfolioSize) {
+        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        User user = userRepository.findByEmail(username).orElseThrow();
+        user.setPortfolioSize(portfolioSize);
+        userRepository.save(user);
+    }
+
+    public List<AllocationDTO> getAllocationsByUser(String token) {
+        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        User user = userRepository.findByEmail(username).orElseThrow();
+
+        return user.getAllocations().stream().map(AllocationDTO::new).toList();
+    }
+
+    public AllocationDTO createAllocation(AllocationDTO allocationDTO, String token) {
+        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        User user = userRepository.findByEmail(username).orElseThrow();
+
+        return new AllocationDTO(allocationRepository.save(allocationDTO.toAllocation(user)));
+    }
+
+    public AllocationDTO updateAllocation(AllocationDTO allocationDTO, String token) {
+        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        User user = userRepository.findByEmail(username).orElseThrow();
+        Allocation allocation = allocationRepository.findById(allocationDTO.getId()).orElseThrow();
+        if (!allocation.getUser().equals(user)) {
+            throw new BadRequestException("Allocation does not belong to user");
+        }
+
+        allocation.updateAllocation(allocationDTO.toAllocation(user));
+
+        return new AllocationDTO(allocationRepository.save(allocationDTO.toAllocation(user)));
+    }
+
+    //    , List<AllocationDTO> allocationDTOS
+    private void updateAllocation(Transaction transaction) {
+        User user = transaction.getUser();
+
+        allocationRepository.findAllocationsByUser_Email(user.getEmail()).stream().map(allocation -> {
+            if (allocation.getCoin().equals(transaction.getToCoinName())) {
+                allocation.setCurrentAllocation(allocation.getCurrentAllocation() + transaction.getToCoinValue());
+            } else if (allocation.getCoin().equals(transaction.getFromCoinName())) {
+                allocation.setCurrentAllocation(allocation.getCurrentAllocation() - transaction.getFromCoinValue());
+            }
+            return allocationRepository.save(allocation);
+        }).toList();
+
+        userRepository.save(user);
     }
 
     //    Kelly Criterion
@@ -235,5 +289,32 @@ public class PortfolioService {
                     transaction.setUser(user);
                     return transactionRepository.save(transaction);
                 }).toList();
+//        loadAllocations();
+    }
+
+    private void loadAllocations(String token) {
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            List<Transaction> transactions = transactionRepository.findByUserEmail(user.getEmail());
+            Map<String, Double> coinBalances = getCoinBalances(token);
+
+            double totalValue = coinBalances.values().stream().mapToDouble(value -> value).sum();
+
+            for (Map.Entry<String, Double> entry : coinBalances.entrySet()) {
+                double percentage = entry.getValue() / totalValue;
+                double allocation = user.getPortfolioSize() * percentage;
+                double currentAllocation = getCoinAllocation(entry.getKey(), user.getEmail());
+
+                user.addAllocation(Allocation.builder()
+                        .coin(entry.getKey())
+                        .percentage(percentage)
+                        .allocation(allocation)
+                        .currentAllocation(currentAllocation)
+                        .user(user)
+                        .build());
+            }
+            userRepository.save(user);
+        }
+
     }
 }

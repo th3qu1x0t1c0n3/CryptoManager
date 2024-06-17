@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import quixotic.projects.cryptomanager.dto.AllocationDTO;
 import quixotic.projects.cryptomanager.dto.CoinDTO;
 import quixotic.projects.cryptomanager.dto.KellyCriterionDTO;
 import quixotic.projects.cryptomanager.dto.TransactionDTO;
@@ -66,6 +67,18 @@ public class PortfolioController {
     public ResponseEntity<Double> getAveragePrice(@PathVariable String coin, @RequestHeader("Authorization") String token) {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
                 .body(portfolioService.getAveragePrice(coin, token));
+    }
+
+    @GetMapping("/allocations")
+    public ResponseEntity<List<AllocationDTO>> getAllocations(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
+                .body(portfolioService.getAllocationsByUser(token));
+    }
+
+    @PostMapping("/allocation")
+    public ResponseEntity<AllocationDTO> createAllocation(@RequestBody AllocationDTO allocationDTO, @RequestHeader("Authorization") String token) {
+        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
+                .body(portfolioService.createAllocation(allocationDTO, token));
     }
 
     @GetMapping("/kellyCriterion")
