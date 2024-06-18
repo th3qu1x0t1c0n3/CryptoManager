@@ -25,6 +25,15 @@ export interface ICoinBalance {
     currentPrice: number;
 }
 
+export interface IAllocation {
+    id: number;
+    coin: string;
+    percentage: number;
+    allocation: number;
+    currentAllocation: number;
+    userId: number;
+}
+
 export interface IKellyCriterion {
     nbProfit: number;
     nbLoss: number;

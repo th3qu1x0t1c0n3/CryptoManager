@@ -10,6 +10,8 @@ import TransactionFormPage from "./TransactionFormPage";
 import {PortfolioServerInstance} from "../../App";
 import Holdings from "../Holdings";
 import KellyCriterion from "../KellyCriterion";
+import Allocation from "../Allocation";
+import Profile from "./Profile";
 
 interface IHomePageProps {
     setUser: (user: any) => void;
@@ -21,10 +23,10 @@ function HomePage({setUser, user}: IHomePageProps) {
     const navigate = useNavigate();
     const [tab, setTab] = useState('portfolio');
     const tabs = [
-        { id: 'portfolio', label: 'portfolio' },
-        { id: 'transactions', label: 'transactions' },
-        { id: 'allocations', label: 'allocations' },
-        { id: 'kelly', label: 'kelly' },
+        {id: 'portfolio', label: 'portfolio'},
+        {id: 'transactions', label: 'transactions'},
+        {id: 'allocations', label: 'allocations'},
+        {id: 'kelly', label: 'kelly'},
     ];
 
     useEffect(() => {
@@ -64,14 +66,14 @@ function HomePage({setUser, user}: IHomePageProps) {
                     ))}
                 </div>
                 <Routes>
-                    <Route path="/transact" element={<TransactionFormPage/>}/>
-                    <Route path="/profile" element={<PageNotFound/>}/>
+                    <Route path="/transact" element={<TransactionFormPage />}/>
+                    <Route path="/profile" element={<Profile />}/>
                 </Routes>
 
-                {tab === 'portfolio' && <Holdings /> }
+                {tab === 'portfolio' && <Holdings/>}
                 {tab === 'transactions' && <TransactionsPage/>}
-                {tab === 'allocations' && <div>Allocations</div>}
-                {tab === 'kelly' && <KellyCriterion />}
+                {tab === 'allocations' && <Allocation user={user} />}
+                {tab === 'kelly' && <KellyCriterion/>}
 
             </div>
     );

@@ -63,6 +63,24 @@ export class PortfolioService {
         });
     }
 
+    async getAllocations() {
+        return PortfolioServerInstance.get(`/port/allocations`).then((response) => {
+            return response.data;
+        });
+    }
+
+    async createAllocation(allocationDTO: any) {
+        return PortfolioServerInstance.post(`/port/allocation`, allocationDTO).then((response) => {
+            return response.data;
+        });
+    }
+
+    async updateAllocation(allocationDTO: any) {
+        return PortfolioServerInstance.put(`/port/allocation`, allocationDTO).then((response) => {
+            return response.data;
+        });
+    }
+
     async getKellyCriterion() {
         return PortfolioServerInstance.get(`/port/kellyCriterion`).then((response) => {
             return response.data;

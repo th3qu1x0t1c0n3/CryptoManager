@@ -81,6 +81,18 @@ public class PortfolioController {
                 .body(portfolioService.createAllocation(allocationDTO, token));
     }
 
+    @PutMapping("/allocation")
+    public ResponseEntity<AllocationDTO> updateAllocation(@RequestBody AllocationDTO allocationDTO, @RequestHeader("Authorization") String token) {
+        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
+                .body(portfolioService.updateAllocation(allocationDTO, token));
+    }
+
+    @PutMapping("/size")
+    public ResponseEntity<Double> updatePortfolioSize(@RequestBody Double size, @RequestHeader("Authorization") String token) {
+        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
+                .body(portfolioService.updatePortfolioSize(size, token));
+    }
+
     @GetMapping("/kellyCriterion")
     public ResponseEntity<KellyCriterionDTO> getKellyCriterion(@RequestHeader("Authorization") String token) {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)

@@ -4,6 +4,7 @@ export interface IUser {
     firstName: string;
     lastName: string;
     role: string;
+    portfolioSize: number;
     token: string;
 }
 
