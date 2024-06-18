@@ -2,6 +2,7 @@ import {PortfolioService} from "../services/PortfolioService";
 import {useEffect, useState} from "react";
 import {IAllocation} from "../assets/models/Transaction";
 import {IUser} from "../assets/models/Authentication";
+import {toast} from "react-toastify";
 
 interface IAllocationProps {
     user: IUser;
@@ -16,7 +17,7 @@ function Allocation({user}: IAllocationProps) {
                 setAllocations(allocations)
             })
             .catch((error) => {
-                console.log(error);
+                toast.error(error.response?.data.message)
             });
     }, []);
 

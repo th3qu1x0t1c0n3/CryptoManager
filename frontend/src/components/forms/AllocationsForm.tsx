@@ -19,8 +19,6 @@ function AllocationsForm({allocations}: AllocationsFormProps) {
         } else {
             setNewAllocations([MT_Allocation]);
         }
-
-        console.log(newAllocations, allocations.length)
     }, [allocations]);
 
     function handleAllocationChange(index: number, value: string) {
@@ -44,7 +42,6 @@ function AllocationsForm({allocations}: AllocationsFormProps) {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        console.log(newAllocations);
         newAllocations.filter((allocation) => allocations.includes(allocation)).map((allocation) => {
             if (allocation.coin !== "" || allocation.percentage !== 0) {
                 portfolioService.createAllocation(allocation)

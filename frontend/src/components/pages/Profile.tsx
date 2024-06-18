@@ -2,6 +2,7 @@ import { PortfolioService } from "../../services/PortfolioService";
 import {useEffect, useState} from "react";
 import AllocationsForm from "../forms/AllocationsForm";
 import { IAllocation } from "../../assets/models/Transaction";
+import {toast} from "react-toastify";
 
 function Profile() {
     const porfolioService = new PortfolioService();
@@ -13,10 +14,9 @@ function Profile() {
         porfolioService.getAllocations()
             .then((allocations) => {
                 setAllocations(allocations);
-                console.log("All:", allocations);
             })
             .catch((error) => {
-                console.log(error);
+                toast.error(error.response?.data.message)
             });
     }, []);
 
