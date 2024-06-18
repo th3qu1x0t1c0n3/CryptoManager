@@ -68,7 +68,7 @@ function AllocationsForm({allocations}: AllocationsFormProps) {
     }
 
     return (
-        <div className={"text-center"}>
+        <div className={"text-center w-full"}>
 
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col space-y-1 w-3/12 mx-auto">

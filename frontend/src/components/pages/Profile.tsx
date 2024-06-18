@@ -24,27 +24,12 @@ function Profile() {
         <div>
             <h1>Profile</h1>
 
-            <AllocationsForm allocations={allocations} />
+            <div className={"flex flex-auto"}>
+                <div></div>
+                <AllocationsForm allocations={allocations}/>
+                <div></div>
+            </div>
 
-            {/*<div className="w-full max-w-md mx-auto">*/}
-            {/*    {[1, 2, 3].map((item) => (*/}
-            {/*        <div key={item} className="border-b border-gray-200">*/}
-            {/*            <h2 className="px-4 py-2">*/}
-            {/*                <button*/}
-            {/*                    className="w-full text-left"*/}
-            {/*                    onClick={() => setOpenAccordion(openAccordion === item ? 0 : item)}*/}
-            {/*                >*/}
-            {/*                    Accordion {item}*/}
-            {/*                </button>*/}
-            {/*            </h2>*/}
-            {/*            {openAccordion === item && (*/}
-            {/*                <div className="px-4 py-2">*/}
-            {/*                    Content for Accordion {item}*/}
-            {/*                </div>*/}
-            {/*            )}*/}
-            {/*        </div>*/}
-            {/*    ))}*/}
-            {/*</div>*/}
 
         </div>
     );
