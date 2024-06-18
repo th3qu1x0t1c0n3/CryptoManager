@@ -10,14 +10,14 @@ interface AllocationsFormProps {
 }
 function AllocationsForm({allocations}: AllocationsFormProps) {
     const portfolioService = new PortfolioService();
-    const MT_Allocation: IAllocation = {id: 0, coin: "", percentage: 0, allocation: 0, currentAllocation: 0, userId: 0};
+    const MT_Allocation: IAllocation = {id: 1, coin: "", percentage: 1, allocation: 0, currentAllocation: 0, userId: 1};
     const [newAllocations, setNewAllocations] = useState<IAllocation[]>([MT_Allocation]);
 
     useEffect(() => {
-        if (allocations.length === 0) {
+        if (allocations.length !== 0) {
             setNewAllocations(allocations);
         } else {
-            setNewAllocations([...newAllocations, MT_Allocation]);
+            setNewAllocations([MT_Allocation]);
         }
 
         console.log(newAllocations, allocations.length)
@@ -45,7 +45,7 @@ function AllocationsForm({allocations}: AllocationsFormProps) {
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         console.log(newAllocations);
-        newAllocations.filter((allocation) => !allocations.includes(allocation)).map((allocation) => {
+        newAllocations.filter((allocation) => allocations.includes(allocation)).map((allocation) => {
             if (allocation.coin !== "" || allocation.percentage !== 0) {
                 portfolioService.createAllocation(allocation)
                     .then(() => {
@@ -56,7 +56,7 @@ function AllocationsForm({allocations}: AllocationsFormProps) {
                     });
             }
         });
-        newAllocations.filter((allocation) => allocations.includes(allocation)).map((allocation) => {
+        newAllocations.filter((allocation) => !allocations.includes(allocation)).map((allocation) => {
             portfolioService.updateAllocation(allocation)
                 .then(() => {
                     toast.success("Allocation updated")
@@ -81,7 +81,7 @@ function AllocationsForm({allocations}: AllocationsFormProps) {
                         <div key={index} className="flex space-x-2 items-center">
                             <input type="text" value={allocation.coin}
                                    onChange={e => handleAllocationChange(index, e.target.value)}
-                                   placeholder={allocation.coin}
+                                   placeholder={"RNT"}
                                    className="border-2 p-2 rounded flex-grow text-port-dark"/>
                             <input type="number" value={allocation.percentage}
                                    onChange={e => handleAllocationPctChange(index, Number(e.target.value))}

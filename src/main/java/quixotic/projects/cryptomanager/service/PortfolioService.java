@@ -144,18 +144,16 @@ public class PortfolioService {
     }
 
 //    Allocations
-    public void updatePorfolioSize(String token, double portfolioSize) {
+    public Double updatePortfolioSize(double portfolioSize, String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
         User user = userRepository.findByEmail(username).orElseThrow();
         user.setPortfolioSize(portfolioSize);
-        userRepository.save(user);
+        return userRepository.save(user).getPortfolioSize();
     }
 
     public List<AllocationDTO> getAllocationsByUser(String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
-        User user = userRepository.findByEmail(username).orElseThrow();
-
-        return user.getAllocations().stream().map(AllocationDTO::new).toList();
+        return allocationRepository.findAllocationsByUser_Email(username).stream().map(AllocationDTO::new).toList();
     }
 
     public AllocationDTO createAllocation(AllocationDTO allocationDTO, String token) {
