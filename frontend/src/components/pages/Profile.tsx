@@ -3,10 +3,14 @@ import {useEffect, useState} from "react";
 import AllocationsForm from "../forms/AllocationsForm";
 import { IAllocation } from "../../assets/models/Transaction";
 import {toast} from "react-toastify";
+import PortfolioSizeForm from "../forms/PortfolioSizeForm";
+import {IUser} from "../../assets/models/Authentication";
 
-function Profile() {
+interface IProfileProps {
+    user: IUser;
+}
+function Profile({user}: IProfileProps) {
     const porfolioService = new PortfolioService();
-    const [openAccordion, setOpenAccordion] = useState(1);
 
     const [allocations, setAllocations] = useState<IAllocation[]>([]);
 
@@ -21,11 +25,11 @@ function Profile() {
     }, []);
 
     return (
-        <div>
-            <h1>Profile</h1>
+        <div className={"text-center"}>
+            <h1 className={"text-3xl"}>Profile</h1>
 
-            <div className={"flex flex-auto"}>
-                <div></div>
+            <div className={"grid grid-cols-3"}>
+                <PortfolioSizeForm portfolioSize={user.portfolioSize} />
                 <AllocationsForm allocations={allocations}/>
                 <div></div>
             </div>

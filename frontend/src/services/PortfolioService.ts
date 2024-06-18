@@ -87,4 +87,8 @@ export class PortfolioService {
         });
     }
 
+    async updatePortfolioSize(newPortfolioSize: number) {
+        const response = await PortfolioServerInstance.put(`/port/size`, newPortfolioSize);
+        return response.data;
+    }
 }

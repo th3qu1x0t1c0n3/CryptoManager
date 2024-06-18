@@ -42,7 +42,7 @@ function AllocationsForm({allocations}: AllocationsFormProps) {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        newAllocations.filter((allocation) => allocations.includes(allocation)).map((allocation) => {
+        newAllocations.filter((allocation) => !allocations.includes(allocation)).map((allocation) => {
             if (allocation.coin !== "" || allocation.percentage !== 0) {
                 portfolioService.createAllocation(allocation)
                     .then(() => {
@@ -53,22 +53,22 @@ function AllocationsForm({allocations}: AllocationsFormProps) {
                     });
             }
         });
-        newAllocations.filter((allocation) => !allocations.includes(allocation)).map((allocation) => {
-            portfolioService.updateAllocation(allocation)
-                .then(() => {
-                    toast.success("Allocation updated")
-                })
-                .catch((error) => {
-                    toast.error(error.response?.data.message)
-                });
-        });
+        // newAllocations.filter((allocation) => allocations.includes(allocation)).map((allocation) => {
+        //     portfolioService.updateAllocation(allocation)
+        //         .then(() => {
+        //             toast.success("Allocation updated")
+        //         })
+        //         .catch((error) => {
+        //             toast.error(error.response?.data.message)
+        //         });
+        // });
     }
 
     return (
         <div className={"text-center w-full"}>
 
             <form onSubmit={handleSubmit}>
-                <div className="flex flex-col space-y-1 w-3/12 mx-auto">
+                <div className="flex flex-col space-y-1 mx-auto">
                     <div className={""}>
                         <label className={"mx-10"}>Coin name</label>
                         <label className={"mx-10"}>Percentage allocation</label>
@@ -84,7 +84,7 @@ function AllocationsForm({allocations}: AllocationsFormProps) {
                                    onChange={e => handleAllocationPctChange(index, Number(e.target.value))}
                                    placeholder={allocation.percentage.toString()}
                                    min={1} max={100}
-                                   className="border-2 p-2 rounded text-port-dark"/>
+                                   className="border-2 p-2 rounded flex-grow text-port-dark"/>
 
                             <button type="button" onClick={() => removeAllocation(index)}
                                     className="border-2 rounded transition ease-in duration-200 p-1">

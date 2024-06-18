@@ -67,7 +67,7 @@ function HomePage({setUser, user}: IHomePageProps) {
                 </div>
                 <Routes>
                     <Route path="/transact" element={<TransactionFormPage />}/>
-                    <Route path="/profile" element={<Profile />}/>
+                    <Route path="/profile" element={<Profile user={user} />}/>
                 </Routes>
 
                 {tab === 'portfolio' && <Holdings/>}

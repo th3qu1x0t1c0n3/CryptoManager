@@ -148,7 +148,17 @@ public class PortfolioService {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
         User user = userRepository.findByEmail(username).orElseThrow();
         user.setPortfolioSize(portfolioSize);
+        rebalanceAllocation(user);
         return userRepository.save(user).getPortfolioSize();
+    }
+
+    private void rebalanceAllocation(User user) {
+        List<Allocation> allocations = allocationRepository.findAllocationsByUser_Email(user.getEmail());
+
+        for (Allocation allocation : allocations) {
+            allocation.setAllocation((allocation.getPercentage() / 100) * user.getPortfolioSize());
+            allocationRepository.save(allocation);
+        }
     }
 
     public List<AllocationDTO> getAllocationsByUser(String token) {
