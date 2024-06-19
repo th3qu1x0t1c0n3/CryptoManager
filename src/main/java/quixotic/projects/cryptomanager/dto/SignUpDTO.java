@@ -18,6 +18,7 @@ public class SignUpDTO {
     private String lastName;
 
     public User toUser() {
+        validateNewUser(this);
         return User.builder()
                 .email(this.email)
                 .password(this.password)
@@ -25,5 +26,20 @@ public class SignUpDTO {
                 .firstName(this.firstName)
                 .lastName(this.lastName)
                 .build();
+    }
+
+    private void validateNewUser(SignUpDTO signUpDTO) {
+        if (signUpDTO.getEmail() == null || signUpDTO.getEmail().isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
+        if (signUpDTO.getPassword() == null || signUpDTO.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be empty");
+        }
+        if (signUpDTO.getFirstName() == null || signUpDTO.getFirstName().isEmpty()) {
+            throw new IllegalArgumentException("First name cannot be empty");
+        }
+        if (signUpDTO.getLastName() == null || signUpDTO.getLastName().isEmpty()) {
+            throw new IllegalArgumentException("Last name cannot be empty");
+        }
     }
 }
