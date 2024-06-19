@@ -14,12 +14,22 @@ function Allocation({user}: IAllocationProps) {
     useEffect(() => {
         portfolioService.getAllocations()
             .then((allocations) => {
-                setAllocations(allocations)
+                const sortedAllocations = allocations.sort((a: IAllocation, b: IAllocation) => b.percentage - a.percentage);
+                setAllocations(sortedAllocations);
             })
             .catch((error) => {
                 toast.error(error.response?.data.message)
             });
     }, []);
+    function formatNumber(num: number): string {
+        const formatter = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+            useGrouping: true,
+        });
+
+        return formatter.format(num).replace(/,/g, ' ');
+    }
 
     return (
         <div className={"text-center"}>
@@ -36,13 +46,13 @@ function Allocation({user}: IAllocationProps) {
                 </tr>
                 </thead>
                 <tbody className={"text-end"}>
-                {allocations.map((allocation) => (
+                {allocations.sort().map((allocation) => (
                     <tr key={allocation.id}>
                         <td className={"border px-4 py-2"}>{allocation.coin}</td>
-                        <td className={"border px-4 py-2"}>{allocation.percentage}%</td>
-                        <td className={"border px-4 py-2"}>{allocation.allocation}$</td>
-                        <td className={"border px-4 py-2"}>{allocation.currentAllocation}$</td>
-                        <td className={"border px-4 py-2"}>{allocation.allocation - allocation.currentAllocation}$</td>
+                        <td className={"border px-4 py-2"}>{formatNumber(allocation.percentage)}%</td>
+                        <td className={"border px-4 py-2"}>{formatNumber(allocation.allocation)}$</td>
+                        <td className={"border px-4 py-2"}>{formatNumber(allocation.currentAllocation)}$</td>
+                        <td className={"border px-4 py-2"}>{formatNumber(allocation.allocation - allocation.currentAllocation)}$</td>
                     </tr>
                 ))}
                 </tbody>

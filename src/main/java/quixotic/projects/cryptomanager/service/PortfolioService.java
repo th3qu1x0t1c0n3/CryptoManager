@@ -170,6 +170,8 @@ public class PortfolioService {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
         User user = userRepository.findByEmail(username).orElseThrow();
 
+        allocationDTO.setCurrentAllocation(getCoinAllocation(allocationDTO.getCoin(), token));
+
         return new AllocationDTO(allocationRepository.save(allocationDTO.toAllocation(user)));
     }
 
@@ -181,6 +183,7 @@ public class PortfolioService {
             throw new BadRequestException("Allocation does not belong to user");
         }
 
+        allocationDTO.setCurrentAllocation(getCoinAllocation(allocationDTO.getCoin(), token));
         allocation.updateAllocation(allocationDTO.toAllocation(user));
 
         return new AllocationDTO(allocationRepository.save(allocationDTO.toAllocation(user)));

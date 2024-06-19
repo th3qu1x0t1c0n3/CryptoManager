@@ -15,6 +15,7 @@ function PortfolioSizeForm({portfolioSize}: PortfolioSizeFormProps) {
         portfolioService.updatePortfolioSize(newPortfolioSize)
             .then(() => {
                 toast.success("Portfolio size updated")
+                window.location.reload();
             })
             .catch((error) => {
                 toast.error(error.response?.data.message)

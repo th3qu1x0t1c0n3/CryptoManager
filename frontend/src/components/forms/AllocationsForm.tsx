@@ -1,16 +1,25 @@
 import {IAllocation} from "../../assets/models/Transaction";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
-import { PortfolioService } from "../../services/PortfolioService";
+import {PortfolioService} from "../../services/PortfolioService";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 
 interface AllocationsFormProps {
     allocations: IAllocation[];
+    setAllocations: (allocations: IAllocation[]) => void;
 }
-function AllocationsForm({allocations}: AllocationsFormProps) {
+
+function AllocationsForm({allocations, setAllocations}: AllocationsFormProps) {
     const portfolioService = new PortfolioService();
-    const MT_Allocation: IAllocation = {id: 1, coin: "", percentage: 1, allocation: 0, currentAllocation: 0, userId: 1};
+    const MT_Allocation: IAllocation = {
+        id: -1,
+        coin: "",
+        percentage: 1,
+        allocation: 0,
+        currentAllocation: 0,
+        userId: 1
+    };
     const [newAllocations, setNewAllocations] = useState<IAllocation[]>([MT_Allocation]);
 
     useEffect(() => {
@@ -26,22 +35,26 @@ function AllocationsForm({allocations}: AllocationsFormProps) {
         tmpAllocations[index].coin = value;
         setNewAllocations(tmpAllocations);
     }
+
     function handleAllocationPctChange(index: number, value: number) {
         const tmpAllocations = [...newAllocations];
         tmpAllocations[index].percentage = value;
         setNewAllocations(tmpAllocations);
     }
+
     function removeAllocation(index: number) {
         const tmp = [...newAllocations];
         tmp.splice(index, 1);
         setNewAllocations(tmp)
     }
+
     function addAllocation() {
         setNewAllocations([...newAllocations, MT_Allocation])
     }
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
         newAllocations.filter((allocation) => !allocations.includes(allocation)).map((allocation) => {
             if (allocation.coin !== "" || allocation.percentage !== 0) {
                 portfolioService.createAllocation(allocation)
@@ -53,15 +66,18 @@ function AllocationsForm({allocations}: AllocationsFormProps) {
                     });
             }
         });
-        // newAllocations.filter((allocation) => allocations.includes(allocation)).map((allocation) => {
-        //     portfolioService.updateAllocation(allocation)
-        //         .then(() => {
-        //             toast.success("Allocation updated")
-        //         })
-        //         .catch((error) => {
-        //             toast.error(error.response?.data.message)
-        //         });
-        // });
+
+        newAllocations.filter((allocation) => allocations.includes(allocation)).map((allocation) => {
+            portfolioService.updateAllocation(allocation)
+                .then(() => {
+                    toast.success("Allocation updated")
+                })
+                .catch((error) => {
+                    toast.error(error.response?.data.message)
+                });
+        });
+
+        window.location.reload();
     }
 
     return (
@@ -74,7 +90,7 @@ function AllocationsForm({allocations}: AllocationsFormProps) {
                         <label className={"mx-10"}>Percentage allocation</label>
                     </div>
 
-                    {newAllocations.map((allocation, index) => (
+                    {newAllocations.sort((a: IAllocation, b: IAllocation) => b.percentage - a.percentage).map((allocation, index) => (
                         <div key={index} className="flex space-x-2 items-center">
                             <input type="text" value={allocation.coin}
                                    onChange={e => handleAllocationChange(index, e.target.value)}

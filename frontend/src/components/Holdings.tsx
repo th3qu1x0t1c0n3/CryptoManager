@@ -8,42 +8,42 @@ function Holdings() {
     const portfolioService = new PortfolioService();
     const cryptoValueUrl = "https://api.coinbase.com/v2/exchange-rates?currency=";
     const [balance, setBalance] = useState<ICoinBalance[]>([]);
-    const [allocations, setAllocations] = useState<IAllocation[]>([]);
     const [currency, setCurrency] = useState<string>("CAD");
 
     useEffect(() => {
         portfolioService.getAllocations()
-            .then((allocations) => {
-                setAllocations(allocations);
+            .then((allocations: IAllocation[]) => {
+                portfolioService.getTotalCoinBalances()
+                    .then((coinBalances) => {
+                        // const order = ["CAD", "USD", "BTC", "ETH", "BTCBULL", "ETHBULL", "SOL", "DOGE", "USDC"];
+                        const order = ["CAD", ...allocations
+                            .sort((a: IAllocation, b: IAllocation) => b.percentage - a.percentage)
+                            .map(allocation => allocation.coin), "USD"];
+                        const sortedData = coinBalances.sort((a: ICoinBalance, b: ICoinBalance) => {
+                            const aIndex = order.indexOf(a.name);
+                            const bIndex = order.indexOf(b.name);
+
+                            if (aIndex === -1 && bIndex === -1) {
+                                return a.name.localeCompare(b.name);
+                            }
+                            if (aIndex === -1) {
+                                return 1;
+                            }
+                            if (bIndex === -1) {
+                                return -1;
+                            }
+
+                            return aIndex - bIndex;
+                        });
+                        setBalance(sortedData);
+                        balance.forEach(coin => getCoinValue(coin));
+                    })
+                    .catch((error) => {
+                        toast.error(error.response?.data.message);
+                    });
             }).catch((error) => {
             toast.error(error.response?.data.message);
         });
-        portfolioService.getTotalCoinBalances()
-            .then((coinBalances) => {
-                // const order = ["CAD", "USD", "BTC", "ETH", "BTCBULL", "ETHBULL", "SOL", "DOGE", "USDC"];
-                const order = ["CAD", allocations.map(allocation => allocation.coin), "USD"];
-                const sortedData = coinBalances.sort((a: ICoinBalance, b: ICoinBalance) => {
-                    const aIndex = order.indexOf(a.name);
-                    const bIndex = order.indexOf(b.name);
-
-                    if (aIndex === -1 && bIndex === -1) {
-                        return a.name.localeCompare(b.name);
-                    }
-                    if (aIndex === -1) {
-                        return 1;
-                    }
-                    if (bIndex === -1) {
-                        return -1;
-                    }
-
-                    return aIndex - bIndex;
-                });
-                setBalance(sortedData);
-                balance.forEach(coin => getCoinValue(coin));
-            })
-            .catch((error) => {
-                toast.error(error.response?.data.message);
-            });
     }, []);
 
     useEffect(() => {

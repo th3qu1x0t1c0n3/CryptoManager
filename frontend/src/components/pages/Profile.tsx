@@ -30,7 +30,7 @@ function Profile({user}: IProfileProps) {
 
             <div className={"grid grid-cols-3"}>
                 <PortfolioSizeForm portfolioSize={user.portfolioSize} />
-                <AllocationsForm allocations={allocations}/>
+                <AllocationsForm allocations={allocations} setAllocations={setAllocations}/>
                 <div></div>
             </div>
 
