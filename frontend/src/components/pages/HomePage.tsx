@@ -70,6 +70,7 @@ function HomePage({setUser, user}: IHomePageProps) {
                     <Route path="/profile" element={<Profile user={user} />}/>
                 </Routes>
 
+
                 {tab === 'portfolio' && <Holdings/>}
                 {tab === 'transactions' && <TransactionsPage/>}
                 {tab === 'allocations' && <Allocation user={user} />}
