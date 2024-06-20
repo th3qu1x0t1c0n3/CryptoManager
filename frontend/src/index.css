@@ -14,6 +14,10 @@
   cursor: pointer;
 }
 
+input {
+  color: var(--port-dark-color);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
