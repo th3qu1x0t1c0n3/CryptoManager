@@ -31,8 +31,8 @@ public class PortfolioService {
     //    Transactions CRUD
     public List<TransactionDTO> getTransactions(String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
-//        User user = userRepository.findByEmail(username).orElseThrow();
 
+//        User user = userRepository.findByEmail(username).orElseThrow();
 //        loadExcelTransactions(user);
 
         return transactionRepository.findByUserEmail(username).stream().map(TransactionDTO::new).toList();
@@ -163,7 +163,10 @@ public class PortfolioService {
 
     public List<AllocationDTO> getAllocationsByUser(String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
-        return allocationRepository.findAllocationsByUser_Email(username).stream().map(AllocationDTO::new).toList();
+        return allocationRepository.findAllocationsByUser_Email(username).stream().map(allocation -> {
+            allocation.setCurrentAllocation(getCoinAllocation(allocation.getCoin(), token));
+            return new AllocationDTO(allocation);
+        }).toList();
     }
 
     public AllocationDTO createAllocation(AllocationDTO allocationDTO, String token) {
@@ -189,7 +192,6 @@ public class PortfolioService {
         return new AllocationDTO(allocationRepository.save(allocationDTO.toAllocation(user)));
     }
 
-    //    , List<AllocationDTO> allocationDTOS
     private void updateAllocation(Transaction transaction) {
         User user = transaction.getUser();
 
