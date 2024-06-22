@@ -135,7 +135,7 @@ function Holdings() {
                     .map((coin) => (
                         <tr key={coin.name}>
                             <td className={"border px-4 py-2"}>{coin.name}</td>
-                            <td className={"border px-4 py-2"}>{formatNumber(coin.holdings)}{coin.name === "CAD" ? "$" : ""}</td>
+                            <td className={"border px-4 py-2"}>{formatNumber(coin.holdings)}</td>
                             <td className={"border px-4 py-2"}>{formatNumber(coin.moneyInvested)}$</td>
                             <td className={"border px-4 py-2"}>{formatNumber(coin.avgPrice)}</td>
                             {
