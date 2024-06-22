@@ -33,7 +33,7 @@ public class PortfolioService {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
         User user = userRepository.findByEmail(username).orElseThrow();
 
-        loadExcelTransactions(user);
+//        loadExcelTransactions(user);
 
         return transactionRepository.findByUserEmail(username).stream().map(TransactionDTO::new).toList();
     }
