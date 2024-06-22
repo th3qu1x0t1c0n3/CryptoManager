@@ -31,7 +31,7 @@ public class PortfolioService {
     //    Transactions CRUD
     public List<TransactionDTO> getTransactions(String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
-        User user = userRepository.findByEmail(username).orElseThrow();
+//        User user = userRepository.findByEmail(username).orElseThrow();
 
 //        loadExcelTransactions(user);
 
