@@ -27,7 +27,7 @@ public class CryptoManagerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        createUsers();
+//        createUsers();
     }
 
     private void createUsers() {
