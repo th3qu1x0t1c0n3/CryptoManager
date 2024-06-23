@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>quixotic.projects</groupId>
 	<artifactId>CryptoManager</artifactId>
-	<version>0.0.3-LTS</version>
+	<version>0.0.1-LTS</version>
 	<name>CryptoManager</name>
 	<description>CryptoManager</description>
 	<properties>

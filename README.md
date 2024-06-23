@@ -7,5 +7,5 @@ Crypto portfolio manager
 # Deployment
 ```
 mvn clean package
-java -jar target/CryptoManager-0.0.X-LTS.jar
+java -jar target/CryptoManager-0.0.1-LTS.jar
 ```
