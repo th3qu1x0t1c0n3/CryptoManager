@@ -7,7 +7,7 @@ interface ITransactionCardProps {
 
 function TransactionCard({transaction}: ITransactionCardProps) {
     return (
-        <tr className={`${transaction.id % 2 === 1 ? "bg-port-blue" : "bg-port-dark"} flex border border-gray-300 rounded-lg p-5 m-2 shadow-md hover:shadow-lg transition-shadow duration-200`}>
+        <tr className={`${transaction.id % 2 === 1 ? "bg-port-two" : "bg-port-one"} flex border border-gray-300 rounded-lg p-5 m-2 shadow-md hover:shadow-lg transition-shadow duration-200`}>
             <td className="text-sm me-1">{transaction.id}</td>
 
             <td className="text-sm me-1"><CoinTransactionCard coin={transaction.toCoin}/></td>

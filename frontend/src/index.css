@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --port-dark-color: #000000EF;
-  --port-blue-color: #14213D;
-  --port-yellow-color: #FCA311;
-  --port-gray-color: #E5E5E5;
-  --port-white-color: #FFFFFF;
+  --port-one-color: #000000EF;
+  --port-two-color: #14213D;
+  --port-three-color: #FCA311;
+  --port-four-color: #E5E5E5;
+  --port-five-color: #FFFFFF;
 }
 
 .clickable {
@@ -15,7 +15,7 @@
 }
 
 input {
-  color: var(--port-dark-color);
+  color: var(--port-one-color);
 }
 
 body {

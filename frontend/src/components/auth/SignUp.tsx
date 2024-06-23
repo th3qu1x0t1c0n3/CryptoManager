@@ -69,7 +69,7 @@ function SignUp({setUser}: ISignUpProps) {
                     createFormInfo.map((formInfo, index) => (
                         <div key={index} className="my-2 xl:w-1/3 lg:w-1/2 md:w-3/4 w-11/12" id={formInfo.name}>
                             <input
-                                className={`${formInfo.warning !== '' ? "border-cook-red" : "border-cook-light"} form-input border rounded-md p-2 w-full text-port-dark`}
+                                className={`${formInfo.warning !== '' ? "border-cook-red" : "border-cook-light"} form-input border rounded-md p-2 w-full text-port-one`}
                                 id={formInfo.name}
                                 onChange={handleCreationChange} type={formInfo.type}
                                 placeholder={formInfo.placeholder}/>

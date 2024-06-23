@@ -95,12 +95,12 @@ function AllocationsForm({allocations, setAllocations}: AllocationsFormProps) {
                             <input type="text" value={allocation.coin}
                                    onChange={e => handleAllocationChange(index, e.target.value)}
                                    placeholder={"RNT"}
-                                   className="border-2 p-2 rounded flex-grow text-port-dark"/>
+                                   className="border-2 p-2 rounded flex-grow text-port-one"/>
                             <input type="number" value={allocation.percentage}
                                    onChange={e => handleAllocationPctChange(index, Number(e.target.value))}
                                    placeholder={allocation.percentage.toString()}
                                    min={1} max={100}
-                                   className="border-2 p-2 rounded flex-grow text-port-dark"/>
+                                   className="border-2 p-2 rounded flex-grow text-port-one"/>
 
                             <button type="button" onClick={() => removeAllocation(index)}
                                     className="border-2 rounded transition ease-in duration-200 p-1">

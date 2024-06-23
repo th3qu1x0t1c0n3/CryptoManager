@@ -6,11 +6,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'port-dark': 'var(--port-dark-color)',
-        'port-blue': 'var(--port-blue-color)',
-        'port-yellow': 'var(--port-yellow-color)',
-        'port-gray': 'var(--port-gray-color)',
-        'port-white': 'var(--port-white-color)',
+        'port-one': 'var(--port-one-color)',
+        'port-two': 'var(--port-two-color)',
+        'port-tree': 'var(--port-three-color)',
+        'port-four': 'var(--port-four-color)',
+        'port-five': 'var(--port-five-color)',
       },
     },
   },

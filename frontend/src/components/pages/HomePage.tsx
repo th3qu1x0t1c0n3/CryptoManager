@@ -55,7 +55,7 @@ function HomePage({setUser, user}: IHomePageProps) {
                     {tabs.map(tabItem => (
                         <button
                             key={tabItem.id}
-                            className={`py-2 px-4 rounded-lg border border-port-gray ${tab === tabItem.id ? 'bg-port-dark' : 'bg-port-blue hover:bg-blue-600'}`}
+                            className={`py-2 px-4 rounded-lg border border-port-four ${tab === tabItem.id ? 'bg-port-one' : 'bg-port-two hover:bg-blue-600'}`}
                             onClick={() => {
                                 setTab(tabItem.id)
                             }}

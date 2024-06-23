@@ -10,7 +10,7 @@ function Main() {
     const [user, setUser] = useState<IUser | null>(null);
 
     return (
-        <div className={"text-port-white"}>
+        <div className={"text-port-five"}>
             <Header user={user} setUser={setUser}/>
 
             <h1 className="text-4xl text-center ">Crypto Portfolio Manager</h1>

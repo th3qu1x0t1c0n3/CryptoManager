@@ -29,7 +29,7 @@ function PortfolioSizeForm({portfolioSize}: PortfolioSizeFormProps) {
                    onChange={e => setNewPortfolioSize(Number(e.target.value))}
                    placeholder={portfolioSize.toString()}
                    min={1}
-                   className="border-2 p-2 rounded text-port-dark"/>
+                   className="border-2 p-2 rounded text-port-one"/>
             <button type="submit" className="mt-2 border rounded transition ease-in duration-200 p-2 block mx-auto">
                 Submit Portfolio size
             </button>
