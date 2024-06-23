@@ -36,6 +36,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Wallet> wallets = new ArrayList<>();
     private double portfolioSize;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Allocation> allocations = new ArrayList<>();
@@ -43,12 +45,22 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     private KellyCriterion kellyCriterion;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Transaction> transactions;
+    public void addWallet(Wallet wallet) {
+        wallet.setUser(this);
+        wallets.add(wallet);
+    }
+    public void removeWallet(Wallet wallet) {
+        wallet.setUser(null);
+        wallets.remove(wallet);
+    }
 
     public void addAllocation(Allocation allocation) {
         allocation.setUser(this);
         allocations.add(allocation);
+    }
+    public void removeAllocation(Allocation allocation) {
+        allocation.setUser(null);
+        allocations.remove(allocation);
     }
 
     @Override
