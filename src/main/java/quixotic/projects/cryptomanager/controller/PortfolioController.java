@@ -5,10 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import quixotic.projects.cryptomanager.dto.AllocationDTO;
-import quixotic.projects.cryptomanager.dto.CoinDTO;
-import quixotic.projects.cryptomanager.dto.KellyCriterionDTO;
-import quixotic.projects.cryptomanager.dto.TransactionDTO;
+import quixotic.projects.cryptomanager.dto.*;
 import quixotic.projects.cryptomanager.service.PortfolioService;
 
 import java.util.List;
@@ -19,6 +16,18 @@ import java.util.Map;
 @RequestMapping("/api/v1/port")
 public class PortfolioController {
     private final PortfolioService portfolioService;
+
+//    Wallets
+    @GetMapping("/wallets")
+    public ResponseEntity<List<WalletDTO>> getWallets(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
+                .body(portfolioService.getWallets(token));
+    }
+    @PostMapping("/wallet")
+    public ResponseEntity<WalletDTO> createWallet(@RequestBody WalletDTO walletDTO, @RequestHeader("Authorization") String token) {
+        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
+                .body(portfolioService.createWallet(walletDTO, token));
+    }
 
     //    Transactions
     @GetMapping("/transactions")

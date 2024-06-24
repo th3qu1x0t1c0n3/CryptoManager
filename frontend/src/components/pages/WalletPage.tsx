@@ -1,13 +1,23 @@
 import {PortfolioService} from "../../services/PortfolioService";
-import Wallet from "../Wallet";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import WalletForm from "../forms/WalletForm";
 import {IWallet} from "../../assets/models/BlockChain";
+import Wallet from "../Wallet";
 
 function WalletPage() {
     const portfolioService = new PortfolioService();
     const [showForm, setShowForm] = useState<boolean>(false);
     const [wallets, setWallets] = useState<IWallet[]>([]);
+
+    useEffect(() => {
+        portfolioService.getWallets()
+            .then((wallets) => {
+                setWallets(wallets);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
     return (
         <div className={"text-center"}>
@@ -27,7 +37,16 @@ function WalletPage() {
                 </div>
             }
 
-            {/*<Wallet/>*/}
+            {
+                wallets.map((wallet) => {
+                    return (
+                        <div key={wallet.id} className={""}>
+                            <Wallet wallet={wallet}/>
+                        </div>
+                    )
+                })
+            }
+
         </div>
     );
 }

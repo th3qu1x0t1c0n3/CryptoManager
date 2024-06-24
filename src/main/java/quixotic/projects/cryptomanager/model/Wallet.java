@@ -18,6 +18,7 @@ public class Wallet {
 
     private String name;
     private String address;
+    @Enumerated(EnumType.STRING)
     private Network network;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

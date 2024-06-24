@@ -3,10 +3,7 @@ package quixotic.projects.cryptomanager.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import quixotic.projects.cryptomanager.dto.AllocationDTO;
-import quixotic.projects.cryptomanager.dto.CoinDTO;
-import quixotic.projects.cryptomanager.dto.KellyCriterionDTO;
-import quixotic.projects.cryptomanager.dto.TransactionDTO;
+import quixotic.projects.cryptomanager.dto.*;
 import quixotic.projects.cryptomanager.exception.badRequestException.BadRequestException;
 import quixotic.projects.cryptomanager.model.Allocation;
 import quixotic.projects.cryptomanager.model.KellyCriterion;
@@ -15,9 +12,13 @@ import quixotic.projects.cryptomanager.model.User;
 import quixotic.projects.cryptomanager.repository.AllocationRepository;
 import quixotic.projects.cryptomanager.repository.TransactionRepository;
 import quixotic.projects.cryptomanager.repository.UserRepository;
+import quixotic.projects.cryptomanager.repository.WalletRepository;
 import quixotic.projects.cryptomanager.security.JwtTokenProvider;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,26 @@ public class PortfolioService {
     private final TransactionRepository transactionRepository;
     private final ExcelHandler excelHandler = new ExcelHandler();
     private final AllocationRepository allocationRepository;
+    private final WalletRepository walletRepository;
+
+    //    Wallets
+    public List<WalletDTO> getWallets(String token) {
+        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        User user = userRepository.findByEmail(username).orElseThrow();
+
+        return user.getWallets().stream().map(WalletDTO::new).toList();
+    }
+
+    public WalletDTO createWallet(WalletDTO walletDTO, String token) {
+        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        User user = userRepository.findByEmail(username).orElseThrow();
+
+        user.addWallet(walletDTO.toEntity());
+        user = userRepository.save(user);
+
+        return new WalletDTO(user.getWallets().get(user.getWallets().size() - 1));
+//        return new WalletDTO(walletRepository.save(walletDTO.toEntity()));
+    }
 
     //    Transactions CRUD
     public List<TransactionDTO> getTransactions(String token) {
@@ -143,7 +164,7 @@ public class PortfolioService {
         return totalValue / totalQuantity;
     }
 
-//    Allocations
+    //    Allocations
     public Double updatePortfolioSize(double portfolioSize, String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
         User user = userRepository.findByEmail(username).orElseThrow();

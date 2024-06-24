@@ -1,5 +1,6 @@
 import {PortfolioServerInstance} from "../App";
 import {IsignIn, IsignUp, IUser} from "../assets/models/Authentication";
+import {IWallet} from "../assets/models/BlockChain";
 
 export class PortfolioService {
 
@@ -23,6 +24,19 @@ export class PortfolioService {
             return Promise.reject({response: {data: {message: "NoToken"}}});
 
         return PortfolioServerInstance.get<IUser>(`/port/auth/me`).then((response) => {
+            return response.data;
+        });
+    }
+
+//     Wallets
+    async getWallets() {
+        return PortfolioServerInstance.get(`/port/wallets`).then((response) => {
+            return response.data;
+        });
+    }
+
+    async createWallet(walletDTO: IWallet) {
+        return PortfolioServerInstance.post(`/port/wallet`, walletDTO).then((response) => {
             return response.data;
         });
     }
