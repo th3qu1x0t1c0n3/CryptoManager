@@ -1,10 +1,9 @@
-package quixotic.projects.cryptomanager.model;
+package quixotic.projects.cryptomanager.model.old;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import quixotic.projects.cryptomanager.dto.TransactionDTO;
 
 import java.time.LocalDate;
 import java.util.Objects;

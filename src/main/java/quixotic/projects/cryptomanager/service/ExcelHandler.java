@@ -3,8 +3,8 @@ package quixotic.projects.cryptomanager.service;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import quixotic.projects.cryptomanager.model.CoinTransaction;
-import quixotic.projects.cryptomanager.model.Transaction;
+import quixotic.projects.cryptomanager.model.old.CoinTransaction;
+import quixotic.projects.cryptomanager.model.old.Transaction;
 
 import java.io.File;
 import java.io.FileInputStream;

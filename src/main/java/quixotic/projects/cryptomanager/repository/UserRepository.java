@@ -1,7 +1,7 @@
 package quixotic.projects.cryptomanager.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import quixotic.projects.cryptomanager.model.User;
+import quixotic.projects.cryptomanager.model.old.User;
 
 import java.util.Optional;
 

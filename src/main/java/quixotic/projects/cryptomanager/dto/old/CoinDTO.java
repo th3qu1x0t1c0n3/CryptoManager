@@ -1,6 +1,5 @@
-package quixotic.projects.cryptomanager.dto;
+package quixotic.projects.cryptomanager.dto.old;
 
-import jdk.jfr.Name;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

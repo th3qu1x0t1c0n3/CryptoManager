@@ -1,4 +1,4 @@
-package quixotic.projects.cryptomanager.dto;
+package quixotic.projects.cryptomanager.dto.old;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

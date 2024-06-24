@@ -4,14 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import quixotic.projects.cryptomanager.dto.CoinTransactionDTO;
-import quixotic.projects.cryptomanager.dto.SignUpDTO;
-import quixotic.projects.cryptomanager.dto.TransactionDTO;
-import quixotic.projects.cryptomanager.dto.UserDTO;
+import quixotic.projects.cryptomanager.dto.old.SignUpDTO;
 import quixotic.projects.cryptomanager.service.PortfolioService;
 import quixotic.projects.cryptomanager.service.UserService;
-
-import java.time.LocalDate;
 
 @SpringBootApplication
 public class CryptoManagerApplication implements CommandLineRunner {

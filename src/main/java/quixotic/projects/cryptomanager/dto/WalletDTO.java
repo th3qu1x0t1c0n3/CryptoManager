@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import quixotic.projects.cryptomanager.model.Network;
-import quixotic.projects.cryptomanager.model.User;
 import quixotic.projects.cryptomanager.model.Wallet;
 
 @Data

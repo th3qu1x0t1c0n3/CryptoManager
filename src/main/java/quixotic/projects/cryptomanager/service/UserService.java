@@ -7,11 +7,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import quixotic.projects.cryptomanager.dto.SignInDTO;
-import quixotic.projects.cryptomanager.dto.SignUpDTO;
-import quixotic.projects.cryptomanager.dto.UserDTO;
+import quixotic.projects.cryptomanager.dto.old.SignInDTO;
+import quixotic.projects.cryptomanager.dto.old.SignUpDTO;
+import quixotic.projects.cryptomanager.dto.old.UserDTO;
 import quixotic.projects.cryptomanager.exception.badRequestException.UsernameTakenException;
-import quixotic.projects.cryptomanager.model.User;
+import quixotic.projects.cryptomanager.model.old.User;
 import quixotic.projects.cryptomanager.repository.UserRepository;
 import quixotic.projects.cryptomanager.security.JwtTokenProvider;
 

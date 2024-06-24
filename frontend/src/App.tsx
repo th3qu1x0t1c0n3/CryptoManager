@@ -62,7 +62,7 @@ export const EthereumApiInstance = axios.create({
     }
 });
 export const ArbitrumApiInstance = axios.create({
-    baseURL: 'https://api.arbitrum.io/api',
+    baseURL: 'https://api.arbiscan.io/api',
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
