@@ -47,19 +47,33 @@ function HomePage({setUser, user}: IHomePageProps) {
         }
     }, []);
 
+    const handleDisconnect = () => {
+        setUser(null);
+        navigate("/")
+        PortfolioServerInstance.defaults.headers.common['Authorization'] = null;
+        sessionStorage.removeItem('token');
+    };
+
     return (
         user === null ?
             <Loading/> :
             <div>
+                <div className={`fixed top-20 right-5 mt-5`}>
+                    <button onClick={handleDisconnect}
+                            className="bg-red-500 text-port-two px-4 py-2 rounded ">Disconnect
+                    </button>
+
+                </div>
+
                 <Routes>
-                    <Route path="/" element={<Holdings/>}/>
+                    <Route path="/landing" element={<Holdings/>}/>
                     <Route path="/portfolio" element={<Holdings/>}/>
                     <Route path="/transactions" element={<TransactionsPage/>}/>
                     <Route path="/allocations" element={<Allocation user={user}/>}/>
                     <Route path="/kelly" element={<KellyCriterion/>}/>
 
                     {/*<Route path="/transact" element={<TransactionFormPage/>}/>*/}
-                    {/*<Route path="/profile" element={<Profile user={user}/>}/>*/}
+                    <Route path="/profile" element={<Profile user={user}/>}/>
                     <Route path="/*" element={<PageNotFound/>}/>
                 </Routes>
             </div>

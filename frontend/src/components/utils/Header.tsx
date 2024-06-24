@@ -44,9 +44,19 @@ function Header({user, setUser}: IHeaderProps) {
                             ))
                         }
                     </div>
-                    <button onClick={handleDisconnect}
-                            className="mx-4 bg-red-500 text-port-two px-4 py-2 rounded">Disconnect
-                    </button>
+                    <div>
+                        <button onClick={() => {
+                            navigate("/u/profile")
+                            setActivePage("profile")
+                        }}
+                                className={`${activePage === "profile" ? 'bg-port-three' : 'bg-port-four'} mx-4 text-port-two px-4 py-2 rounded`}>
+                            Profile
+                        </button>
+                        {/*<button onClick={handleDisconnect}*/}
+                        {/*        className="bg-red-500 text-port-two px-4 py-2 rounded">Disconnect*/}
+                        {/*</button>*/}
+
+                    </div>
                 </>
             }
         </div>
