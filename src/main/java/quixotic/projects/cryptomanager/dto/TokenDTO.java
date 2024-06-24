@@ -1,10 +1,5 @@
-package quixotic.projects.cryptomanager.model;
+package quixotic.projects.cryptomanager.dto;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,12 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-public class Token {
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Id
-    public Long id;
-
+public class TokenDTO {
     public BigDecimal balance;
     public String tokenName;
     public String tokenSymbol;

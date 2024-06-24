@@ -13,8 +13,6 @@ public class CryptoManagerApplication implements CommandLineRunner {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private PortfolioService portfolioService;
 
     public static void main(String[] args) {
         SpringApplication.run(CryptoManagerApplication.class, args);
@@ -22,7 +20,7 @@ public class CryptoManagerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-//        createUsers();
+        createUsers();
     }
 
     private void createUsers() {

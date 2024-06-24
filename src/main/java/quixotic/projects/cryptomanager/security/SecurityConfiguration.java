@@ -44,6 +44,7 @@ public class SecurityConfiguration {
                         .requestMatchers(GET, "/api/v1/port/auth/me").hasAnyAuthority("USER")
 
                         .requestMatchers("/api/v1/port/**").hasAnyAuthority("USER")
+                        .requestMatchers("/api/v1/ether/**").hasAnyAuthority("USER")
 
                         .anyRequest().denyAll()
                 )

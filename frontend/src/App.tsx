@@ -44,7 +44,7 @@ export const PortfolioServerInstance = axios.create({
 
 // Blockchains API Instances
 export const BtcApiInstance = axios.create({
-    baseURL: 'https://blockchain.info',
+    baseURL: 'https://blockchain.info/q',
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'

@@ -9,6 +9,7 @@ import quixotic.projects.cryptomanager.dto.old.CoinDTO;
 import quixotic.projects.cryptomanager.dto.old.KellyCriterionDTO;
 import quixotic.projects.cryptomanager.dto.old.TransactionDTO;
 import quixotic.projects.cryptomanager.exception.badRequestException.BadRequestException;
+import quixotic.projects.cryptomanager.model.Network;
 import quixotic.projects.cryptomanager.model.old.Allocation;
 import quixotic.projects.cryptomanager.model.old.KellyCriterion;
 import quixotic.projects.cryptomanager.model.old.Transaction;
@@ -19,14 +20,14 @@ import quixotic.projects.cryptomanager.repository.UserRepository;
 import quixotic.projects.cryptomanager.repository.WalletRepository;
 import quixotic.projects.cryptomanager.security.JwtTokenProvider;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static quixotic.projects.cryptomanager.model.Network.*;
 
 @Service
 @RequiredArgsConstructor
 public class PortfolioService {
+    private final EtherService etherService;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
@@ -46,11 +47,18 @@ public class PortfolioService {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
         User user = userRepository.findByEmail(username).orElseThrow();
 
+        switch (walletDTO.getNetwork()) {
+            case ETHEREUM, ARBITRUM, OPTIMISM -> etherService.getTransactions(walletDTO);
+            case BITCOIN -> System.out.println("Bitcoin");
+            case SOLANA -> System.out.println("Solana");
+            case DOGECOIN -> System.out.println("Dogecoin");
+            default -> throw new IllegalStateException("Unexpected value: " + walletDTO.getNetwork());
+        }
+
         user.addWallet(walletDTO.toEntity());
         user = userRepository.save(user);
 
         return new WalletDTO(user.getWallets().get(user.getWallets().size() - 1));
-//        return new WalletDTO(walletRepository.save(walletDTO.toEntity()));
     }
 
     //    Transactions CRUD
@@ -240,7 +248,7 @@ public class PortfolioService {
         }
         List<Transaction> transactions = transactionRepository.findByUserEmail(user.getEmail()).stream().sorted(Comparator.comparing(Transaction::getTransactionDate)).toList();
 
-        List<Transaction> buyTransactions = new java.util.ArrayList<>(transactions.stream()
+        List<Transaction> buyTransactions = new ArrayList<>(transactions.stream()
                 .filter(Transaction::isBuy)
                 .sorted(Comparator.comparing(Transaction::getTransactionDate))
                 .toList());

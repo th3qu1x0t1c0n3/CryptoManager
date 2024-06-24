@@ -10,10 +10,8 @@ import quixotic.projects.cryptomanager.dto.old.AllocationDTO;
 import quixotic.projects.cryptomanager.dto.old.CoinDTO;
 import quixotic.projects.cryptomanager.dto.old.KellyCriterionDTO;
 import quixotic.projects.cryptomanager.dto.old.TransactionDTO;
-import quixotic.projects.cryptomanager.service.ArbitrumService;
 import quixotic.projects.cryptomanager.service.PortfolioService;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +20,6 @@ import java.util.Map;
 @RequestMapping("/api/v1/port")
 public class PortfolioController {
     private final PortfolioService portfolioService;
-    private final ArbitrumService arbitrumService;
 
     //    Wallets
     @GetMapping("/wallets")
@@ -36,22 +33,6 @@ public class PortfolioController {
                 .body(portfolioService.createWallet(walletDTO, token));
     }
 
-//    Blockchains
-    @GetMapping("/wallet/balance/{address}")
-    public ResponseEntity<BigDecimal> getBalance(@PathVariable String address) {
-        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
-                .body(arbitrumService.getWalletBalance(address));
-    }
-    @GetMapping("/wallet/balances/{address}")
-    public ResponseEntity<Map<String, BigDecimal>> getFullBalance(@PathVariable String address) {
-        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
-                .body(arbitrumService.getWalletBalances(address));
-    }
-    @GetMapping("/transactions/{address}")
-    public ResponseEntity<Map<String, Object>> getTransactionsByAddress(@PathVariable String address) {
-        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
-                .body(arbitrumService.getTransactions(address));
-    }
 
 
     //    Transactions
