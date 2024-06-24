@@ -11,18 +11,11 @@ interface IHeaderProps {
 function Header({user, setUser}: IHeaderProps) {
     const navigate = useNavigate();
     const [activePage, setActivePage] = useState<string>('');
-    const pages = ['portfolio', 'transactions', 'allocations', 'kelly'];
+    const pages = ['portfolio', 'wallets', 'transactions', 'allocations', 'kelly'];
 
     const handleNavigation = (page: string) => {
         setActivePage(page);
         navigate(`/u/${page}`);
-    };
-
-    const handleDisconnect = () => {
-        setUser(null);
-        navigate("/")
-        PortfolioServerInstance.defaults.headers.common['Authorization'] = null;
-        sessionStorage.removeItem('token');
     };
 
     return (
@@ -52,10 +45,6 @@ function Header({user, setUser}: IHeaderProps) {
                                 className={`${activePage === "profile" ? 'bg-port-three' : 'bg-port-four'} mx-4 text-port-two px-4 py-2 rounded`}>
                             Profile
                         </button>
-                        {/*<button onClick={handleDisconnect}*/}
-                        {/*        className="bg-red-500 text-port-two px-4 py-2 rounded">Disconnect*/}
-                        {/*</button>*/}
-
                     </div>
                 </>
             }

@@ -1,3 +1,6 @@
-export interface BlockChain {
-
+export interface IWallet {
+    id: number;
+    name: string;
+    address: string;
+    network: string;
 }

@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {IAllocation} from "../assets/models/Calculated";
 import {IUser} from "../assets/models/Authentication";
 import {toast} from "react-toastify";
-import TransactionFormPage from "./pages/TransactionFormPage";
+import TransactionForm from "./forms/TransactionForm";
 import AllocationsForm from "./forms/AllocationsForm";
 import PortfolioSizeForm from "./forms/PortfolioSizeForm";
 

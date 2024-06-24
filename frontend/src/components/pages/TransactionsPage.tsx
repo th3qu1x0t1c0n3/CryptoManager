@@ -3,7 +3,7 @@ import {PortfolioService} from "../../services/PortfolioService";
 import {useEffect, useState} from "react";
 import {ITransaction} from "../../assets/models/Calculated";
 import {toast} from "react-toastify";
-import TransactionFormPage from "./TransactionFormPage";
+import TransactionForm from "../forms/TransactionForm";
 
 function TransactionsPage() {
     const portfolioService = new PortfolioService();
@@ -36,7 +36,7 @@ function TransactionsPage() {
             {
                 showForm &&
                 <div>
-                    <TransactionFormPage/>
+                    <TransactionForm/>
                 </div>
             }
             <TransactionList transactions={transactions}/>

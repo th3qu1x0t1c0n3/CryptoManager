@@ -16,6 +16,7 @@ public class Wallet {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String name;
     private String address;
     private Network network;
 

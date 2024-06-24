@@ -6,12 +6,13 @@ import Loading from "../utils/Loading";
 import TransactionsPage from "./TransactionsPage";
 import {PortfolioService} from "../../services/PortfolioService";
 import {toast} from "react-toastify";
-import TransactionFormPage from "./TransactionFormPage";
+import TransactionForm from "../forms/TransactionForm";
 import {PortfolioServerInstance} from "../../App";
 import Holdings from "../Holdings";
 import KellyCriterion from "../KellyCriterion";
 import Allocation from "../Allocation";
 import Profile from "./Profile";
+import WalletPage from "./WalletPage";
 
 interface IHomePageProps {
     setUser: (user: any) => void;
@@ -68,11 +69,10 @@ function HomePage({setUser, user}: IHomePageProps) {
                 <Routes>
                     <Route path="/landing" element={<Holdings/>}/>
                     <Route path="/portfolio" element={<Holdings/>}/>
+                    <Route path="/wallets" element={<WalletPage/>}/>
                     <Route path="/transactions" element={<TransactionsPage/>}/>
                     <Route path="/allocations" element={<Allocation user={user}/>}/>
                     <Route path="/kelly" element={<KellyCriterion/>}/>
-
-                    {/*<Route path="/transact" element={<TransactionFormPage/>}/>*/}
                     <Route path="/profile" element={<Profile user={user}/>}/>
                     <Route path="/*" element={<PageNotFound/>}/>
                 </Routes>

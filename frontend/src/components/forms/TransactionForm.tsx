@@ -3,7 +3,7 @@ import {ICoinTransaction, ITransaction} from "../../assets/models/Calculated";
 import {PortfolioService} from "../../services/PortfolioService";
 import {toast} from "react-toastify";
 
-function TransactionFormPage() {
+function TransactionForm() {
     const portfolioService = new PortfolioService();
     const [transaction, setTransaction] = useState<ITransaction>({
         id: 0,
@@ -128,4 +128,4 @@ function CoinForm({coin, handleInputChange, coinType}: CoinFormProps) {
     );
 }
 
-export default TransactionFormPage;
+export default TransactionForm;
