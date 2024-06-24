@@ -2,7 +2,7 @@ import {PortfolioService} from "../services/PortfolioService";
 import {toast} from "react-toastify";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {IAllocation, ICoinBalance} from "../assets/models/Transaction";
+import {IAllocation, ICoinBalance} from "../assets/models/Calculated";
 
 function Holdings() {
     const portfolioService = new PortfolioService();

@@ -13,7 +13,7 @@ function Main() {
         <div className={"text-port-five"}>
             <Header user={user} setUser={setUser}/>
 
-            <h1 className="text-4xl text-center ">Crypto Portfolio Manager</h1>
+            <h1 className="text-4xl text-left">Crypto Portfolio Manager</h1>
             <main className="min-h-screen font-semibold">
                 <div className="flex">
                     <div className="w-11/12 mx-auto">

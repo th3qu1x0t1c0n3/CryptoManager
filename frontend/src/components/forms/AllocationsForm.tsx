@@ -1,4 +1,4 @@
-import {IAllocation} from "../../assets/models/Transaction";
+import {IAllocation} from "../../assets/models/Calculated";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {PortfolioService} from "../../services/PortfolioService";

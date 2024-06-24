@@ -33,32 +33,21 @@ function Header({user, setUser}: IHeaderProps) {
             </div>
             {
                 user !== null &&
-                <div className="flex justify-center">
-                    {
-                        pages.map((page) => (
-                            <button onClick={() => handleNavigation(page)}
-                                    className={`${activePage === page ? 'bg-port-four' : 'bg-port-four'} text-port-two mx-1 px-4 py-2 rounded`}>
-                                {page.charAt(0).toUpperCase() + page.slice(1)}
-                            </button>
-                        ))
-                    }
+                <>
+                    <div className="flex justify-center">
+                        {
+                            pages.map((page) => (
+                                <button onClick={() => handleNavigation(page)}
+                                        className={`${activePage === page ? 'bg-port-three' : 'bg-port-four'} text-port-two mx-1 px-4 py-2 rounded`}>
+                                    {page.charAt(0).toUpperCase() + page.slice(1)}
+                                </button>
+                            ))
+                        }
+                    </div>
                     <button onClick={handleDisconnect}
                             className="mx-4 bg-red-500 text-port-two px-4 py-2 rounded">Disconnect
                     </button>
-                </div>
-
-                // <div>
-                //     <button onClick={() => navigate("/u/transact")}
-                //             className="bg-port-four text-port-two px-4 py-2 rounded">Create Transaction
-                //     </button>
-                //     <button className="mx-4 bg-port-four text-port-two px-4 py-2 rounded"
-                //             onClick={() => navigate("/u/profile")}>
-                //         Modify investing profile
-                //     </button>
-                //     <button onClick={handleDisconnect}
-                //             className="mx-4 bg-red-500 text-port-two px-4 py-2 rounded">Disconnect
-                //     </button>
-                // </div>
+                </>
             }
         </div>
     );

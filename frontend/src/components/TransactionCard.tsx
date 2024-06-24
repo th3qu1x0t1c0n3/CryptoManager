@@ -1,4 +1,4 @@
-import {ITransaction} from "../assets/models/Transaction";
+import {ITransaction} from "../assets/models/Calculated";
 import CoinTransactionCard from "./CoinTransactionCard";
 
 interface ITransactionCardProps {

@@ -1,5 +1,5 @@
 import CoinTransactionCard from "./CoinTransactionCard";
-import {ITransaction} from "../assets/models/Transaction";
+import {ITransaction} from "../assets/models/Calculated";
 
 interface ITransactionListProps {
     transactions: ITransaction[];

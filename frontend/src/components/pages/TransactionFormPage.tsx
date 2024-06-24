@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {ICoinTransaction, ITransaction} from "../../assets/models/Transaction";
+import {ICoinTransaction, ITransaction} from "../../assets/models/Calculated";
 import {PortfolioService} from "../../services/PortfolioService";
 import {toast} from "react-toastify";
 
@@ -74,7 +74,7 @@ function TransactionFormPage() {
             </div>
             <div className={"clickable"}
                  onClick={(e) => setTransaction({...transaction, buy: !transaction.buy})}>
-                <input type="checkbox" name="isBuy" checked={transaction.buy}
+                <input type="checkbox" name="isBuy" checked={transaction.buy} onChange={() => {console.log("changed")}}
 
                        className="border border-gray-300 rounded-lg p-2 mb-0"/>
                 <label className={"text-port-five m-1"}>Is it a buy?</label>

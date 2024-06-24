@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {IKellyCriterion} from "../assets/models/Transaction";
+import {IKellyCriterion} from "../assets/models/Calculated";
 import {PortfolioService} from "../services/PortfolioService";
 import {toast} from "react-toastify";
 

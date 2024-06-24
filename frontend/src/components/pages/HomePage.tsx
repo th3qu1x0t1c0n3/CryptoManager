@@ -51,31 +51,17 @@ function HomePage({setUser, user}: IHomePageProps) {
         user === null ?
             <Loading/> :
             <div>
-                <div className="items-center my-2 mx-auto text-center w-full">
-                    {tabs.map(tabItem => (
-                        <button
-                            key={tabItem.id}
-                            className={`py-2 px-4 rounded-lg border border-port-four ${tab === tabItem.id ? 'bg-port-one' : 'bg-port-two hover:bg-blue-600'}`}
-                            onClick={() => {
-                                setTab(tabItem.id)
-                            }}
-                            style={{position: 'relative'}}
-                        >
-                            {tabItem.label}
-                        </button>
-                    ))}
-                </div>
                 <Routes>
-                    <Route path="/transact" element={<TransactionFormPage />}/>
-                    <Route path="/profile" element={<Profile user={user} />}/>
+                    <Route path="/" element={<Holdings/>}/>
+                    <Route path="/portfolio" element={<Holdings/>}/>
+                    <Route path="/transactions" element={<TransactionsPage/>}/>
+                    <Route path="/allocations" element={<Allocation user={user}/>}/>
+                    <Route path="/kelly" element={<KellyCriterion/>}/>
+
+                    {/*<Route path="/transact" element={<TransactionFormPage/>}/>*/}
+                    {/*<Route path="/profile" element={<Profile user={user}/>}/>*/}
+                    <Route path="/*" element={<PageNotFound/>}/>
                 </Routes>
-
-
-                {tab === 'portfolio' && <Holdings/>}
-                {tab === 'transactions' && <TransactionsPage/>}
-                {tab === 'allocations' && <Allocation user={user} />}
-                {tab === 'kelly' && <KellyCriterion/>}
-
             </div>
     );
 }

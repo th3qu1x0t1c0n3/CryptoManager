@@ -1,8 +1,11 @@
 import {PortfolioService} from "../services/PortfolioService";
 import {useEffect, useState} from "react";
-import {IAllocation} from "../assets/models/Transaction";
+import {IAllocation} from "../assets/models/Calculated";
 import {IUser} from "../assets/models/Authentication";
 import {toast} from "react-toastify";
+import TransactionFormPage from "./pages/TransactionFormPage";
+import AllocationsForm from "./forms/AllocationsForm";
+import PortfolioSizeForm from "./forms/PortfolioSizeForm";
 
 interface IAllocationProps {
     user: IUser;
@@ -10,6 +13,7 @@ interface IAllocationProps {
 function Allocation({user}: IAllocationProps) {
     const portfolioService = new PortfolioService();
     const [allocations, setAllocations] = useState<IAllocation[]>([])
+    const [showForm, setShowForm] = useState<boolean>(false);
 
     useEffect(() => {
         portfolioService.getAllocations()
@@ -33,6 +37,21 @@ function Allocation({user}: IAllocationProps) {
 
     return (
         <div className={"text-center"}>
+            <div className={"my-2 text-center"}>
+                <button onClick={() => setShowForm(!showForm)}
+                        className={"border rounded transition ease-in duration-200 p-2 clickable hover:bg-port-five hover:border-port-one hover:text-port-one"}>
+                    Add Allocation
+                </button>
+            </div>
+
+            {
+                showForm &&
+                <div className={"grid grid-cols-3"}>
+                    <PortfolioSizeForm portfolioSize={user.portfolioSize}/>
+                    <AllocationsForm allocations={allocations} setAllocations={setAllocations}/>
+                    <div></div>
+                </div>
+            }
             <h2 className={"text-3xl my-3"}>Allocations</h2>
             <h1 className={"text-2xl my-3"}>Optimal portfolio: {user.portfolioSize}$</h1>
             <table className={"table-auto border-collapse border mx-auto"}>

@@ -1,4 +1,4 @@
-import {ICoinTransaction} from "../assets/models/Transaction";
+import {ICoinTransaction} from "../assets/models/Calculated";
 
 interface CoinTransactionCardProps {
     coin: ICoinTransaction;

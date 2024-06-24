@@ -8,7 +8,7 @@ module.exports = {
       colors: {
         'port-one': 'var(--port-one-color)',
         'port-two': 'var(--port-two-color)',
-        'port-tree': 'var(--port-three-color)',
+        'port-three': 'var(--port-three-color)',
         'port-four': 'var(--port-four-color)',
         'port-five': 'var(--port-five-color)',
       },
