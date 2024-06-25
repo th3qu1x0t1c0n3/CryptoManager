@@ -32,7 +32,7 @@ public class EtherController {
     }
 
     //    Blockchains
-    @GetMapping("/etherBalance")
+    @GetMapping("/balance")
     public ResponseEntity<BigDecimal> getEthBalance(@PathParam("address") String address, @PathParam("network") Network network) {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
                 .body(etherService.getWalletBalance(WalletDTO.builder().address(address).network(network).build()));

@@ -90,7 +90,7 @@ function AllocationsForm({allocations, setAllocations}: AllocationsFormProps) {
                         <label className={"mx-10"}>Percentage allocation</label>
                     </div>
 
-                    {newAllocations.sort((a: IAllocation, b: IAllocation) => b.percentage - a.percentage).map((allocation, index) => (
+                    {newAllocations.map((allocation, index) => (
                         <div key={index} className="flex space-x-2 items-center">
                             <input type="text" value={allocation.coin}
                                    onChange={e => handleAllocationChange(index, e.target.value)}

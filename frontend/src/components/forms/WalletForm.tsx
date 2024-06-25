@@ -2,8 +2,12 @@ import {PortfolioService} from "../../services/PortfolioService";
 import {useState} from "react";
 import FormInput from "../../assets/models/Form";
 import {toast} from "react-toastify";
+import {IWallet} from "../../assets/models/BlockChain";
 
-function WalletForm() {
+interface IWalletFormProps {
+    setWallet: (IWallet: any) => void;
+}
+function WalletForm({setWallet}: IWalletFormProps) {
     const portfolioService = new PortfolioService();
 
     const [walletForm, setWalletForm] = useState({
@@ -40,6 +44,7 @@ function WalletForm() {
 
         portfolioService.createWallet(walletForm)
             .then(response => {
+                setWallet(response);
                 toast.success("Wallet created successfully!");
             })
             .catch(error => {
@@ -68,7 +73,7 @@ function WalletForm() {
                     )
                 })
             }
-            <label className={"m-1 mb-0 block"}>Network</label>
+            <label className={"block"}>Network</label>
             <select onChange={handleNetworkChange} className="border border-gray-300 rounded-lg p-2 mb-2 w-1/3 text-port-one">
                 {networks.map((network) => (
                     <option value={network} key={network}>{network}</option>

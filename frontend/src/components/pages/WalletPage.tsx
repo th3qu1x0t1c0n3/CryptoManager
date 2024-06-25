@@ -8,6 +8,7 @@ function WalletPage() {
     const portfolioService = new PortfolioService();
     const [showForm, setShowForm] = useState<boolean>(false);
     const [wallets, setWallets] = useState<IWallet[]>([]);
+    const [newOne, setNewOne] = useState<IWallet | null>(null);
 
     useEffect(() => {
         portfolioService.getWallets()
@@ -17,7 +18,7 @@ function WalletPage() {
             .catch((error) => {
                 console.log(error);
             });
-    }, []);
+    }, [newOne]);
 
     return (
         <div className={"text-center"}>
@@ -33,7 +34,7 @@ function WalletPage() {
             {
                 showForm &&
                 <div>
-                    <WalletForm/>
+                    <WalletForm setWallet={setNewOne}/>
                 </div>
             }
 
