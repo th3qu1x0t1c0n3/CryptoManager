@@ -1,11 +1,11 @@
-import CoinTransactionCard from "./CoinTransactionCard";
-import {ITransaction} from "../assets/models/Calculated";
+import {ITransaction} from "../assets/models/BlockChain";
 
 interface ITransactionListProps {
     transactions: ITransaction[];
 }
 function TransactionList({transactions}: ITransactionListProps) {
 
+    // TODO: REDO
     return (
         <div className={""}>
             <h1 className={"text-5xl"}>ALL Transactions</h1>
@@ -37,14 +37,15 @@ function TransactionList({transactions}: ITransactionListProps) {
                 </thead>
                 <tbody className={""}>
                 {transactions.map((transaction) => (
-                    <tr className={""} key={transaction.id}>
-                        <td className={"border border-port-three text-center"}>{transaction.id}</td>
-                        <td className={"border border-port-three w-1/3"}><CoinTransactionCard coin={transaction.toCoin}/></td>
-                        <td className={"border border-port-three w-1/3"}><CoinTransactionCard coin={transaction.fromCoin}/></td>
-                        <td className={"border border-port-three px-2"}>{transaction.transactionDate}</td>
-                        <td className={"border border-port-three px-2"}>{transaction.wallet}</td>
-                        <td className={"border border-port-three px-2"}>{transaction.exchange}</td>
-                    </tr>
+                    <div></div>
+                    // <tr className={""} key={transaction.id}>
+                    //     <td className={"border border-port-three text-center"}>{transaction.id}</td>
+                    //     <td className={"border border-port-three w-1/3"}><CoinTransactionCard coin={transaction.toCoin}/></td>
+                    //     <td className={"border border-port-three w-1/3"}><CoinTransactionCard coin={transaction.fromCoin}/></td>
+                    //     <td className={"border border-port-three px-2"}>{transaction.transactionDate}</td>
+                    //     <td className={"border border-port-three px-2"}>{transaction.wallet}</td>
+                    //     <td className={"border border-port-three px-2"}>{transaction.exchange}</td>
+                    // </tr>
                 ))}
                 </tbody>
             </table>

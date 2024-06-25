@@ -1,9 +1,9 @@
 import TransactionList from "../TransactionList";
 import {PortfolioService} from "../../services/PortfolioService";
 import {useEffect, useState} from "react";
-import {ITransaction} from "../../assets/models/Calculated";
 import {toast} from "react-toastify";
 import TransactionForm from "../forms/TransactionForm";
+import {ITransaction} from "../../assets/models/BlockChain";
 
 function TransactionsPage() {
     const portfolioService = new PortfolioService();
@@ -13,7 +13,7 @@ function TransactionsPage() {
     useEffect(() => {
         portfolioService.getTransactions()
             .then((data: ITransaction[]) => {
-                data.sort((a: ITransaction, b: ITransaction) => new Date(b.transactionDate).getTime() - new Date(a.transactionDate).getTime());
+                data.sort((a: ITransaction, b: ITransaction) => new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime());
                 setTransactions(data)
 
             })
