@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import quixotic.projects.cryptomanager.dto.EtherPriceDTO;
 import quixotic.projects.cryptomanager.dto.TokenDTO;
 import quixotic.projects.cryptomanager.dto.TokenTxDTO;
 import quixotic.projects.cryptomanager.dto.WalletDTO;
@@ -22,6 +23,27 @@ public class EtherService {
     private final RestTemplate restTemplate;
     private final TokenTxRepository tokenTxRepository;
     private ObjectMapper mapper = new ObjectMapper();
+
+    public EtherPriceDTO getEthPrice(WalletDTO walletDTO) {
+        String url = UriComponentsBuilder.fromHttpUrl(walletDTO.getNetwork().getBaseUrl())
+                .queryParam("module", "stats")
+                .queryParam("action", "ethprice")
+                .queryParam("apikey", walletDTO.getNetwork().getApiKey())
+                .toUriString();
+
+        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+        if (response != null && "1".equals(response.get("status"))) {
+            return mapper.convertValue(response.get("result"), new TypeReference<>() {
+            });
+        } else {
+            return EtherPriceDTO.builder()
+                    .ethbtc("-1")
+                    .ethbtc_timestamp("0000000000")
+                    .ethusd("-1")
+                    .ethusd_timestamp("0000000000")
+                    .build();
+        }
+    }
 
     public Set<TokenDTO> getWalletBalances(WalletDTO walletDTO) {
         Set<TokenTxDTO> coins = getCoinList(walletDTO);
@@ -41,7 +63,7 @@ public class EtherService {
             if (response != null && "1".equals(response.get("status"))) {
                 String balance = (String) response.get("result");
                 balances.add(TokenDTO.builder()
-                        .balance(new BigDecimal(balance).divide(BigDecimal.valueOf(1e18))) // Convert Wei to Ether
+                        .balance(new BigDecimal(balance)) // .divide(BigDecimal.valueOf(1e18)) Convert Wei to Ether
                         .tokenName(coin.getTokenName())
                         .tokenSymbol(coin.getTokenSymbol())
                         .contractAddress(coin.getContractAddress())
@@ -111,7 +133,8 @@ public class EtherService {
 
         Map<String, Object> response = restTemplate.getForObject(url, Map.class);
         if (response != null && "1".equals(response.get("status"))) {
-            List<TokenTx> txs = mapper.convertValue(response.get("result"), new TypeReference<>() {});
+            List<TokenTx> txs = mapper.convertValue(response.get("result"), new TypeReference<>() {
+            });
             return updateAll(txs).stream().map(TokenTxDTO::new).collect(Collectors.toList());
         }
         return List.of();
@@ -138,8 +161,18 @@ public class EtherService {
         return List.of();
     }
 
-    public TokenTxDTO getTransactionDetails(WalletDTO walletDTO, String hash){
+    public TokenTxDTO getTransactionDetails(WalletDTO walletDTO, String hash) {
+        String url = UriComponentsBuilder.fromHttpUrl(walletDTO.getNetwork().getBaseUrl())
+                .queryParam("module", "proxy")
+                .queryParam("action", "eth_getTransactionByHash")
+                .queryParam("txhash", hash)
+                .queryParam("apikey", walletDTO.getNetwork().getApiKey())
+                .toUriString();
 
+        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+        assert response != null;
+        TokenTx tx = mapper.convertValue(response.get("result"), TokenTx.class);
+        return updateAll(List.of(tx)).stream().map(TokenTxDTO::new).findFirst().orElse(null);
     }
 
     private List<TokenTx> updateAll(List<TokenTx> txs) {

@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 public class TokenTx {
+
     public String blockNumber;
     public String timeStamp;
     @Id
@@ -44,6 +45,17 @@ public class TokenTx {
     public String txreceipt_status;
     public String methodId;
     public String functionName;
+//   ---
+    private String accessList;
+    private String maxFeePerGas;
+    private String maxPriorityFeePerGas;
+    private String type;
+    private String chainId;
+    private String v;
+    private String r;
+    private String s;
+    private String yParity;
+
 
     public void update(TokenTx tx) {
         // hash is not updated
@@ -116,6 +128,30 @@ public class TokenTx {
         }
         if (tx.functionName != null && !tx.functionName.isEmpty()) {
             this.functionName = tx.functionName;
+        }
+        if (tx.maxFeePerGas != null && !tx.maxFeePerGas.isEmpty()) {
+            this.maxFeePerGas = tx.maxFeePerGas;
+        }
+        if (tx.maxPriorityFeePerGas != null && !tx.maxPriorityFeePerGas.isEmpty()) {
+            this.maxPriorityFeePerGas = tx.maxPriorityFeePerGas;
+        }
+        if (tx.type != null && !tx.type.isEmpty()) {
+            this.type = tx.type;
+        }
+        if (tx.chainId != null && !tx.chainId.isEmpty()) {
+            this.chainId = tx.chainId;
+        }
+        if (tx.v != null && !tx.v.isEmpty()) {
+            this.v = tx.v;
+        }
+        if (tx.r != null && !tx.r.isEmpty()) {
+            this.r = tx.r;
+        }
+        if (tx.s != null && !tx.s.isEmpty()) {
+            this.s = tx.s;
+        }
+        if (tx.yParity != null && !tx.yParity.isEmpty()) {
+            this.yParity = tx.yParity;
         }
     }
 }

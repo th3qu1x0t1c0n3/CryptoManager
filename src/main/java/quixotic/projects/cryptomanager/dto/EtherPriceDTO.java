@@ -5,16 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TokenDTO {
-    public BigDecimal balance;
-    public String tokenName;
-    public String tokenSymbol;
-    public String contractAddress;
-    public String tokenDecimal;
+public class EtherPriceDTO {
+    private String ethbtc;
+    private String ethbtc_timestamp;
+    private String ethusd;
+    private String ethusd_timestamp;
 }

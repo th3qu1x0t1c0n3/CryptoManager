@@ -26,4 +26,5 @@ public class Token {
     public String tokenName;
     public String tokenSymbol;
     public String contractAddress;
+    public String tokenDecimal;
 }
