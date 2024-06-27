@@ -5,16 +5,10 @@ Crypto portfolio manager
 - Allocations page. The allocations are listed here.
 
 # Changes to make
-## Emulate Koinly but add more features
-1. Connect wallets
-2. Get transactions
-3. Get balances
-4. Calculate Cost Basis
-5. Calulate Unrealized Gains
-6. Calculate Realized Gains
-7. Calculate ROI
-8. Calculate Portfolio Value
-9. Améliorer les allocations
+Follow one task after another.
+1. See the transactions in the database.
+2. See the onchain transactions
+
 
 # Deployment
 ```
