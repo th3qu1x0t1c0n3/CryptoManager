@@ -37,7 +37,7 @@ public class PortfolioController {
 
     //    Transactions
     @GetMapping("/transactions")
-    public ResponseEntity<List<TransactionDTO>> getTransactions(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<TokenTxDTO>> getTransactions(@RequestHeader("Authorization") String token) {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
                 .body(portfolioService.getTransactions(token));
     }

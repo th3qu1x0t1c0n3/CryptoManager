@@ -11,6 +11,7 @@ import quixotic.projects.cryptomanager.dto.TokenDTO;
 import quixotic.projects.cryptomanager.dto.TokenTxDTO;
 import quixotic.projects.cryptomanager.dto.WalletDTO;
 import quixotic.projects.cryptomanager.model.TokenTx;
+import quixotic.projects.cryptomanager.model.old.User;
 import quixotic.projects.cryptomanager.repository.TokenTxRepository;
 
 import java.math.BigDecimal;
@@ -135,12 +136,12 @@ public class EtherService {
         if (response != null && "1".equals(response.get("status"))) {
             List<TokenTx> txs = mapper.convertValue(response.get("result"), new TypeReference<>() {
             });
-            return updateAll(txs).stream().map(TokenTxDTO::new).collect(Collectors.toList());
+            return updateAll(txs, null).stream().map(TokenTxDTO::new).collect(Collectors.toList());
         }
         return List.of();
     }
 
-    public List<TokenTxDTO> getTransactions(WalletDTO walletDTO) {
+    public List<TokenTxDTO> getTransactions(WalletDTO walletDTO, User user) {
         String url = UriComponentsBuilder.fromHttpUrl(walletDTO.getNetwork().getBaseUrl())
                 .queryParam("module", "account")
                 .queryParam("action", "txlist")
@@ -156,7 +157,7 @@ public class EtherService {
             List<TokenTx> txs = mapper.convertValue(response.get("result"), new TypeReference<>() {
             });
 
-            return updateAll(txs).stream().map(TokenTxDTO::new).collect(Collectors.toList());
+            return updateAll(txs, user).stream().map(TokenTxDTO::new).collect(Collectors.toList());
         }
         return List.of();
     }
@@ -172,12 +173,13 @@ public class EtherService {
         Map<String, Object> response = restTemplate.getForObject(url, Map.class);
         assert response != null;
         TokenTx tx = mapper.convertValue(response.get("result"), TokenTx.class);
-        return updateAll(List.of(tx)).stream().map(TokenTxDTO::new).findFirst().orElse(null);
+        return updateAll(List.of(tx), null).stream().map(TokenTxDTO::new).findFirst().orElse(null);
     }
 
-    private List<TokenTx> updateAll(List<TokenTx> txs) {
+    private List<TokenTx> updateAll(List<TokenTx> txs, User user) {
         List<TokenTx> updatedTxs = new ArrayList<>();
         for (TokenTx tx : txs) {
+            tx.setUser(user);
             Optional<TokenTx> existingTx = tokenTxRepository.findById(tx.getHash());
             if (existingTx.isPresent()) {
                 updatedTxs.add(existingTx.get());

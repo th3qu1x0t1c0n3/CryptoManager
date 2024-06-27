@@ -47,7 +47,7 @@ public class EtherController {
     @GetMapping("/transactions")
     public ResponseEntity<List<TokenTxDTO>> getTransactions(@PathParam("address") String address, @PathParam("network") Network network) {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
-                .body(etherService.getTransactions(WalletDTO.builder().address(address).network(network).build()));
+                .body(etherService.getTransactions(WalletDTO.builder().address(address).network(network).build(), null));
     }
 
     @GetMapping("/transactions/{contractAddress}")

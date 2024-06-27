@@ -14,10 +14,7 @@ import quixotic.projects.cryptomanager.model.old.Allocation;
 import quixotic.projects.cryptomanager.model.old.KellyCriterion;
 import quixotic.projects.cryptomanager.model.old.Transaction;
 import quixotic.projects.cryptomanager.model.old.User;
-import quixotic.projects.cryptomanager.repository.AllocationRepository;
-import quixotic.projects.cryptomanager.repository.TransactionRepository;
-import quixotic.projects.cryptomanager.repository.UserRepository;
-import quixotic.projects.cryptomanager.repository.WalletRepository;
+import quixotic.projects.cryptomanager.repository.*;
 import quixotic.projects.cryptomanager.security.JwtTokenProvider;
 
 import java.util.*;
@@ -34,6 +31,7 @@ public class PortfolioService {
     private final ExcelHandler excelHandler = new ExcelHandler();
     private final AllocationRepository allocationRepository;
     private final WalletRepository walletRepository;
+    private final TokenTxRepository tokenTxRepository;
 
     //    Wallets
     public List<WalletDTO> getWallets(String token) {
@@ -48,7 +46,7 @@ public class PortfolioService {
         User user = userRepository.findByEmail(username).orElseThrow();
 
         switch (walletDTO.getNetwork()) {
-            case ETHEREUM, ARBITRUM, OPTIMISM -> etherService.getTransactions(walletDTO);
+            case ETHEREUM, ARBITRUM, OPTIMISM -> etherService.getTransactions(walletDTO, user);
             case BITCOIN -> System.out.println("Bitcoin");
             case SOLANA -> System.out.println("Solana");
             case DOGECOIN -> System.out.println("Dogecoin");
@@ -62,13 +60,14 @@ public class PortfolioService {
     }
 
     //    Transactions CRUD
-    public List<TransactionDTO> getTransactions(String token) {
+    public List<TokenTxDTO> getTransactions(String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
 
 //        User user = userRepository.findByEmail(username).orElseThrow();
 //        loadExcelTransactions(user);
 
-        return transactionRepository.findByUserEmail(username).stream().map(TransactionDTO::new).toList();
+        return tokenTxRepository.findAllByUser_Email(username).stream().map(TokenTxDTO::new).toList();
+//        return transactionRepository.findByUserEmail(username).stream().map(TransactionDTO::new).toList();
     }
 
     @Transactional
