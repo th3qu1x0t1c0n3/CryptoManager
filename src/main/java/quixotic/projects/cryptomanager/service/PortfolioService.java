@@ -46,7 +46,10 @@ public class PortfolioService {
         User user = userRepository.findByEmail(username).orElseThrow();
 
         switch (walletDTO.getNetwork()) {
-            case ETHEREUM, ARBITRUM, OPTIMISM -> etherService.getTransactions(walletDTO, user);
+            case ETHEREUM, ARBITRUM, OPTIMISM -> {
+                etherService.getTransactions(walletDTO, user);
+                etherService.getWalletBalances(walletDTO);
+            }
             case BITCOIN -> System.out.println("Bitcoin");
             case SOLANA -> System.out.println("Solana");
             case DOGECOIN -> System.out.println("Dogecoin");

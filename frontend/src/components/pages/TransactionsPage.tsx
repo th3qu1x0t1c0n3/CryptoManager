@@ -15,19 +15,12 @@ function TransactionsPage() {
             .then((data: ITransaction[]) => {
                 data.sort((a: ITransaction, b: ITransaction) => new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime());
                 setTransactions(data)
-                console.log("Data ", data)
-
             })
             .catch((error) => {
                 toast.error(error.response?.data.message);
             });
     }, []);
-    useEffect(() => {
-        console.log("transactions", transactions)
-
-    }, [transactions]);
-
-
+    
     return (
         <div>
             <div className={"my-2 text-center"}>

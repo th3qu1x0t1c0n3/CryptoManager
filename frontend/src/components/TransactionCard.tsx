@@ -61,11 +61,27 @@ function TransactionCard({transaction}: ITransactionCardProps) {
             </AccordionItemHeading>
 
             <AccordionItemPanel className={"text-start"}>
-                {/* Display transaction details here */}
-                <p>Transaction Hash: {transaction.hash}</p>
-                <p>From: {transaction.from}</p>
-                <p>To: {transaction.to}</p>
-                {/* Add more details as needed */}
+                <div className={"grid grid-cols-3"}>
+                    <div>
+                        <p className={"font-bold"}>Transaction Hash:</p>
+                        <WalletAddress address={transaction.hash}/>
+                        <p className={"font-bold"}>From:</p>
+                        <WalletAddress address={transaction.from}/>
+                        <p className={"font-bold"}>To:</p>
+                        <WalletAddress address={transaction.to}/>
+                    </div>
+                    <div>
+
+                    </div>
+                    <div>
+                        <p className={"font-bold"}>Contract Address:</p>
+                        <WalletAddress address={transaction.contractAddress}/>
+                        <p className={"font-bold"}>Token Name:</p>
+                        <p>{transaction.tokenName}</p>
+                        <p className={"font-bold"}>Token Symbol:</p>
+                        <p>{transaction.tokenSymbol}</p>
+                    </div>
+                </div>
             </AccordionItemPanel>
 
         </div>

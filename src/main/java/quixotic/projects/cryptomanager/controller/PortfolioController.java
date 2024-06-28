@@ -33,8 +33,6 @@ public class PortfolioController {
                 .body(portfolioService.createWallet(walletDTO, token));
     }
 
-
-
     //    Transactions
     @GetMapping("/transactions")
     public ResponseEntity<List<TokenTxDTO>> getTransactions(@RequestHeader("Authorization") String token) {

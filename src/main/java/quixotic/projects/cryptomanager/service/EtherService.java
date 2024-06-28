@@ -12,6 +12,7 @@ import quixotic.projects.cryptomanager.dto.TokenTxDTO;
 import quixotic.projects.cryptomanager.dto.WalletDTO;
 import quixotic.projects.cryptomanager.model.TokenTx;
 import quixotic.projects.cryptomanager.model.old.User;
+import quixotic.projects.cryptomanager.repository.TokenRepository;
 import quixotic.projects.cryptomanager.repository.TokenTxRepository;
 
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class EtherService {
     private final RestTemplate restTemplate;
     private final TokenTxRepository tokenTxRepository;
+    private final TokenRepository tokenRepository;
     private ObjectMapper mapper = new ObjectMapper();
 
     public EtherPriceDTO getEthPrice(WalletDTO walletDTO) {
@@ -79,7 +81,7 @@ public class EtherService {
             }
         }
 
-        return balances;
+        return tokenRepository.saveAll(balances.stream().map(TokenDTO::toEntity).collect(Collectors.toSet())).stream().map(TokenDTO::new).collect(Collectors.toSet());
     }
 
     public Set<TokenTxDTO> getCoinList(WalletDTO walletDTO) {
