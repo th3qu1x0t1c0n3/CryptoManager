@@ -7,16 +7,17 @@ import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import quixotic.projects.cryptomanager.dto.EtherPriceDTO;
-import quixotic.projects.cryptomanager.dto.TokenDTO;
-import quixotic.projects.cryptomanager.dto.TokenTxDTO;
-import quixotic.projects.cryptomanager.dto.WalletDTO;
+import quixotic.projects.cryptomanager.dto.*;
+import quixotic.projects.cryptomanager.model.Log;
+import quixotic.projects.cryptomanager.model.Receipt;
 import quixotic.projects.cryptomanager.model.TokenTx;
+import quixotic.projects.cryptomanager.model.Transfer;
 import quixotic.projects.cryptomanager.model.old.User;
 import quixotic.projects.cryptomanager.repository.TokenRepository;
 import quixotic.projects.cryptomanager.repository.TokenTxRepository;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,8 +30,6 @@ public class EtherService {
     private final TokenTxRepository tokenTxRepository;
     private final TokenRepository tokenRepository;
     private final WebInvocationPrivilegeEvaluator privilegeEvaluator;
-    private ObjectMapper mapper = new ObjectMapper();
-
     private final List<String> contractAddressList = new ArrayList<>(
             List.of("0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
                     "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
@@ -39,6 +38,7 @@ public class EtherService {
                     "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1",
                     "0xaf88d065e77c8cc2239327c5edb3a432268e5831")
     );
+    private ObjectMapper mapper = new ObjectMapper();
 
     public EtherPriceDTO getEthPrice(WalletDTO walletDTO) {
         String url = UriComponentsBuilder.fromHttpUrl(walletDTO.getNetwork().getBaseUrl())
@@ -202,6 +202,66 @@ public class EtherService {
         assert response != null;
         TokenTx tx = mapper.convertValue(response.get("result"), TokenTx.class);
         return updateAll(List.of(tx), null).stream().map(TokenTxDTO::new).findFirst().orElse(null);
+    }
+
+    public Map<String, List<Transfer>> getTxByReceipt(WalletDTO walletDTO, String hash) {
+        String url = UriComponentsBuilder.fromHttpUrl(walletDTO.getNetwork().getBaseUrl())
+                .queryParam("module", "proxy")
+                .queryParam("action", "eth_getTransactionReceipt")
+                .queryParam("txhash", hash)
+                .queryParam("apikey", walletDTO.getNetwork().getApiKey())
+                .toUriString();
+
+        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+        assert response != null;
+        Receipt receipt = mapper.convertValue(response.get("result"), Receipt.class);
+        return calculateTokensBoughtAndSold(receipt, walletDTO.getAddress());
+    }
+
+    public Map<String, List<Transfer>> calculateTokensBoughtAndSold(Receipt receipt, String userAddress) {
+        List<Transfer> tokensBoughts = new ArrayList<>();
+        List<Transfer> tokensSolds = new ArrayList<>();
+        List<Transfer> transfers = new ArrayList<>();
+
+        for (Log log : receipt.getLogs()) {
+            if (log.getTopics().get(0).equals("0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef")) {
+                String fromAddress = "0x" + log.getTopics().get(1).substring(26);
+                String toAddress = "0x" + log.getTopics().get(2).substring(26);
+                BigDecimal value = new BigDecimal(new BigInteger(log.getData().substring(2), 16));
+
+                Transfer transfer = Transfer.builder()
+                        .transactionHash(receipt.getTransactionHash())
+                        .contractAddress(log.getAddress())
+                        .from(fromAddress)
+                        .to(toAddress)
+                        .value(value)
+                        .build();
+
+                if (userAddress.equalsIgnoreCase(fromAddress)) {
+                    tokensSolds.add(transfer);
+                } else if (userAddress.equalsIgnoreCase(toAddress)) {
+                    tokensBoughts.add(transfer);
+                }
+                transfers.add(transfer);
+            }
+        }
+
+        if (tokensSolds.isEmpty()) {
+            List<String> endTokenAddresses = tokensBoughts.stream()
+                    .map(Transfer::getContractAddress)
+                    .toList();
+
+            Transfer highestValueTransfer = transfers.stream()
+                    .filter(t -> !endTokenAddresses.contains(t.getContractAddress()))
+                    .max(Comparator.comparing(Transfer::getValue))
+                    .orElse(null);
+
+            tokensSolds.add(highestValueTransfer);
+        }
+
+        System.out.println("Tokens Bought: " + tokensBoughts);
+        System.out.println("Tokens Sold: " + tokensSolds);
+        return Map.of("bought", tokensBoughts, "sold", tokensSolds);
     }
 
     private List<TokenTx> updateAll(List<TokenTx> txs, User user) {

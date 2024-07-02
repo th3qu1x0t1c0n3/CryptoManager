@@ -13,10 +13,12 @@ import quixotic.projects.cryptomanager.dto.TokenDTO;
 import quixotic.projects.cryptomanager.dto.TokenTxDTO;
 import quixotic.projects.cryptomanager.dto.WalletDTO;
 import quixotic.projects.cryptomanager.model.Network;
+import quixotic.projects.cryptomanager.model.Transfer;
 import quixotic.projects.cryptomanager.service.EtherService;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -62,5 +64,10 @@ public class EtherController {
                 .body(etherService.getTransactionDetails(WalletDTO.builder().address(address).network(network).build(), hash));
     }
 
+    @GetMapping("/transaction/receipt/{hash}")
+    public ResponseEntity<Map<String, List<Transfer>>> getTransactionReceipt(@PathVariable String hash, @PathParam("address") String address, @PathParam("network") Network network) {
+        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
+                .body(etherService.getTxByReceipt(WalletDTO.builder().address(address).network(network).build(), hash));
+    }
 
 }
