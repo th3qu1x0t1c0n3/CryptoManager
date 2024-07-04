@@ -234,7 +234,7 @@ public class EtherService {
                         .contractAddress(log.getAddress())
                         .from(fromAddress)
                         .to(toAddress)
-                        .value(value)
+                        .value(value.divide(BigDecimal.valueOf(1e18)))
                         .build();
 
                 if (userAddress.equalsIgnoreCase(fromAddress)) {

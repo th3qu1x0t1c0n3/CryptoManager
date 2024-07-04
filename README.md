@@ -1,13 +1,16 @@
 # CryptoManager
-Crypto portfolio manager
 
 # Pages 
 - Allocations page. The allocations are listed here.
 
-# Changes to make
-Follow one task after another.
-1. See the transactions in the database.
-2. See the onchain transactions
+# Transactions
+1. Wallet address to get transactions
+2. Transaction hash to get the transaction details / Logs
+3. Transaction logs to get the allocations
+---
+1. Get Set of contractAddresses
+   - module=account&action=tokentx&address={{address}}&apikey={{api_Key}}
+2. Get allocations using contract addresses
 
 
 # Deployment
