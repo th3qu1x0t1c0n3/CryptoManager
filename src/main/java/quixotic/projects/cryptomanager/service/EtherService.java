@@ -3,13 +3,12 @@ package quixotic.projects.cryptomanager.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import quixotic.projects.cryptomanager.dto.*;
 import quixotic.projects.cryptomanager.model.*;
-import quixotic.projects.cryptomanager.model.old.User;
+import quixotic.projects.cryptomanager.model.User;
 import quixotic.projects.cryptomanager.repository.TokenRepository;
 import quixotic.projects.cryptomanager.repository.TokenTxRepository;
 import quixotic.projects.cryptomanager.repository.UserRepository;
@@ -17,7 +16,6 @@ import quixotic.projects.cryptomanager.security.JwtTokenProvider;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import quixotic.projects.cryptomanager.exception.APIException;
-import quixotic.projects.cryptomanager.model.old.ErrorResponce;
+import quixotic.projects.cryptomanager.model.ErrorResponce;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;

@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import quixotic.projects.cryptomanager.exception.forbiddenRequestExceptions.InvalidJwtException;
-import quixotic.projects.cryptomanager.model.old.User;
+import quixotic.projects.cryptomanager.model.User;
 import quixotic.projects.cryptomanager.repository.UserRepository;
 
 @Component

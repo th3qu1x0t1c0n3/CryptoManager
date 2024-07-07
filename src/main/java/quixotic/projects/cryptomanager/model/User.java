@@ -1,4 +1,4 @@
-package quixotic.projects.cryptomanager.model.old;
+package quixotic.projects.cryptomanager.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import quixotic.projects.cryptomanager.model.Token;
-import quixotic.projects.cryptomanager.model.Wallet;
 import quixotic.projects.cryptomanager.security.Role;
 
 import java.util.ArrayList;
@@ -46,8 +44,8 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Token> tokens = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private KellyCriterion kellyCriterion;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    private KellyCriterion kellyCriterion;
 
     public void addWallet(Wallet wallet) {
         wallet.setUser(this);

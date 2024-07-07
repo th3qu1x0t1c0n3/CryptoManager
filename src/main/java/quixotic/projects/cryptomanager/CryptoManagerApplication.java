@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import quixotic.projects.cryptomanager.dto.old.SignUpDTO;
-import quixotic.projects.cryptomanager.service.PortfolioService;
+import quixotic.projects.cryptomanager.dto.SignUpDTO;
 import quixotic.projects.cryptomanager.service.UserService;
 
 @SpringBootApplication

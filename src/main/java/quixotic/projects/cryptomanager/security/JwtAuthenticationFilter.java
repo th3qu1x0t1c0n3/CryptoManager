@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import quixotic.projects.cryptomanager.model.old.User;
+import quixotic.projects.cryptomanager.model.User;
 import quixotic.projects.cryptomanager.repository.UserRepository;
 
 import java.io.IOException;

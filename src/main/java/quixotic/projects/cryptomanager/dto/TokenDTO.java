@@ -1,12 +1,11 @@
 package quixotic.projects.cryptomanager.dto;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import quixotic.projects.cryptomanager.model.Token;
-import quixotic.projects.cryptomanager.model.old.User;
+import quixotic.projects.cryptomanager.model.User;
 
 import java.math.BigDecimal;
 
