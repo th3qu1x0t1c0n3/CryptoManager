@@ -1,5 +1,9 @@
 package quixotic.projects.cryptomanager.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 public class Receipt {
+    @Id
     private String transactionHash;
     private String transactionIndex;
     private String type;
@@ -27,6 +33,7 @@ public class Receipt {
     private String l1BlockNumber;
     private String logsBloom;
     private String status;
+    @OneToMany
     private List<Log> logs;
 
 }

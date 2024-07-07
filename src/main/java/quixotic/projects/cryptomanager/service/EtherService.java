@@ -86,6 +86,7 @@ public class EtherService {
                         .tokenName(coin.getTokenName())
                         .tokenSymbol(coin.getTokenSymbol())
                         .contractAddress(coin.getContractAddress())
+                        .tokenDecimal(coin.getTokenDecimal())
                         .build());
                 try {
                     sleep(200);

@@ -1,5 +1,9 @@
 package quixotic.projects.cryptomanager.model;
 
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,12 +15,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 public class Log {
+    @Id
+    private String transactionHash;
     private String address;
+    @ElementCollection
     private List<String> topics;
     private String data;
     private String blockNumber;
-    private String transactionHash;
     private String transactionIndex;
     private String blockHash;
     private String logIndex;

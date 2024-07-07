@@ -1,5 +1,7 @@
 package quixotic.projects.cryptomanager.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +13,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 public class Transfer {
+    @Id
     private String transactionHash;
     private String contractAddress;
     private String from;
