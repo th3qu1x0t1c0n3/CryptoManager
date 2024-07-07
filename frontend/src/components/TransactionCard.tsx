@@ -39,7 +39,7 @@ function TransactionCard({transaction}: ITransactionCardProps) {
                             <p className={"text-start"}>Logo</p>
                             <div className={"text-start ms-3"}>
                                 {/*<p>{transaction.functionName}</p>*/}
-                                <p>{divideTx(transaction.value)}</p>
+                                <p>{divideTx(transaction.value)} {transaction.tokenName}{transaction.tokenSymbol}</p>
                                 <p>{getDate(transaction.timeStamp)}</p>
                             </div>
                         </div>
