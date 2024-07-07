@@ -58,6 +58,11 @@ public class PortfolioController {
 //    }
 
     //    Balance
+    @GetMapping("/tokenBalances")
+    public ResponseEntity<List<TokenDTO>> getTokenBalancesByUser(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
+                .body(portfolioService.getTokenBalancesByUser(token));
+    }
     @GetMapping("/coinBalances")
     public ResponseEntity<List<CoinDTO>> getCoinBalancesByUser(@RequestHeader("Authorization") String token) {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)

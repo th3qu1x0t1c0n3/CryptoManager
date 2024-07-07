@@ -8,13 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import quixotic.projects.cryptomanager.dto.*;
-import quixotic.projects.cryptomanager.model.Log;
-import quixotic.projects.cryptomanager.model.Receipt;
-import quixotic.projects.cryptomanager.model.TokenTx;
-import quixotic.projects.cryptomanager.model.Transfer;
+import quixotic.projects.cryptomanager.model.*;
 import quixotic.projects.cryptomanager.model.old.User;
 import quixotic.projects.cryptomanager.repository.TokenRepository;
 import quixotic.projects.cryptomanager.repository.TokenTxRepository;
+import quixotic.projects.cryptomanager.repository.UserRepository;
+import quixotic.projects.cryptomanager.security.JwtTokenProvider;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -38,6 +37,8 @@ public class EtherService {
                     "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1",
                     "0xaf88d065e77c8cc2239327c5edb3a432268e5831")
     );
+    private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
     private ObjectMapper mapper = new ObjectMapper();
 
     public EtherPriceDTO getEthPrice(WalletDTO walletDTO) {
@@ -61,7 +62,10 @@ public class EtherService {
         }
     }
 
-    public Set<TokenDTO> getWalletBalances(WalletDTO walletDTO) {
+    public Set<TokenDTO> getWalletBalances(WalletDTO walletDTO, String token) {
+        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        User user = userRepository.findByEmail(username).orElseThrow();
+
         Set<TokenTxDTO> coins = getCoinList(walletDTO);
         Set<TokenDTO> balances = new HashSet<>();
 
@@ -80,7 +84,6 @@ public class EtherService {
             Map<String, Object> response = restTemplate.getForObject(url, Map.class);
             if (response != null && "1".equals(response.get("status"))) {
                 String balance = (String) response.get("result");
-                System.out.println("B: " + coin.getTokenSymbol() + new BigDecimal(balance).divide(new BigDecimal("1e" + coin.getTokenDecimal())));
                 balances.add(TokenDTO.builder()
                         .balance(new BigDecimal(balance).divide(new BigDecimal("1e" + coin.getTokenDecimal()))) // new BigDecimal("1e" + coin.getTokenDecimal()) .divide(BigDecimal.valueOf(1e18)) Convert Wei to Ether
                         .tokenName(coin.getTokenName())
@@ -104,7 +107,8 @@ public class EtherService {
             }
         }
 
-        return tokenRepository.saveAll(balances.stream().map(TokenDTO::toEntity).collect(Collectors.toSet())).stream().map(TokenDTO::new).collect(Collectors.toSet());
+        return tokenRepository.saveAll(balances.stream().map(tokenDTO -> tokenDTO.toEntity(user)).collect(Collectors.toSet()))
+                .stream().map(TokenDTO::new).collect(Collectors.toSet());
     }
 
     public Set<TokenTxDTO> getCoinList(WalletDTO walletDTO) {
@@ -144,7 +148,7 @@ public class EtherService {
         Map<String, Object> response = restTemplate.getForObject(url, Map.class);
         if (response != null && "1".equals(response.get("status"))) {
             String balance = (String) response.get("result");
-            return new BigDecimal(balance).divide(BigDecimal.valueOf(1e18)); // Convert Wei to Ether
+            return new BigDecimal(balance).divide(BigDecimal.valueOf(1e18)); // Convert Wei to Ether "1e" + coin.getTokenDecimal()
         }
         return BigDecimal.ZERO;
     }
@@ -237,7 +241,7 @@ public class EtherService {
                         .contractAddress(log.getAddress())
                         .from(fromAddress)
                         .to(toAddress)
-                        .value(value.divide(BigDecimal.valueOf(1e18)))
+                        .value(value.divide(new BigDecimal("1e18"))) // "1e" + coin.getTokenDecimal() | BigDecimal.valueOf(1e18)
                         .build();
 
                 if (userAddress.equalsIgnoreCase(fromAddress)) {

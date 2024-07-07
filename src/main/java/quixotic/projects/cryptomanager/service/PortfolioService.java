@@ -10,6 +10,7 @@ import quixotic.projects.cryptomanager.dto.old.KellyCriterionDTO;
 import quixotic.projects.cryptomanager.dto.old.TransactionDTO;
 import quixotic.projects.cryptomanager.exception.badRequestException.BadRequestException;
 import quixotic.projects.cryptomanager.model.Network;
+import quixotic.projects.cryptomanager.model.Token;
 import quixotic.projects.cryptomanager.model.old.Allocation;
 import quixotic.projects.cryptomanager.model.old.KellyCriterion;
 import quixotic.projects.cryptomanager.model.old.Transaction;
@@ -32,6 +33,7 @@ public class PortfolioService {
     private final AllocationRepository allocationRepository;
     private final WalletRepository walletRepository;
     private final TokenTxRepository tokenTxRepository;
+    private final TokenRepository tokenRepository;
 
     //    Wallets
     public List<WalletDTO> getWallets(String token) {
@@ -48,7 +50,7 @@ public class PortfolioService {
         switch (walletDTO.getNetwork()) {
             case ETHEREUM, ARBITRUM, OPTIMISM -> {
                 etherService.getTransactions(walletDTO, user);
-                etherService.getWalletBalances(walletDTO);
+                etherService.getWalletBalances(walletDTO, token);
             }
             case BITCOIN -> System.out.println("Bitcoin");
             case SOLANA -> System.out.println("Solana");
@@ -117,6 +119,13 @@ public class PortfolioService {
     }
 
     //   Balances
+    public List<TokenDTO> getTokenBalancesByUser(String token) {
+        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        List<Token> tokens = tokenRepository.findAllByUser_Email(username);
+
+        return tokens.stream().map(TokenDTO::new).toList();
+    }
+
     public List<CoinDTO> getCoinBalancesByUser(String token) {
 
         return getCoinBalances(token).entrySet().stream()

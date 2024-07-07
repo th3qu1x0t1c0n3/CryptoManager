@@ -1,9 +1,6 @@
 package quixotic.projects.cryptomanager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,8 +23,10 @@ public class Receipt {
     private String contractAddress;
     private String cumulativeGasUsed;
     private String effectiveGasPrice;
-    private String to;
+    @Column(name = "`from`")
     private String from;
+    @Column(name = "`to`")
+    private String to;
     private String gasUsed;
     private String gasUsedForL1;
     private String l1BlockNumber;

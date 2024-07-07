@@ -1,7 +1,6 @@
 package quixotic.projects.cryptomanager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,10 +14,15 @@ import java.math.BigDecimal;
 @Builder
 @Entity
 public class Transfer {
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
+    public Long id;
+
     private String transactionHash;
     private String contractAddress;
+    @Column(name = "`from`")
     private String from;
+    @Column(name = "`to`")
     private String to;
     private BigDecimal value;
 

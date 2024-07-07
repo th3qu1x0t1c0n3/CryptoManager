@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import quixotic.projects.cryptomanager.model.old.User;
 
 import java.math.BigDecimal;
 
@@ -25,4 +26,6 @@ public class Token {
     public String tokenSymbol;
     public String contractAddress;
     public String tokenDecimal;
+    @ManyToOne
+    public User user;
 }

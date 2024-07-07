@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import quixotic.projects.cryptomanager.model.Token;
 import quixotic.projects.cryptomanager.model.Wallet;
 import quixotic.projects.cryptomanager.security.Role;
 
@@ -40,8 +41,10 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Wallet> wallets = new ArrayList<>();
     private double portfolioSize;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Allocation> allocations = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Token> tokens = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     private KellyCriterion kellyCriterion;
