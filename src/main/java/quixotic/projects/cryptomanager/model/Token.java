@@ -1,10 +1,7 @@
 package quixotic.projects.cryptomanager.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +19,7 @@ public class Token {
     @Id
     public Long id;
 
+    @Column(precision = 40, scale = 20)
     public BigDecimal balance;
     public String tokenName;
     public String tokenSymbol;

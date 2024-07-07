@@ -18,6 +18,7 @@ import quixotic.projects.cryptomanager.repository.TokenTxRepository;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,6 @@ public class EtherService {
     private final RestTemplate restTemplate;
     private final TokenTxRepository tokenTxRepository;
     private final TokenRepository tokenRepository;
-    private final WebInvocationPrivilegeEvaluator privilegeEvaluator;
     private final List<String> contractAddressList = new ArrayList<>(
             List.of("0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
                     "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
@@ -80,8 +80,9 @@ public class EtherService {
             Map<String, Object> response = restTemplate.getForObject(url, Map.class);
             if (response != null && "1".equals(response.get("status"))) {
                 String balance = (String) response.get("result");
+                System.out.println("B: " + coin.getTokenSymbol() + new BigDecimal(balance).divide(new BigDecimal("1e" + coin.getTokenDecimal())));
                 balances.add(TokenDTO.builder()
-                        .balance(new BigDecimal(balance)) // .divide(BigDecimal.valueOf(1e18)) Convert Wei to Ether
+                        .balance(new BigDecimal(balance).divide(new BigDecimal("1e" + coin.getTokenDecimal()))) // new BigDecimal("1e" + coin.getTokenDecimal()) .divide(BigDecimal.valueOf(1e18)) Convert Wei to Ether
                         .tokenName(coin.getTokenName())
                         .tokenSymbol(coin.getTokenSymbol())
                         .contractAddress(coin.getContractAddress())
@@ -124,7 +125,8 @@ public class EtherService {
                             (existing, replacement) -> existing,
                             LinkedHashMap::new));
 
-            return new HashSet<>(uniqueContractAddressMap.values()).stream().map(TokenTxDTO::new).collect(Collectors.toSet());
+            return new HashSet<>(updateAll(uniqueContractAddressMap.values().stream().toList(), null))
+                    .stream().map(TokenTxDTO::new).collect(Collectors.toSet());
         }
         return Set.of();
     }
