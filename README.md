@@ -21,3 +21,4 @@ Crypto portfolio manager
 mvn clean package
 java -jar target/CryptoManager-0.0.1-LTS.jar
 ```
+
