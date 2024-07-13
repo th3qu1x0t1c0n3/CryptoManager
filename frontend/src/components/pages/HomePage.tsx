@@ -22,13 +22,13 @@ interface IHomePageProps {
 function HomePage({setUser, user}: IHomePageProps) {
     const portfolioService = new PortfolioService();
     const navigate = useNavigate();
-    const [tab, setTab] = useState('portfolio');
-    const tabs = [
-        {id: 'portfolio', label: 'portfolio'},
-        {id: 'transactions', label: 'transactions'},
-        {id: 'allocations', label: 'allocations'},
-        {id: 'kelly', label: 'kelly'},
-    ];
+    // const [tab, setTab] = useState('portfolio');
+    // const tabs = [
+    //     {id: 'portfolio', label: 'portfolio'},
+    //     {id: 'transactions', label: 'transactions'},
+    //     {id: 'allocations', label: 'allocations'},
+    //     {id: 'kelly', label: 'kelly'},
+    // ];
 
     useEffect(() => {
         const token = sessionStorage.getItem('token');

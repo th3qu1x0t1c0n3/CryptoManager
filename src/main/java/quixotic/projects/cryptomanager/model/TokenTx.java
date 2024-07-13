@@ -4,6 +4,7 @@ package quixotic.projects.cryptomanager.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,35 +17,38 @@ import lombok.NoArgsConstructor;
 @Entity
 public class TokenTx {
 
-    public String blockNumber;
-    public String timeStamp;
+    @ManyToOne
+    private User user;
+
+    private String blockNumber;
+    private String timeStamp;
     @Id
-    public String hash;
-    public String nonce;
-    public String blockHash;
-    public String contractAddress;
+    private String hash;
+    private String nonce;
+    private String blockHash;
+    private String contractAddress;
     @Column(name = "`from`")
-    public String from;
+    private String from;
     @Column(name = "`to`")
-    public String to;
-    public String value;
-    public String tokenName;
-    public String tokenSymbol;
-    public String tokenDecimal;
-    public String transactionIndex;
-    public String gas;
-    public String gasPrice;
-    public String gasUsed;
-    public String cumulativeGasUsed;
+    private String to;
+    private String value;
+    private String tokenName;
+    private String tokenSymbol;
+    private String tokenDecimal;
+    private String transactionIndex;
+    private String gas;
+    private String gasPrice;
+    private String gasUsed;
+    private String cumulativeGasUsed;
     @Column(length = 10000)
-    public String input;
-    public String confirmations;
+    private String input;
+    private String confirmations;
     //    ---
-    public String gasPriceBid;
-    public String isError;
-    public String txreceipt_status;
-    public String methodId;
-    public String functionName;
+    private String gasPriceBid;
+    private String isError;
+    private String txreceipt_status;
+    private String methodId;
+    private String functionName;
 //   ---
     private String accessList;
     private String maxFeePerGas;
@@ -59,7 +63,9 @@ public class TokenTx {
 
     public void update(TokenTx tx) {
         // hash is not updated
-
+        if (tx.user != null) {
+            this.user = tx.user;
+        }
         if (tx.blockNumber != null && !tx.blockNumber.isEmpty()) {
             this.blockNumber = tx.blockNumber;
         }

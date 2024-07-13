@@ -1,4 +1,4 @@
-package quixotic.projects.cryptomanager.model.old;
+package quixotic.projects.cryptomanager.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

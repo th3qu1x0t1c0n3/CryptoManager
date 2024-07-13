@@ -1,21 +1,4 @@
 
-export interface ITransaction {
-    id: number;
-    toCoin: ICoinTransaction;
-    fromCoin: ICoinTransaction;
-    transactionDate: string;
-    wallet: string;
-    exchange: string;
-    buy: boolean;
-}
-
-export interface ICoinTransaction {
-    name: string;
-    quantity: number;
-    value: number;
-    unitValue: number;
-}
-
 export interface ICoinBalance {
     name: string;
     holdings: number;

@@ -1,24 +1,29 @@
 # CryptoManager
-Crypto portfolio manager
+
+# Lien / Link
+[CryptoManager](https://cpm.quixotic.date/)
+
 
 # Pages 
 - Allocations page. The allocations are listed here.
 
-# Changes to make
-## Emulate Koinly but add more features
-1. Connect wallets
-2. Get transactions
-3. Get balances
-4. Calculate Cost Basis
-5. Calulate Unrealized Gains
-6. Calculate Realized Gains
-7. Calculate ROI
-8. Calculate Portfolio Value
-9. Améliorer les allocations
+# Transactions
+1. Wallet address to get transactions
+2. Transaction hash to get the transaction details / Logs
+3. Transaction logs to get the allocations
+---
+1. Get Set of contractAddresses
+   - module=account&action=tokentx&address={{address}}&apikey={{api_Key}}
+2. Get allocations using contract addresses
+
 
 # Deployment
 ```
 mvn clean package
 java -jar target/CryptoManager-0.0.1-LTS.jar
 ```
+
+Before massive change: `14b2c8b3b71e31f4b695debcee628e87bde14c82`
+(Using onchain wallet)
+
 

@@ -1,5 +1,6 @@
 import {IWallet} from "../assets/models/BlockChain";
 import logos from "../assets/images/logos";
+import WalletAddress from "./utils/WalletAddress";
 
 interface IWalletProps {
     wallet: IWallet;
@@ -8,8 +9,6 @@ interface IWalletProps {
 type Network = 'BITCOIN' | 'ETHEREUM' | 'OPTIMISM' | 'ARBITRUM' | 'SOLANA' | 'DOGECOIN';
 
 function Wallet({wallet}: IWalletProps) {
-    const shortAddress = `${wallet.address.substring(0, 6)}...${wallet.address.substring(wallet.address.length - 4)}`;
-
     const logo = logos[wallet.network as Network] || logos.question;
 
     return (
@@ -17,7 +16,7 @@ function Wallet({wallet}: IWalletProps) {
             <img src={logo} alt="Avatar" className="w-12 h-12 rounded-full mr-4"/>
             <div>
                 <h3 className="font-bold">{wallet.name} ({wallet.network})</h3>
-                <p className="text-sm">{shortAddress}</p>
+                <WalletAddress address={wallet.address}/>
             </div>
         </div>
     );

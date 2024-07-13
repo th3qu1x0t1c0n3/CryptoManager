@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import quixotic.projects.cryptomanager.dto.old.SignInDTO;
-import quixotic.projects.cryptomanager.dto.old.SignUpDTO;
-import quixotic.projects.cryptomanager.dto.old.UserDTO;
+import quixotic.projects.cryptomanager.dto.SignInDTO;
+import quixotic.projects.cryptomanager.dto.SignUpDTO;
+import quixotic.projects.cryptomanager.dto.UserDTO;
 import quixotic.projects.cryptomanager.service.UserService;
 
 @Controller
