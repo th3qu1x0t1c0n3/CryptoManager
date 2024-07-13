@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import quixotic.projects.cryptomanager.dto.*;
-import quixotic.projects.cryptomanager.dto.old.AllocationDTO;
-import quixotic.projects.cryptomanager.dto.old.CoinDTO;
-import quixotic.projects.cryptomanager.dto.old.KellyCriterionDTO;
-import quixotic.projects.cryptomanager.dto.old.TransactionDTO;
+import quixotic.projects.cryptomanager.dto.AllocationDTO;
+import quixotic.projects.cryptomanager.dto.CoinDTO;
+import quixotic.projects.cryptomanager.dto.KellyCriterionDTO;
+import quixotic.projects.cryptomanager.dto.TransactionDTO;
 import quixotic.projects.cryptomanager.service.PortfolioService;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package quixotic.projects.cryptomanager.model.old;
+package quixotic.projects.cryptomanager.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

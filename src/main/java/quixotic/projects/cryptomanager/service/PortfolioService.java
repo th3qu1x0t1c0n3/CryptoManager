@@ -4,16 +4,15 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import quixotic.projects.cryptomanager.dto.*;
-import quixotic.projects.cryptomanager.dto.old.AllocationDTO;
-import quixotic.projects.cryptomanager.dto.old.CoinDTO;
-import quixotic.projects.cryptomanager.dto.old.KellyCriterionDTO;
-import quixotic.projects.cryptomanager.dto.old.TransactionDTO;
+import quixotic.projects.cryptomanager.dto.AllocationDTO;
+import quixotic.projects.cryptomanager.dto.CoinDTO;
+import quixotic.projects.cryptomanager.dto.KellyCriterionDTO;
+import quixotic.projects.cryptomanager.dto.TransactionDTO;
 import quixotic.projects.cryptomanager.exception.badRequestException.BadRequestException;
-import quixotic.projects.cryptomanager.model.Network;
-import quixotic.projects.cryptomanager.model.old.Allocation;
-import quixotic.projects.cryptomanager.model.old.KellyCriterion;
-import quixotic.projects.cryptomanager.model.old.Transaction;
-import quixotic.projects.cryptomanager.model.old.User;
+import quixotic.projects.cryptomanager.model.Allocation;
+import quixotic.projects.cryptomanager.model.KellyCriterion;
+import quixotic.projects.cryptomanager.model.Transaction;
+import quixotic.projects.cryptomanager.model.User;
 import quixotic.projects.cryptomanager.repository.AllocationRepository;
 import quixotic.projects.cryptomanager.repository.TransactionRepository;
 import quixotic.projects.cryptomanager.repository.UserRepository;
@@ -21,8 +20,6 @@ import quixotic.projects.cryptomanager.repository.WalletRepository;
 import quixotic.projects.cryptomanager.security.JwtTokenProvider;
 
 import java.util.*;
-
-import static quixotic.projects.cryptomanager.model.Network.*;
 
 @Service
 @RequiredArgsConstructor
