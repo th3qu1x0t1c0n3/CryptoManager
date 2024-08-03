@@ -33,8 +33,8 @@ function App() {
 export default App;
 
 export const PortfolioServerInstance = axios.create({
-    // baseURL: 'https://crypto.quixotic.date/api/v1/',
-    baseURL: 'http://localhost:8085/api/v1/',
+    baseURL: 'https://crypto.quixotic.date/api/v1/',
+    // baseURL: 'http://localhost:8085/api/v1/',
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
