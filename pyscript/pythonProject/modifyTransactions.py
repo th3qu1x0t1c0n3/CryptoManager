@@ -1,27 +1,3 @@
-# import pandas as pd
-# import csv
-# from openpyxl import Workbook
-# from openpyxl import load_workbook
-#
-# path = './excel/transactions.csv'
-#
-# with open(path, 'r') as f:
-#     # Create a CSV reader
-#     reader = csv.reader(f, quotechar='"')
-#
-#     # Create a new Excel workbook
-#     wb = Workbook()
-#
-#     # Create a new sheet in the workbook
-#     ws = wb.create_sheet('New Sheet')
-#
-#     # For each row in the CSV file, write the row to a new row in the Excel sheet
-#     for row in reader:
-#         ws.append(row)
-#
-#     # Save the workbook
-#     wb.save('./excel/new_file.xlsx')
-
 import pandas as pd
 
 # Step 1: Read the CSV file
