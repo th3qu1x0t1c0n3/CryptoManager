@@ -18,7 +18,7 @@ FROM openjdk:21
 WORKDIR /app
 
 # Copy the packaged JAR file from the build stage
-COPY --from=build /app/target/CryptoManager-0.0.1-SNAPSHOT.jar CryptoManager.jar
+COPY --from=build /app/target/CryptoManager-0.0.1-LTS.jar CryptoManager.jar
 
 # Expose the port your app runs on
 EXPOSE 8085
