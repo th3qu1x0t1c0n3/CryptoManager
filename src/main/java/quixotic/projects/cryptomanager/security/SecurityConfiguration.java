@@ -39,6 +39,9 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(GET, "/swagger-ui/**").permitAll()
+                        .requestMatchers(GET, "/v3/**").permitAll()
+
                         .requestMatchers(POST, "/api/v1/port/auth/signin").permitAll()
                         .requestMatchers(POST, "/api/v1/port/auth/signup").permitAll()
                         .requestMatchers(GET, "/api/v1/port/auth/me").hasAnyAuthority("USER")

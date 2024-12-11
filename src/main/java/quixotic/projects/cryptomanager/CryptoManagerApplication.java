@@ -19,7 +19,7 @@ public class CryptoManagerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-//        createUsers();
+        createUsers();
     }
 
     private void createUsers() {
@@ -27,7 +27,7 @@ public class CryptoManagerApplication implements CommandLineRunner {
                 .email("TesterTest@gmail.com")
                 .password("Password123")
                 .firstName("Tester")
-                .lastName("Account")
+                .lastName("Test")
                 .build());
 
         userService.createUser(SignUpDTO.builder()
