@@ -1,4 +1,4 @@
-package quixotic.projects.cryptomanager.model;
+package quixotic.projects.cryptomanager.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

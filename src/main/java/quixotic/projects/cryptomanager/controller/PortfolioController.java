@@ -3,15 +3,14 @@ package quixotic.projects.cryptomanager.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import quixotic.projects.cryptomanager.dto.TokenDTO;
+import quixotic.projects.cryptomanager.dto.chain.TokenDTO;
 import quixotic.projects.cryptomanager.dto.WalletDTO;
 import quixotic.projects.cryptomanager.service.PortfolioService;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/port")
 public class PortfolioController {

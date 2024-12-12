@@ -1,7 +1,7 @@
-package quixotic.projects.cryptomanager.repository;
+package quixotic.projects.cryptomanager.repository.chain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import quixotic.projects.cryptomanager.model.Token;
+import quixotic.projects.cryptomanager.model.chain.Token;
 
 import java.util.List;
 

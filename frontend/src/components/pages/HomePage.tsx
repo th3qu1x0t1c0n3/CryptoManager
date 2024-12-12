@@ -41,7 +41,7 @@ function HomePage({setUser, user}: IHomePageProps) {
                 })
                 .catch((error) => {
                     toast.error(error.response?.data.message);
-                    navigate("/");
+                    // navigate("/");
                 });
         } else {
             navigate("/");

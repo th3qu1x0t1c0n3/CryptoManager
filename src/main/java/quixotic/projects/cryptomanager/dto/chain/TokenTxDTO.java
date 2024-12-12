@@ -1,10 +1,10 @@
-package quixotic.projects.cryptomanager.dto;
+package quixotic.projects.cryptomanager.dto.chain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import quixotic.projects.cryptomanager.model.TokenTx;
+import quixotic.projects.cryptomanager.model.chain.TokenTx;
 
 @Data
 @AllArgsConstructor

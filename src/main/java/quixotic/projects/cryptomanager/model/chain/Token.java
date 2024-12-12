@@ -1,4 +1,4 @@
-package quixotic.projects.cryptomanager.model;
+package quixotic.projects.cryptomanager.model.chain;
 
 
 import jakarta.persistence.*;
@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import quixotic.projects.cryptomanager.model.User;
 
 import java.math.BigDecimal;
 

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import quixotic.projects.cryptomanager.model.enums.Network;
 
 @Data
 @AllArgsConstructor

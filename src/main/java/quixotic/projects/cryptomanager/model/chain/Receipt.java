@@ -1,4 +1,4 @@
-package quixotic.projects.cryptomanager.model;
+package quixotic.projects.cryptomanager.model.chain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
