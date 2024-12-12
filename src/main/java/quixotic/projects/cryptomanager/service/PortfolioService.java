@@ -2,13 +2,13 @@ package quixotic.projects.cryptomanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import quixotic.projects.cryptomanager.dto.chain.TokenDTO;
-import quixotic.projects.cryptomanager.dto.chain.TokenTxDTO;
 import quixotic.projects.cryptomanager.dto.WalletDTO;
-import quixotic.projects.cryptomanager.model.Allocation;
-import quixotic.projects.cryptomanager.model.chain.Token;
+import quixotic.projects.cryptomanager.dto.chain.TokenDTO;
 import quixotic.projects.cryptomanager.model.User;
-import quixotic.projects.cryptomanager.repository.*;
+import quixotic.projects.cryptomanager.model.chain.Token;
+import quixotic.projects.cryptomanager.repository.AllocationRepository;
+import quixotic.projects.cryptomanager.repository.UserRepository;
+import quixotic.projects.cryptomanager.repository.WalletRepository;
 import quixotic.projects.cryptomanager.repository.chain.TokenRepository;
 import quixotic.projects.cryptomanager.repository.chain.TokenTxRepository;
 import quixotic.projects.cryptomanager.security.JwtTokenProvider;
