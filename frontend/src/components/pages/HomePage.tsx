@@ -33,7 +33,7 @@ function HomePage({setUser, user}: IHomePageProps) {
     useEffect(() => {
         const token = sessionStorage.getItem('token');
         if (token) {
-            PortfolioServerInstance.defaults.headers.common['Authorization'] = token;
+            PortfolioServerInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`; // 'Bearer ' + token;
 
             portfolioService.getUser()
                 .then((response) => {

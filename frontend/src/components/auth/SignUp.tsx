@@ -53,7 +53,7 @@ function SignUp({setUser}: ISignUpProps) {
         portfolioService.signUp(signUpUser).then((response) => {
             setUser(response);
             sessionStorage.setItem('token', response.token);
-            PortfolioServerInstance.defaults.headers.common['Authorization'] = response.token;
+            PortfolioServerInstance.defaults.headers.common['Authorization'] = `Bearer ${response.token}`;
             toast.success("Signed In Successfully!");
             navigate('/u/landing'); // TODO: Redirect to the landing page
         }).catch((error) => {
