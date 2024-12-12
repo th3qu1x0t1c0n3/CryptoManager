@@ -55,17 +55,6 @@ public class PortfolioService {
         return new WalletDTO(user.getWallets().get(user.getWallets().size() - 1));
     }
 
-    //    Transactions CRUD
-    public List<TokenTxDTO> getTransactions(String token) {
-        String username = jwtTokenProvider.getUsernameFromJWT(token);
-
-//        User user = userRepository.findByEmail(username).orElseThrow();
-//        loadExcelTransactions(user);
-
-        return tokenTxRepository.findAllByUser_Email(username).stream().map(TokenTxDTO::new).toList();
-//        return transactionRepository.findByUserEmail(username).stream().map(TransactionDTO::new).toList();
-    }
-
 
     //   Balances
     public List<TokenDTO> getTokenBalancesByUser(String token) {
@@ -73,23 +62,5 @@ public class PortfolioService {
         List<Token> tokens = tokenRepository.findAllByUser_Email(username);
 
         return tokens.stream().map(TokenDTO::new).toList();
-    }
-
-    //    Allocations
-    public Double updatePortfolioSize(double portfolioSize, String token) {
-        String username = jwtTokenProvider.getUsernameFromJWT(token);
-        User user = userRepository.findByEmail(username).orElseThrow();
-        user.setPortfolioSize(portfolioSize);
-        rebalanceAllocation(user);
-        return userRepository.save(user).getPortfolioSize();
-    }
-
-    private void rebalanceAllocation(User user) {
-        List<Allocation> allocations = allocationRepository.findAllocationsByUser_Email(user.getEmail());
-
-        for (Allocation allocation : allocations) {
-            allocation.setAllocation((allocation.getPercentage() / 100) * user.getPortfolioSize());
-            allocationRepository.save(allocation);
-        }
     }
 }
