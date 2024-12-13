@@ -4,15 +4,10 @@
 [CryptoManager](https://cpm.quixotic.date/)
 
 # Todo
-1. Add Wallets
-2. Find all transactions for each wallet
-3. Find details of each transaction
-4. Calculate Avg buy of holdings
-5. Calculate Portfolio value
-   1. Get entry price of each token?
+- Review: getTransactionsByContractAddress & lower
+
 
 # Pages 
-- Allocations page. The allocations are listed here.
 
 # Transactions
 1. Wallet address to get transactions

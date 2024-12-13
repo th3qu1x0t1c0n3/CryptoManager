@@ -34,7 +34,7 @@ public class EtherController {
     @GetMapping("/balance")
     public ResponseEntity<BigDecimal> getEthBalance(@PathParam("address") String address, @PathParam("network") Network network) {
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON)
-                .body(etherService.getWalletBalance(WalletDTO.builder().address(address).network(network).build()));
+                .body(etherService.getWalletETHBalance(WalletDTO.builder().address(address).network(network).build()));
     }
 
     @GetMapping("/balances")

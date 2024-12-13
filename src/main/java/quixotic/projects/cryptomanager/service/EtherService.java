@@ -72,7 +72,6 @@ public class EtherService {
         User user = userRepository.findUserByUsername(username).orElseThrow();
 
         Set<TokenTxDTO> coins = getCoinList(walletDTO);
-//        Set<TokenDTO> balancesDto = new HashSet<>();
         Set<Token> balances = new HashSet<>();
 
         for (TokenTxDTO coin : coins) {
@@ -101,10 +100,6 @@ public class EtherService {
             Map<String, Object> response = restTemplate.getForObject(url, Map.class);
             if (response != null && "1".equals(response.get("status"))) {
                 String balance = (String) response.get("result");
-//                balancesDto.add(TokenDTO.builder()
-//                        .balance(new BigDecimal(balance).divide(new BigDecimal("1e" + coin.getTokenDecimal()))) // new BigDecimal("1e" + coin.getTokenDecimal()) .divide(BigDecimal.valueOf(1e18)) Convert Wei to Ether
-//                        .currency(currency)
-//                        .build());
 
                 balances.add(Token.builder()
                         .balance(new BigDecimal(balance).divide(new BigDecimal("1e" + coin.getTokenDecimal()))) // new BigDecimal("1e" + coin.getTokenDecimal()) .divide(BigDecimal.valueOf(1e18)) Convert Wei to Ether
@@ -118,12 +113,7 @@ public class EtherService {
                 }
             } else {
                 System.out.println("Error: " + response + " for " + coin.getTokenName());
-//                balancesDto.add(TokenDTO.builder()
-//                        .balance(BigDecimal.valueOf(-1))
-//                        .tokenName(coin.getTokenName())
-//                        .tokenSymbol(coin.getTokenSymbol())
-//                        .contractAddress(coin.getContractAddress())
-//                        .build());
+
                 balances.add(Token.builder()
                         .user(user)
                         .balance(BigDecimal.valueOf(-1))
@@ -160,7 +150,7 @@ public class EtherService {
         return Set.of();
     }
 
-    public BigDecimal getWalletBalance(WalletDTO walletDTO) {
+    public BigDecimal getWalletETHBalance(WalletDTO walletDTO) {
         String url = UriComponentsBuilder.fromHttpUrl(walletDTO.getNetwork().getBaseUrl())
                 .queryParam("module", "account")
                 .queryParam("action", "balance")
