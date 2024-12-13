@@ -20,7 +20,7 @@ public class SignUpDTO {
     public User toUser() {
         validateNewUser(this);
         return User.builder()
-                .email(this.email)
+                .username(this.email)
                 .password(this.password)
                 .role(Role.USER)
                 .firstName(this.firstName)

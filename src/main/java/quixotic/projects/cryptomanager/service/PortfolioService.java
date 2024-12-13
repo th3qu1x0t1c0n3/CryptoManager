@@ -29,14 +29,14 @@ public class PortfolioService {
     //    Wallets
     public List<WalletDTO> getWallets(String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
-        User user = userRepository.findByEmail(username).orElseThrow();
+        User user = userRepository.findUserByUsername(username).orElseThrow();
 
         return user.getWallets().stream().map(WalletDTO::new).toList();
     }
 
     public WalletDTO createWallet(WalletDTO walletDTO, String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
-        User user = userRepository.findByEmail(username).orElseThrow();
+        User user = userRepository.findUserByUsername(username).orElseThrow();
 
         switch (walletDTO.getNetwork()) {
             case ETHEREUM, ARBITRUM, OPTIMISM -> {

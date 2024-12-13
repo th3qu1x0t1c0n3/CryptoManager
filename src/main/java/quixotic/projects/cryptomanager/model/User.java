@@ -28,7 +28,7 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String username;
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -75,7 +75,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.username;
     }
 
     //	Non implémenté car non utilisé (Pour le moment) 2024-05-10

@@ -23,7 +23,7 @@ function SignIn({setUser}: SignInProps) {
         e.preventDefault();
 
         const user: IsignIn = {
-            email: username,
+            username: username,
             password: password
         };
         await cookbookService.signIn(user)

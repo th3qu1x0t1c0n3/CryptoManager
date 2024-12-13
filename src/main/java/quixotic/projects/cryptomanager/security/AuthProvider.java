@@ -35,7 +35,7 @@ public class AuthProvider implements AuthenticationProvider {
     }
 
     private User loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).orElseThrow();
+        return userRepository.findUserByUsername(username).orElseThrow();
     }
 
     private void validateAuthentication(Authentication authentication, User user) {

@@ -22,7 +22,7 @@ public class UserDTO {
 
     public UserDTO(User user, String token){
         this.id = user.getId();
-        this.email = user.getEmail();
+        this.email = user.getUsername();
         this.role = user.getRole();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();

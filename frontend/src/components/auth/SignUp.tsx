@@ -17,14 +17,14 @@ function SignUp({setUser}: ISignUpProps) {
     const [creationForm, setCreationForm] = useState({
         firstName: '',
         lastName: '',
-        email: '',
+        username: '',
         password: '',
         confirmPassword: ''
     });
     const [createFormInfo, setCreateFromInfo] = useState([
         new FormInput('firstName', 'text', 'First Name', ''),
         new FormInput('lastName', 'text', 'Last Name', ''),
-        new FormInput('email', 'text', 'Email', ''),
+        new FormInput('username', 'text', 'Username', ''),
         new FormInput('password', 'password', 'Password', ''),
         new FormInput('confirmPassword', 'password', 'Confirm Password', '')
     ])
@@ -41,10 +41,8 @@ function SignUp({setUser}: ISignUpProps) {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-
-
         const signUpUser: IsignUp = {
-            email: creationForm.email.trim(),
+            username: creationForm.username.trim(),
             firstName: creationForm.firstName.trim(),
             lastName: creationForm.lastName.trim(),
             password: creationForm.password.trim(),

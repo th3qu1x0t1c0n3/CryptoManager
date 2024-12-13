@@ -1,6 +1,6 @@
 
 export interface IUser {
-    email: string;
+    username: string;
     firstName: string;
     lastName: string;
     role: string;
@@ -9,18 +9,18 @@ export interface IUser {
 }
 
 export interface IUserProfile {
-    email: string;
+    username: string;
     firstName: string;
     lastName: string;
 }
 
 export interface IsignIn {
-    email: string;
+    username: string;
     password: string;
 }
 
 export interface IsignUp {
-    email: string;
+    username: string;
     firstName: string;
     lastName: string;
     password: string;

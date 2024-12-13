@@ -13,6 +13,7 @@ import quixotic.projects.cryptomanager.dto.chain.TokenTxDTO;
 import quixotic.projects.cryptomanager.model.User;
 import quixotic.projects.cryptomanager.model.chain.*;
 import quixotic.projects.cryptomanager.model.chain.Currency;
+import quixotic.projects.cryptomanager.model.enums.CurrencyType;
 import quixotic.projects.cryptomanager.repository.chain.CurrencyRepository;
 import quixotic.projects.cryptomanager.repository.chain.TokenRepository;
 import quixotic.projects.cryptomanager.repository.chain.TokenTxRepository;
@@ -68,7 +69,7 @@ public class EtherService {
 
     public Set<TokenDTO> getWalletBalances(WalletDTO walletDTO, String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
-        User user = userRepository.findByEmail(username).orElseThrow();
+        User user = userRepository.findUserByUsername(username).orElseThrow();
 
         Set<TokenTxDTO> coins = getCoinList(walletDTO);
 //        Set<TokenDTO> balancesDto = new HashSet<>();
@@ -79,6 +80,7 @@ public class EtherService {
             if (currency == null) {
                 currency = currencyRepository.save(Currency.builder()
                         .contractAddress(coin.getContractAddress())
+                        .type(CurrencyType.CRYPTO)
                         .tokenName(coin.getTokenName())
                         .tokenSymbol(coin.getTokenSymbol())
                         .tokenDecimal(coin.getTokenDecimal())

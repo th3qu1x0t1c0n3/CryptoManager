@@ -25,7 +25,7 @@ public class UserService {
 
     public UserDTO authenticateUser(SignInDTO signInDTO) {
         return new UserDTO(
-                userRepository.findByEmail(signInDTO.getEmail()).orElseThrow(),
+                userRepository.findUserByUsername(signInDTO.getEmail()).orElseThrow(),
                 generateToken(signInDTO.getEmail(), signInDTO.getPassword())
         );
     }
@@ -53,6 +53,6 @@ public class UserService {
 
     public UserDTO getMe(String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
-        return new UserDTO(userRepository.findByEmail(username).orElseThrow(), token);
+        return new UserDTO(userRepository.findUserByUsername(username).orElseThrow(), token);
     }
 }
