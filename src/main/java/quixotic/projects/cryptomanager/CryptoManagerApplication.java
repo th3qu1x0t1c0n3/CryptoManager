@@ -24,14 +24,14 @@ public class CryptoManagerApplication implements CommandLineRunner {
 
     private void createUsers() {
         userService.createUser(SignUpDTO.builder()
-                .email("TesterTest@gmail.com")
+                .username("Tester")
                 .password("Password123")
                 .firstName("Tester")
                 .lastName("Test")
                 .build());
 
         userService.createUser(SignUpDTO.builder()
-                .email("whale@gmail.com")
+                .username("whale")
                 .password("Password123")
                 .firstName("Crypto")
                 .lastName("Whale")

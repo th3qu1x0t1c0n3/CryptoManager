@@ -12,7 +12,7 @@ import quixotic.projects.cryptomanager.security.Role;
 @NoArgsConstructor
 @Builder
 public class SignUpDTO {
-    private String email;
+    private String username;
     private String password;
     private String firstName;
     private String lastName;
@@ -20,7 +20,7 @@ public class SignUpDTO {
     public User toUser() {
         validateNewUser(this);
         return User.builder()
-                .username(this.email)
+                .username(this.username)
                 .password(this.password)
                 .role(Role.USER)
                 .firstName(this.firstName)
@@ -29,8 +29,8 @@ public class SignUpDTO {
     }
 
     private void validateNewUser(SignUpDTO signUpDTO) {
-        if (signUpDTO.getEmail() == null || signUpDTO.getEmail().isEmpty()) {
-            throw new IllegalArgumentException("Email cannot be empty");
+        if (signUpDTO.getUsername() == null || signUpDTO.getUsername().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be empty");
         }
         if (signUpDTO.getPassword() == null || signUpDTO.getPassword().isEmpty()) {
             throw new IllegalArgumentException("Password cannot be empty");

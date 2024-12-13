@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AllocationRepository extends JpaRepository<Allocation, Long> {
     List<Allocation> findAllByUserId(Long userId);
-    List<Allocation> findAllocationsByUser_Email(String email);
+    List<Allocation> findAllocationsByUser_Username(String username);
 
 
 }

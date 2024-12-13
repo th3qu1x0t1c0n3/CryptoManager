@@ -59,7 +59,7 @@ public class PortfolioService {
     //   Balances
     public List<TokenDTO> getTokenBalancesByUser(String token) {
         String username = jwtTokenProvider.getUsernameFromJWT(token);
-        List<Token> tokens = tokenRepository.findAllByUser_Email(username);
+        List<Token> tokens = tokenRepository.findAllByUser_Username(username);
 
         return tokens.stream().map(TokenDTO::new).toList();
     }

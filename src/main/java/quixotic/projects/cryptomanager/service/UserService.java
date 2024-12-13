@@ -25,8 +25,8 @@ public class UserService {
 
     public UserDTO authenticateUser(SignInDTO signInDTO) {
         return new UserDTO(
-                userRepository.findUserByUsername(signInDTO.getEmail()).orElseThrow(),
-                generateToken(signInDTO.getEmail(), signInDTO.getPassword())
+                userRepository.findUserByUsername(signInDTO.getUsername()).orElseThrow(),
+                generateToken(signInDTO.getUsername(), signInDTO.getPassword())
         );
     }
 

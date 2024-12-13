@@ -6,5 +6,5 @@ import quixotic.projects.cryptomanager.model.chain.TokenTx;
 import java.util.List;
 
 public interface TokenTxRepository extends JpaRepository<TokenTx, String> {
-    List<TokenTx> findAllByUser_Email(String email);
+    List<TokenTx> findAllByUser_Username(String username);
 }
