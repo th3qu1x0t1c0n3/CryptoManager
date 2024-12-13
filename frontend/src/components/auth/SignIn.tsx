@@ -47,10 +47,10 @@ function SignIn({setUser}: SignInProps) {
     return (
         <form autoComplete="false" onSubmit={handleSubmit} className="text-center">
             <div className="flex flex-col justify-center items-center mb-3">
-                <div className="mb-3 lg:w-1/2 md:w-1/2 w-11/12" id="formBasicEmail">
-                    <label className="text-lg font-bold text-right my-auto w-full">Email</label>
+                <div className="mb-3 lg:w-1/2 md:w-1/2 w-11/12" id="formBasicUsername">
+                    <label className="text-lg font-bold text-right my-auto w-full">Username</label>
                     <input
-                        type="email"
+                        type="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         className="form-input border border-gray-300 rounded-md p-2 w-full"
