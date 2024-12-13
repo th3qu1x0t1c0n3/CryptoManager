@@ -15,28 +15,19 @@ import java.math.BigDecimal;
 @Builder
 public class TokenDTO {
     public BigDecimal balance;
-    public String tokenName;
-    public String tokenSymbol;
-    public String contractAddress;
-    public String tokenDecimal;
     public String user;
+    public CurrencyDTO currency;
 
     public TokenDTO(Token token) {
         this.balance = token.getBalance();
-        this.tokenName = token.getTokenName();
-        this.tokenSymbol = token.getTokenSymbol();
-        this.contractAddress = token.getContractAddress();
-        this.tokenDecimal = token.getTokenDecimal();
         this.user = token.getUser().getUsername();
+        this.currency = new CurrencyDTO(token.getCurrency());
     }
 
     public Token toEntity(User user) {
         return Token.builder()
                 .balance(this.balance)
-                .tokenName(this.tokenName)
-                .tokenSymbol(this.tokenSymbol)
-                .contractAddress(this.contractAddress)
-                .tokenDecimal(this.tokenDecimal)
+                .currency(this.currency.toEntity())
                 .user(user)
                 .build();
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import axios from "axios";
+import axios from 'axios';
 import Main from "./components/pages/Main";
 import {BrowserRouter} from "react-router-dom";
 import {ToastContainer} from 'react-toastify';

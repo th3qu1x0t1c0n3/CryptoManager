@@ -1,7 +1,6 @@
 import TransactionList from "../TransactionList";
 import {PortfolioService} from "../../services/PortfolioService";
 import {useEffect, useState} from "react";
-import {toast} from "react-toastify";
 import TransactionForm from "../forms/TransactionForm";
 import {ITransaction} from "../../assets/models/BlockChain";
 
@@ -11,16 +10,16 @@ function TransactionsPage() {
     const [showForm, setShowForm] = useState<boolean>(false);
 
     useEffect(() => {
-        portfolioService.getTransactions()
-            .then((data: ITransaction[]) => {
-                data.sort((a: ITransaction, b: ITransaction) => new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime());
-                setTransactions(data)
-            })
-            .catch((error) => {
-                toast.error(error.response?.data.message);
-            });
+        // portfolioService.getTransactions()
+        //     .then((data: ITransaction[]) => {
+        //         data.sort((a: ITransaction, b: ITransaction) => new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime());
+        //         setTransactions(data)
+        //     })
+        //     .catch((error) => {
+        //         toast.error(error.response?.data.message);
+        //     });
     }, []);
-    
+
     return (
         <div>
             <div className={"my-2 text-center"}>

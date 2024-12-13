@@ -22,10 +22,8 @@ public class Token {
 
     @Column(precision = 40, scale = 20)
     public BigDecimal balance;
-    public String tokenName;
-    public String tokenSymbol;
-    public String contractAddress;
-    public String tokenDecimal;
     @ManyToOne
     public User user;
+    @ManyToOne
+    public Currency currency;
 }

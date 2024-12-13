@@ -11,10 +11,9 @@ import quixotic.projects.cryptomanager.dto.chain.EtherPriceDTO;
 import quixotic.projects.cryptomanager.dto.chain.TokenDTO;
 import quixotic.projects.cryptomanager.dto.chain.TokenTxDTO;
 import quixotic.projects.cryptomanager.model.User;
-import quixotic.projects.cryptomanager.model.chain.Log;
-import quixotic.projects.cryptomanager.model.chain.Receipt;
-import quixotic.projects.cryptomanager.model.chain.TokenTx;
-import quixotic.projects.cryptomanager.model.chain.Transfer;
+import quixotic.projects.cryptomanager.model.chain.*;
+import quixotic.projects.cryptomanager.model.chain.Currency;
+import quixotic.projects.cryptomanager.repository.chain.CurrencyRepository;
 import quixotic.projects.cryptomanager.repository.chain.TokenRepository;
 import quixotic.projects.cryptomanager.repository.chain.TokenTxRepository;
 import quixotic.projects.cryptomanager.repository.UserRepository;
@@ -33,6 +32,7 @@ public class EtherService {
     private final RestTemplate restTemplate;
     private final TokenTxRepository tokenTxRepository;
     private final TokenRepository tokenRepository;
+    private final CurrencyRepository currencyRepository;
     private final List<String> contractAddressList = new ArrayList<>(
             List.of("0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
                     "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
@@ -71,16 +71,27 @@ public class EtherService {
         User user = userRepository.findByEmail(username).orElseThrow();
 
         Set<TokenTxDTO> coins = getCoinList(walletDTO);
-        Set<TokenDTO> balances = new HashSet<>();
+//        Set<TokenDTO> balancesDto = new HashSet<>();
+        Set<Token> balances = new HashSet<>();
 
         for (TokenTxDTO coin : coins) {
-            if (!contractAddressList.contains(coin.getContractAddress())) {
+            Currency currency = currencyRepository.findByContractAddress(coin.getContractAddress()).orElse(null);
+            if (currency == null) {
+                currency = currencyRepository.save(Currency.builder()
+                        .contractAddress(coin.getContractAddress())
+                        .tokenName(coin.getTokenName())
+                        .tokenSymbol(coin.getTokenSymbol())
+                        .tokenDecimal(coin.getTokenDecimal())
+                        .network(walletDTO.getNetwork())
+                        .build());
+            }
+            if (!contractAddressList.contains(currency.getContractAddress())) {
                 continue;
             }
             String url = UriComponentsBuilder.fromHttpUrl(walletDTO.getNetwork().getBaseUrl())
                     .queryParam("module", "account")
                     .queryParam("action", "tokenbalance")
-                    .queryParam("contractaddress", coin.getContractAddress())
+                    .queryParam("contractaddress", currency.getContractAddress())
                     .queryParam("address", walletDTO.getAddress())
                     .queryParam("tag", "latest")
                     .queryParam("apikey", walletDTO.getNetwork().getApiKey())
@@ -88,12 +99,15 @@ public class EtherService {
             Map<String, Object> response = restTemplate.getForObject(url, Map.class);
             if (response != null && "1".equals(response.get("status"))) {
                 String balance = (String) response.get("result");
-                balances.add(TokenDTO.builder()
+//                balancesDto.add(TokenDTO.builder()
+//                        .balance(new BigDecimal(balance).divide(new BigDecimal("1e" + coin.getTokenDecimal()))) // new BigDecimal("1e" + coin.getTokenDecimal()) .divide(BigDecimal.valueOf(1e18)) Convert Wei to Ether
+//                        .currency(currency)
+//                        .build());
+
+                balances.add(Token.builder()
                         .balance(new BigDecimal(balance).divide(new BigDecimal("1e" + coin.getTokenDecimal()))) // new BigDecimal("1e" + coin.getTokenDecimal()) .divide(BigDecimal.valueOf(1e18)) Convert Wei to Ether
-                        .tokenName(coin.getTokenName())
-                        .tokenSymbol(coin.getTokenSymbol())
-                        .contractAddress(coin.getContractAddress())
-                        .tokenDecimal(coin.getTokenDecimal())
+                        .currency(currency)
+                        .user(user)
                         .build());
                 try {
                     sleep(200);
@@ -102,17 +116,21 @@ public class EtherService {
                 }
             } else {
                 System.out.println("Error: " + response + " for " + coin.getTokenName());
-                balances.add(TokenDTO.builder()
+//                balancesDto.add(TokenDTO.builder()
+//                        .balance(BigDecimal.valueOf(-1))
+//                        .tokenName(coin.getTokenName())
+//                        .tokenSymbol(coin.getTokenSymbol())
+//                        .contractAddress(coin.getContractAddress())
+//                        .build());
+                balances.add(Token.builder()
+                        .user(user)
                         .balance(BigDecimal.valueOf(-1))
-                        .tokenName(coin.getTokenName())
-                        .tokenSymbol(coin.getTokenSymbol())
-                        .contractAddress(coin.getContractAddress())
+                        .currency(currency)
                         .build());
             }
         }
 
-        return tokenRepository.saveAll(balances.stream().map(tokenDTO -> tokenDTO.toEntity(user)).collect(Collectors.toSet()))
-                .stream().map(TokenDTO::new).collect(Collectors.toSet());
+        return tokenRepository.saveAll(balances).stream().map(TokenDTO::new).collect(Collectors.toSet());
     }
 
     public Set<TokenTxDTO> getCoinList(WalletDTO walletDTO) {
