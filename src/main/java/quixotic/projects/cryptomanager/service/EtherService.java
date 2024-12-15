@@ -166,7 +166,7 @@ public class EtherService {
         }
         return BigDecimal.ZERO;
     }
-
+// ----------------------------------------------------------------------
     public List<TokenTxDTO> getTransactionsByContractAddress(WalletDTO walletDTO, String contractAddress) {
         String url = UriComponentsBuilder.fromHttpUrl(walletDTO.getNetwork().getBaseUrl())
                 .queryParam("module", "account")
@@ -284,7 +284,7 @@ public class EtherService {
         System.out.println("Tokens Sold: " + tokensSolds);
         return Map.of("bought", tokensBoughts, "sold", tokensSolds);
     }
-
+// ----------------------------------------------------------------------
     private List<TokenTx> updateAll(List<TokenTx> txs, User user) {
         List<TokenTx> updatedTxs = new ArrayList<>();
         for (TokenTx tx : txs) {
