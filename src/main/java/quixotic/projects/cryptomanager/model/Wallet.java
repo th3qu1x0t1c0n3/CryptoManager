@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import quixotic.projects.cryptomanager.model.enums.Network;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +23,10 @@ public class Wallet {
     private String address;
     @Enumerated(EnumType.STRING)
     private Network network;
+
+    private String notes;
+    private LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private User user;
