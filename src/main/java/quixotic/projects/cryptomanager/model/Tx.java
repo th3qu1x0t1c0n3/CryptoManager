@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 public class Tx {
+//    Main of Tx
+    @Id
+    private String hash;
     @ManyToOne
     private Currency currency;
     @ManyToOne
@@ -23,32 +26,34 @@ public class Tx {
     private String from;
     @Column(name = "`to`")
     private String to;
-
-    @Id
-    private String hash;
-    private String nonce;
-    private String blockHash;
-    private LocalDateTime timeStamp;
+    private String contractAddressFrom;
+    private String type;
     private String value;
-    private String transactionIndex;
+    private LocalDateTime timeStamp;
+
+//    Gas
     private String gas;
     private String gasPrice;
     private String gasUsed;
+    private String gasPriceBid;
     private String cumulativeGasUsed;
+    private String maxFeePerGas;
+    private String maxPriorityFeePerGas;
+
+//    Other
+    private String nonce;
+    private String blockHash;
+    private String transactionIndex;
     @Column(length = 10000)
     private String input;
     private String confirmations;
     //    ---
-    private String gasPriceBid;
     private String isError;
     private String txreceipt_status;
     private String methodId;
     private String functionName;
     //   ---
     private String accessList;
-    private String maxFeePerGas;
-    private String maxPriorityFeePerGas;
-    private String type;
     private String chainId;
     private String v;
     private String r;

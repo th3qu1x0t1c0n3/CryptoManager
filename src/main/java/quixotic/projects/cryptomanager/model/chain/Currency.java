@@ -20,9 +20,9 @@ public class Currency {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
+    private String contractAddress;
     private CurrencyType type;
     private Network network;
-    private String contractAddress;
     private String tokenName;
     private String tokenSymbol;
     private String tokenDecimal;
