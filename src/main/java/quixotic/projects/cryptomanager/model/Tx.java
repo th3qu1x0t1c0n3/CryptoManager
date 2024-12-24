@@ -30,6 +30,11 @@ public class Tx {
     private String type;
     private String value;
     private LocalDateTime timeStamp;
+// Need From Wallet with Currency & Amount
+// Need To Wallet with Currency & Amount
+//    Find Cost basis of Tx
+//    Create Wallet Tx
+
 
 //    Gas
     private String gas;
