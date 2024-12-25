@@ -29,11 +29,6 @@ public class Tx {
     private String type;
     private LocalDateTime timeStamp;
 
-// Need From Wallet with Currency & Amount
-// Need To Wallet with Currency & Amount
-//    Find Cost basis of Tx
-//    Create Wallet Tx
-
 //    Gas
     private String gas;
     private String gasPrice;
@@ -42,26 +37,4 @@ public class Tx {
     private String cumulativeGasUsed;
     private String maxFeePerGas;
     private String maxPriorityFeePerGas;
-
-//    Other
-/*
-    private String nonce;
-    private String blockHash;
-    private String transactionIndex;
-    @Column(length = 10000)
-    private String input;
-    private String confirmations;
-    //    ---
-    private String isError;
-    private String txreceipt_status;
-    private String methodId;
-    private String functionName;
-    //   ---
-    private String accessList;
-    private String chainId;
-    private String v;
-    private String r;
-    private String s;
-    private String yParity;
-*/
 }
