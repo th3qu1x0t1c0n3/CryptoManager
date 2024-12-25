@@ -26,7 +26,6 @@ public class Tx {
     private TxBalance fromBalance;
     @ManyToOne
     private TxBalance toBalance;
-    private String contractAddressFrom;
     private String type;
     private LocalDateTime timeStamp;
 
@@ -34,7 +33,6 @@ public class Tx {
 // Need To Wallet with Currency & Amount
 //    Find Cost basis of Tx
 //    Create Wallet Tx
-
 
 //    Gas
     private String gas;
@@ -46,6 +44,7 @@ public class Tx {
     private String maxPriorityFeePerGas;
 
 //    Other
+/*
     private String nonce;
     private String blockHash;
     private String transactionIndex;
@@ -64,5 +63,5 @@ public class Tx {
     private String r;
     private String s;
     private String yParity;
-
+*/
 }
