@@ -22,14 +22,14 @@ public class Tx {
     private Currency currency;
     @ManyToOne
     private User user;
-    @Column(name = "`from`")
-    private String from;
-    @Column(name = "`to`")
-    private String to;
+    @ManyToOne
+    private TxBalance fromBalance;
+    @ManyToOne
+    private TxBalance toBalance;
     private String contractAddressFrom;
     private String type;
-    private String value;
     private LocalDateTime timeStamp;
+
 // Need From Wallet with Currency & Amount
 // Need To Wallet with Currency & Amount
 //    Find Cost basis of Tx
